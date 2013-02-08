@@ -1,0 +1,43 @@
+#intro h1, #intro h2, #intro p {
+	text-align: center;
+}
+
+#intro h1 {
+	font-family: Fredericka the Great;
+	font-weight: normal;
+	font-size: 500%;
+	padding-top: 0.5em;
+	margin: 0;
+}
+
+#intro h2 {
+	font-weight: normal;
+	font-size: 120%;
+}
+
+#intro ul {
+	width: 50%;
+	margin: 3em auto 2em;
+}
+
+#intro:after {
+	content: "";
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+	box-shadow: 0 0 40px 50px #000;
+	-webkit-transition: all 2s linear;
+	transition: all 2s linear;
+}
+
+#intro.visible:after {
+	width: 0;
+}
+
+#intro ~ * {
+	display: none;
+}
+

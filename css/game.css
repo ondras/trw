@@ -1,0 +1,57 @@
+#status {
+	position: fixed;
+	right: 0;
+	top: 0;
+	width: 38%;
+	padding: 1%;
+}
+
+#status > * {
+	margin: 1em 0;
+}
+
+#level {
+	position: relative;
+	overflow: hidden;
+	width: 60%;
+	height: 100%;
+}
+
+#level section {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	-webkit-transition: all 1s;
+	transition: all 1s;
+}
+
+#level section.left {
+	-webkit-transform: translate(-100%, 0);
+	transform: translate(-100%, 0);
+}
+
+#level section.right {
+	-webkit-transform: translate(100%, 0);
+	transform: translate(100%, 0);
+}
+
+#level section.top {
+	-webkit-transform: translate(0, -100%);
+	transform: translate(0, -100%);
+}
+
+#level section.bottom {
+	-webkit-transform: translate(0, 100%);
+	transform: translate(0, 100%);
+}
+
+#level section.fade {
+	opacity: 0;
+}
+
+#level section canvas {
+	display: block;
+	margin: auto;
+	position: relative;
+}
+
