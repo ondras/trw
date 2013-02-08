@@ -25,3 +25,21 @@ Game.Being.prototype._isPassable = function(x, y) {
 	
 	return !(this._level.cells[key].blocksMovement());
 }
+
+Game.Being.prototype._getVisibleArea = function(range) {
+	var result = {};
+	var level = this._level;
+
+	var lightPasses = function(x, y) {
+		var cell = level.cells[x+","+y];
+		return (cell && !cell.blocksLight());
+	}
+
+	var callback = function(x, y, R, amount) {
+		result[x+","+y] = amount;
+	}
+
+	var fov = new ROT.FOV.PreciseShadowcasting(lightPasses);
+	fov.compute(this._position[0], this._position[1], range, callback);
+	return result;
+}

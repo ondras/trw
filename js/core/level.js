@@ -30,11 +30,7 @@ Game.Level.prototype.fromTemplate = function(map, def) {
 		for (var i=0;i<line.length;i++) {
 			var ch = line.charAt(i);
 			if (ch == " ") { continue; }
-
-			var d = def[ch];
-			if (!d) { throw new Error("Unknown character '" + ch + "'"); }
-
-			this._fromChar(i, j, d);
+			this._fromChar(i, j, ch, def);
 		}
 	}
 
@@ -44,27 +40,30 @@ Game.Level.prototype.fromTemplate = function(map, def) {
 	return this;
 }
 
-Game.Level.prototype._fromChar = function(x, y, def) {
-	if (def.cell) {
-		if (typeof(def.cell) == "object" && !def.cell.type) { def.cell.type = this._defaultCell; }
-		var cell = Game.Cells.createFromObject(def.cell);
+Game.Level.prototype._fromChar = function(x, y, ch, def) {
+	var d = def[ch];
+	if (!d) { throw new Error("Unknown character '" + ch + "'"); }
+
+	if (d.cell) {
+		if (typeof(d.cell) == "object" && !d.cell.type) { d.cell.type = this._defaultCell; }
+		var cell = Game.Cells.createFromObject(d.cell);
 	} else {
 		var cell = Game.Cells.createFromObject(this._defaultCell);
 	}
 	this.setCell(cell, x, y);
 
-	if (def.being) {
-		var being = Game.Beings.createFromObject(def.being);
+	if (d.being) {
+		var being = Game.Beings.createFromObject(d.being);
 		this.setBeing(being, x, y);
 	}
 	
-	if (def.item) {
-		var item = Game.Items.createFromObject(def.item);
+	if (d.item) {
+		var item = Game.Items.createFromObject(d.item);
 		this.setItem(item, x, y);
 	}
 	
-	if (def.light) {
-		this.addLight(x, y, def.light);
+	if (d.light) {
+		this.addLight(x, y, d.light);
 	}
 }
 
@@ -81,10 +80,6 @@ Game.Level.prototype.getCellById = function(id) {
 
 Game.Level.prototype.getTopology = function() {
 	return this._topology;
-}
-
-Game.Level.prototype.getName = function() {
-	return this._name;
 }
 
 Game.Level.prototype.resetLighting = function() {
@@ -113,6 +108,10 @@ Game.Level.prototype.removeLight = function(x, y, light) {
 	}
 
 	this._lighting.setLight(x, y, this._lights[key]);
+}
+
+Game.Level.prototype.updateVisibility = function() {
+	
 }
 
 Game.Level.prototype.drawAll = function() {
@@ -179,7 +178,14 @@ Game.Level.prototype.updateLighting = function() {
 		var parts = key.split(",");
 		this._draw(parseInt(parts[0]), parseInt(parts[1]));
 	}
-},
+}
+
+/**
+ * @param {object} visibility Key = x+y, value = FOV amount
+ */
+Game.Level.prototype.setVisibility = function(visibility) {
+
+}
 
 /**
  * @param {Game.Entity}

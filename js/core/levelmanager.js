@@ -13,7 +13,7 @@ Game.LevelManager = {
 				var level = this._levelFromData(data);
 				this._cache[name] = level;
 				return level;
-			}.bind(this));
+			}.bind(this)).then(null, function(){debugger;});
 		}
 	},
 

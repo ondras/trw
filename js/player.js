@@ -83,7 +83,11 @@ Game.Player.prototype.setPosition = function(x, y, level) {
 
 	Game.Being.prototype.setPosition.call(this, x, y, level);
 
-	if (x !== null) { this._level.addLight(x, y, [100, 100, 30]); }
+	if (x !== null) { 
+		this._level.addLight(x, y, [100, 100, 30]); 
+		var visibility = this._getVisibleArea(10); /* FIXME constant */
+		this._level.setVisibility(visibility);
+	}
 }
 
 Game.Player.prototype._action = function() {
