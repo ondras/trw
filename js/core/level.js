@@ -36,7 +36,6 @@ Game.Level.prototype.fromTemplate = function(map, def) {
 	}
 
 	this._display.setOptions({width:width, height:height});
-	this.updateLighting();
 
 	return this;
 }

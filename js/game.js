@@ -14,15 +14,6 @@ var Game = {
 				this._load();
 			break;
 
-			case "keydown": /* to prevent quick search */
-				var mods = ["alt", "ctrl", "meta", "shift"];
-				for (var i=0;i<mods.length;i++) {
-					var name = mods[i] + "Key";
-					if (e[name]) { return; }
-				}
-				e.preventDefault();
-			break;
-
 			case "resize":
 				this._resize();
 			break;
@@ -104,7 +95,6 @@ var Game = {
 		intro.parentNode.removeChild(intro);
 */		
 		window.addEventListener("resize", this);
-		window.addEventListener("keydown", this);
 		Game.LevelManager.get("forest").then(function(level) {
 			this.switchLevel(level, null, "fade");
 		}.bind(this));

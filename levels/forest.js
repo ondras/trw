@@ -1,5 +1,7 @@
 Game.Level.Forest = function() {
 	Game.Level.call(this);
+	this._lighting.setOptions({range:6});
+	this._ambientLight = [30, 30, 30];
 }
 Game.Level.Forest.extend(Game.Level);
 
@@ -37,4 +39,14 @@ Game.Level.Forest.prototype._fromChar = function(x, y, ch, def) {
 	}
 
 	return Game.Level.prototype._fromChar.call(this, x, y, ch, def);
+}
+
+Game.Level.Forest.prototype.setBeing = function(being, x, y) {
+	Game.Level.prototype.setBeing.call(this, being, x, y);
+	
+	if (being != Game.player) { return; }
+	var item = this.items[x+","+y];
+	if (item && item.getType() == "torch") { being.setLight([150, 150, 30]); }
+	
+	return this;
 }

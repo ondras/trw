@@ -57,8 +57,8 @@ Game.Entity.prototype.getColor = function() {
 	return this._color;
 }
 
-Game.Entity.prototype.isInteresting = function() {
-	return true;
+Game.Entity.prototype.getType = function() {
+	return this._type;
 }
 
 Game.Entity.prototype.blocksLight = function() {

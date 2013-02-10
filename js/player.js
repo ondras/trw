@@ -1,5 +1,7 @@
 Game.Player = function(type) {
 	Game.Being.call(this, type);
+	
+	this._light = [30, 30, 30]; 
 
 	this._actionKeys = {};
 	this._actionKeys[ROT.VK_PERIOD] = 1;
@@ -79,15 +81,28 @@ Game.Player.prototype._handleKey = function(code) {
 }
 
 Game.Player.prototype.setPosition = function(x, y, level) {
-	if (this._position) { this._level.removeLight(this._position[0], this._position[1], [100, 100, 30]); }
+	if (this._position) { this._level.removeLight(this._position[0], this._position[1], this._light); }
 
 	Game.Being.prototype.setPosition.call(this, x, y, level);
 
 	if (x !== null) { 
-		this._level.addLight(x, y, [100, 100, 30]); 
+		this._level.addLight(x, y, this._light); 
 		var visibility = this._getVisibleArea();
 		this._level.setVisibility(visibility);
 	}
+}
+
+Game.Player.prototype.setLight = function(light) {
+	if (!this._level) { 
+		this._light = light;
+		return;
+	}
+	
+	if (this._light) { this._level.removeLight(this._position[0], this._position[1], this._light); }
+	this._light = light;
+	if (this._light) { this._level.addLight(this._position[0], this._position[1], this._light); }
+	
+	return this;
 }
 
 Game.Player.prototype._action = function() {

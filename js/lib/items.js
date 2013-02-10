@@ -7,8 +7,8 @@ Game.Items.define("gold",  {
 });
 
 Game.Items.define("torch",  {
-	blocksLight: 0,
-	blocksMovement: 1,
 	ch: "^",
-	name: "wall-mounted torchlight"
+	name: "torch",
+	light: [240, 240, 30],
+	color: [240, 240, 30]
 });

@@ -23,6 +23,9 @@ Game.Being.prototype._isPassable = function(x, y) {
 	var key = x+","+y;
 	if (key in this._level.beings) { return false; }
 	
-	return !(this._level.cells[key].blocksMovement());
+	var cell = this._level.cells[key];
+	if (!cell) { return false; }
+	
+	return !cell.blocksMovement();
 }
 

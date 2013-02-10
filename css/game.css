@@ -1,19 +1,7 @@
-#status {
-	position: fixed;
-	right: 0;
-	top: 0;
-	width: 38%;
-	padding: 1%;
-}
-
-#status > * {
-	margin: 1em 0;
-}
-
 #level {
 	position: relative;
 	overflow: hidden;
-	width: 60%;
+	width: 50%;
 	height: 100%;
 }
 

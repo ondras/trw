@@ -26,7 +26,7 @@ Game.Cells.define("path", {
 Game.Cells.define("water", {
 	ch: "≈",
 	blocksMovement: 1,
-	color: [40, 40, 230],
+	color: [50, 50, 240],
 	colorVariation: 20,
 	name: "plain floor"
 });
