@@ -4,8 +4,6 @@
 Game.Entity = function(type) {
 	this._type = type;
 
-	this._blocksLight = false;
-	this._blocksMovement = false;
 	this._char = "";
 	this._name = "";
 	this._label = "";
@@ -20,13 +18,11 @@ Game.Entity = function(type) {
 Game.Entity.prototype.fromTemplate = function(template) {
 	if ("name" in template) { this._name = template.name; }
 	if ("label" in template) { this._label = template.label; }
-	if ("blocksLight" in template) { this._blocksLight = template.blocksLight; }
-	if ("blocksMovement" in template) { this._blocksMovement = template.blocksMovement; }
-	if ("ch" in template) { 
-		if (template.ch instanceof Array) {
-			this._char = template.ch.random();
+	if ("char" in template) { 
+		if (template["char"] instanceof Array) {
+			this._char = template["char"].random();
 		} else {
-			this._char = template.ch;
+			this._char = template["char"];
 		}
 	}
 	
@@ -59,14 +55,6 @@ Game.Entity.prototype.getColor = function() {
 
 Game.Entity.prototype.getType = function() {
 	return this._type;
-}
-
-Game.Entity.prototype.blocksLight = function() {
-	return this._blocksLight;
-}
-
-Game.Entity.prototype.blocksMovement = function() {
-	return this._blocksMovement;
 }
 
 Game.Entity.prototype.setPosition = function(x, y, level) {

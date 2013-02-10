@@ -1,6 +1,9 @@
 Game.Cell = function(type) {
 	Game.Entity.call(this, type);
 	
+	this._blocksLight = false;
+	this._blocksMovement = false;
+
 	this._light = null; /* computed light */
 	this._cell = this;
 	this._id = null;
@@ -10,6 +13,8 @@ Game.Cell.extend(Game.Entity);
 
 Game.Cell.prototype.fromTemplate = function(template) {
 	Game.Entity.prototype.fromTemplate.call(this, template);
+	if ("blocksLight" in template) { this._blocksLight = template.blocksLight; }
+	if ("blocksMovement" in template) { this._blocksMovement = template.blocksMovement; }
 	if ("id" in template) { this.setId(template.id); }
 	if ("portal" in template) { 
 		var targetParts = template.portal.target.split("#");
@@ -42,6 +47,14 @@ Game.Cell.prototype.getLight = function() {
 Game.Cell.prototype.setLight = function(light) {
 	this._light = light;
 	return this;
+}
+
+Game.Cell.prototype.blocksLight = function() {
+	return this._blocksLight;
+}
+
+Game.Cell.prototype.blocksMovement = function() {
+	return this._blocksMovement;
 }
 
 /**
