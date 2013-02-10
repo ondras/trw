@@ -45,8 +45,7 @@ Game.Entity.prototype.computeColor = function(ambientLight) {
 	var totalLight = ambientLight;
 	var cellLight = this._cell.getLight();
 	if (cellLight) { totalLight = ROT.Color.add(totalLight, cellLight); }
-	var color = ROT.Color.multiply(this._diffuse, totalLight);
-	this._color = ROT.Color.toRGB(color);
+	this._color = ROT.Color.multiply(this._diffuse, totalLight);
 	return this;
 }
 

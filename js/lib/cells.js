@@ -24,7 +24,7 @@ Game.Cells.define("path", {
 });
 
 Game.Cells.define("water", {
-	ch: "=",
+	ch: "≈",
 	blocksMovement: 1,
 	color: [40, 40, 230],
 	colorVariation: 20,
@@ -34,7 +34,6 @@ Game.Cells.define("water", {
 Game.Cells.define("pier", {
 	ch: "#",
 	color: [130, 90, 30],
-	colorVariation: 20,
 	name: "wooden pier"
 });
 

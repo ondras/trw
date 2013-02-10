@@ -85,11 +85,34 @@ Game.Player.prototype.setPosition = function(x, y, level) {
 
 	if (x !== null) { 
 		this._level.addLight(x, y, [100, 100, 30]); 
-		var visibility = this._getVisibleArea(10); /* FIXME constant */
+		var visibility = this._getVisibleArea();
 		this._level.setVisibility(visibility);
 	}
 }
 
 Game.Player.prototype._action = function() {
 	/* FIXME action */
+}
+
+Game.Player.prototype._getVisibleArea = function() {
+	var RANGE = 8; /* FIXME constant */
+	var result = {};
+	var level = this._level;
+	var pos = this._position;
+
+	var lightPasses = function(x, y) {
+		var cell = level.cells[x+","+y];
+		return (cell && !cell.blocksLight());
+	}
+
+	var callback = function(x, y, R, amount) {
+		var dx = x-pos[0]; 
+		var dy = y-pos[1]; 
+		if (dx*dx+dy*dy*Math.sqrt(3) > RANGE*RANGE) { return; }
+		result[x+","+y] = amount;
+	}
+
+	var fov = new ROT.FOV.PreciseShadowcasting(lightPasses);
+	fov.compute(pos[0], pos[1], RANGE, callback);
+	return result;
 }

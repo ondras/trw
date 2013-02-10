@@ -9,6 +9,7 @@ Game.Level = function() {
 	this._lights = {};
 	this._defaultCell = "floor";
 	this._name = "";
+	this._visibleArea = {};
 
 	this._node = document.createElement("section");
 	this._node.appendChild(this._display.getContainer());
@@ -110,17 +111,6 @@ Game.Level.prototype.removeLight = function(x, y, light) {
 	this._lighting.setLight(x, y, this._lights[key]);
 }
 
-Game.Level.prototype.updateVisibility = function() {
-	
-}
-
-Game.Level.prototype.drawAll = function() {
-	for (var key in this.cells) {
-		var parts = key.split(",");
-		this._draw(parseInt(parts[0]), parseInt(parts[1]));
-	}
-}
-
 Game.Level.prototype.setCell = function(cell, x, y) {
 	var key = x+","+y;
 	var oldBlocking = (this.cells[key] ? this.cells[key].blocksLight() : null);
@@ -183,8 +173,29 @@ Game.Level.prototype.updateLighting = function() {
 /**
  * @param {object} visibility Key = x+y, value = FOV amount
  */
-Game.Level.prototype.setVisibility = function(visibility) {
-
+Game.Level.prototype.setVisibility = function(newVisible) {
+	if (newVisible === true) {
+		newVisible = {};
+		for (var key in this.cells) { newVisible[key] = 1; }
+	}
+	
+	/* merge into the currently visible area */
+	var oldVisible = this._visibleArea;
+	for (var key in oldVisible) {
+		if (key in newVisible) { /* remains visible */
+			delete newVisible[key]; /* so that only newly visible remain there */
+		} else { /* we can no longer see this one */
+			var parts = key.split(",");
+			this._drawFog(parseInt(parts[0]), parseInt(parts[1]));
+			delete oldVisible[key];
+		}
+	}
+	
+	for (var key in newVisible) { /* newly visible; need to be drawn */
+		oldVisible[key] = newVisible[key];
+		var parts = key.split(",");
+		this._draw(parseInt(parts[0]), parseInt(parts[1]));
+	}
 }
 
 /**
@@ -228,9 +239,31 @@ Game.Level.prototype._removeEntity = function(entity, type) {
 
 Game.Level.prototype._draw = function(x, y) {
 	var key = x+","+y;
+	if (!(key in this._visibleArea)) { return; }
 
 	var visual = this.beings[key] || this.items[key] || this.cells[key];
-	if (visual) { this._display.draw(x, y, visual.getChar(), visual.getColor()); }
+	if (visual) { this._display.draw(x, y, visual.getChar(), ROT.Color.toRGB(visual.getColor())); }
+}
+
+Game.Level.prototype._drawFog = function(x, y) {
+	var key = x+","+y;
+
+	var visual = this.items[key] || this.cells[key]; /* beings are not drawn in fog */
+	if (visual) { 
+		var color = visual.getColor();
+		
+		/* 1. lightness */
+		var gray = Math.round((Math.max.apply(null, color) + Math.min.apply(null, color))/2);
+
+		/* 2. luminosity */
+		var gray = Math.round(0.299*color[0]+0.587*color[1]+0.114*color[2]);
+
+		/* 3. average */
+		var gray = Math.round((color[0]+color[1]+color[2])/3);
+		
+		color[0] = color[1] = color[2] = gray;
+		this._display.draw(x, y, visual.getChar(), ROT.Color.toRGB(color)); 
+	}
 }
 
 Game.Level.prototype._getReflectivity = function(x, y) {
