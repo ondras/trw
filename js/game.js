@@ -33,8 +33,6 @@ var Game = {
 			this.engine.clear();
 		}
 
-		this._transitionLevel(newLevel, oldLevel, direction);
-
 		/* welcome the new level */
 		newLevel.setBeing(this.player, position[0], position[1]);
 		for (var p in newLevel.beings) {
@@ -44,7 +42,7 @@ var Game = {
 		this.level = newLevel; /* AFTER the player has been set to prevent recursive transitions */
 		this._resize();
 
-
+		this._transitionLevel(newLevel, oldLevel, direction);
 		this.engine.unlock();
 	},
 
