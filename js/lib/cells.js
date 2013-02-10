@@ -19,7 +19,6 @@ Game.Cells.define("floor", {
 Game.Cells.define("path", {
 	"char": ".",
 	color: [150, 80, 30],
-	colorVariation: 10,
 	name: "plain floor"
 });
 

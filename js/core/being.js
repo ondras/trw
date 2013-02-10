@@ -1,7 +1,6 @@
 Game.Being = function(type) {
 	Game.Entity.call(this, type);
 
-	this._blocksMovement = true;
 	this._speed = 100;
 }
 Game.Being.extend(Game.Entity);
