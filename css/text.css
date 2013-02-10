@@ -1,0 +1,24 @@
+#text {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 50%;
+	height: 100%;
+}
+
+#text #story {
+	background-color: blue;
+	height: 200px;
+}
+
+#text #story:before {
+	content: "The story so far...";
+}
+
+#text #description {
+	backround-color: red;
+}
+
+#text #inventory {}
+#text #local {}
+#text #action {}

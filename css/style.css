@@ -1,5 +1,6 @@
 @import url(intro.css);
-@import url(game.css);
+@import url(level.css);
+@import url(text.css);
 
 html, body {
 	height: 100%;
