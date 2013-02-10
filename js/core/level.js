@@ -252,15 +252,18 @@ Game.Level.prototype._drawFog = function(x, y) {
 		var color = visual.getColor();
 		
 		/* 1. lightness */
-		var gray = Math.round((Math.max.apply(null, color) + Math.min.apply(null, color))/2);
+		var gray = (Math.max.apply(null, color) + Math.min.apply(null, color))/2;
 
 		/* 2. luminosity */
-		var gray = Math.round(0.299*color[0]+0.587*color[1]+0.114*color[2]);
+		var gray = 0.299*color[0]+0.587*color[1]+0.114*color[2];
 
 		/* 3. average */
-		var gray = Math.round((color[0]+color[1]+color[2])/3);
+		var gray = (color[0]+color[1]+color[2])/3;
 		
-		color[0] = color[1] = color[2] = gray;
+//		color[0] = color[1] = color[2] = Math.round(gray);
+		color[0] = Math.round((color[0]+gray)/2);
+		color[1] = Math.round((color[1]+gray)/2);
+		color[2] = Math.round((color[2]+gray)/2);
 		this._display.draw(x, y, visual.getChar(), ROT.Color.toRGB(color)); 
 	}
 }
