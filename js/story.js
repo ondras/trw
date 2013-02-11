@@ -17,37 +17,56 @@ Game.Story.prototype.handleEvent = function(e) {
 	var diff = (e.target == this._dom.next ? 1 : -1);
 	var index = this._index + diff;
 	if (index < 0 || index >= this._chapters.length) { return; }
-	this._show(index);
+	this._showChapter(index);
+	this._showTask();
+}
+
+Game.Story.prototype.newChapter = function(text) {
+	this._chapters.push([]);
+	this._tasks.push(null);
+	this.addChapter(text);
 }
 
 Game.Story.prototype.addChapter = function(text) {
-	this._chapters.push(text);
-	this._tasks.push("");
+	var node = this._buildNode(text);
+	this._chapters[this._chapters.length-1].push(node);
+	
+	this._showChapter(this._chapters.length-1);
 
-	this._show(this._chapters.length-1);
-
-	this._dom.current.className = "fade";
-	this._dom.current.offsetWidth;
-	this._dom.current.className = "";
+	node.offsetWidth;
+	node.className = "";
 }
 
 Game.Story.prototype.setTask = function(task) {
-	this._tasks[this._tasks.length-1] = task;
+	var node = this._buildNode("Task: " + task);
+	this._tasks[this._tasks.length-1] = node;
 
-	this._show(this._index);
+	if (this._index+1 != this._chapters.length) { this._showChapter(this._chapters.length-1); }
+	this._showTask();
 
-	this._dom.task.className = "fade";
-	this._dom.task.offsetWidth;
-	this._dom.task.className = "";
+	node.offsetWidth;
+	node.className = "";
 }
 
-Game.Story.prototype._show = function(index) {
+Game.Story.prototype._buildNode = function(text) {
+	var node = document.createElement("p");
+	node.innerHTML = text;
+	node.className = "fade";
+	return node;
+}
+
+Game.Story.prototype._showChapter = function(index) {
 	this._index = index;
 	this._dom.prev.style.opacity = (index > 0 ? "" : 0);
 	this._dom.next.style.opacity = (index+1 < this._chapters.length ? "" : 0);
 
-	this._dom.current.innerHTML = this._chapters[index];
+	this._dom.current.innerHTML = "";
+	var nodes = this._chapters[this._index];
+	for (var i=0;i<nodes.length;i++) { this._dom.current.appendChild(nodes[i]); }
+}
 
-	var task = this._tasks[index];
-	this._dom.task.innerHTML = (task ? "Task: " + task : "") ;
+Game.Story.prototype._showTask = function() {
+	this._dom.task.innerHTML = "";
+	var task = this._tasks[this._index];
+	if (task) { this._dom.task.appendChild(task); }
 }

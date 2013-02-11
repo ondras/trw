@@ -67,6 +67,11 @@ Game.Level.prototype._fromChar = function(x, y, ch, def) {
 	}
 }
 
+/**
+ * This level is being used right now.
+ */
+Game.Level.prototype.notify = function() {}
+
 Game.Level.prototype.getContainer = function() {
 	return this._node;
 }

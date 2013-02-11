@@ -10,9 +10,6 @@
 
 #story .fade {
 	opacity: 0;
-	-webkit-transition: none;
-	-moz-transition: none;
-	transition: none;
 }
 
 #story * {
@@ -35,10 +32,13 @@
 	opacity: 1;
 }
 
-#current, #task {
+#story p {
 	-webkit-transition: all 3s;
 	-moz-transition: all 3s;
 	transition: all 3s;
+}
+
+#current, #task {
 	margin-top: 1em;
 }
 
