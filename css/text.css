@@ -1,39 +1,53 @@
 #text {
-	position: fixed;
-	top: 0;
-	right: 0;
 	width: 50%;
 	height: 100%;
 }
 
-#text .highlight {
-	color: white;
+#story {
+	height: 50%;
+	padding: 1em;
+}
+
+#story .fade {
+	opacity: 0;
+	-webkit-transition: none;
+	-moz-transition: none;
 	transition: none;
 }
 
-#story {
-	height: 200px;
-}
-
 #story * {
-	transition: all 3s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	transition: all 0.5s;
 }
 
-#current {
+#story a {
+	cursor: pointer;
+	opacity: 0.5;
+}
+
+#story span {
+	font-weight: bold;
+	margin: 0 0.6em;
+}
+
+#story a:hover {
+	opacity: 1;
+}
+
+#current, #task {
+	-webkit-transition: all 3s;
+	-moz-transition: all 3s;
+	transition: all 3s;
+	margin-top: 1em;
 }
 
 #task {
 	color: #f33;
 }
 
-
-
-#text #story:before {
-	content: "The story so far...";
-}
-
 #text #description {
-	backround-color: red;
+	background-color: red;
 }
 
 #text #inventory {}

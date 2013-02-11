@@ -8,6 +8,16 @@ Game.Story = function() {
 		prev: document.querySelector("#story #prev"),
 		next: document.querySelector("#story #next")
 	}
+	this._dom.prev.addEventListener("click", this);
+	this._dom.next.addEventListener("click", this);
+}
+
+Game.Story.prototype.handleEvent = function(e) {
+	e.preventDefault();
+	var diff = (e.target == this._dom.next ? 1 : -1);
+	var index = this._index + diff;
+	if (index < 0 || index >= this._chapters.length) { return; }
+	this._show(index);
 }
 
 Game.Story.prototype.addChapter = function(text) {
@@ -16,7 +26,7 @@ Game.Story.prototype.addChapter = function(text) {
 
 	this._show(this._chapters.length-1);
 
-	this._dom.current.className = "highlight";
+	this._dom.current.className = "fade";
 	this._dom.current.offsetWidth;
 	this._dom.current.className = "";
 }
@@ -26,13 +36,15 @@ Game.Story.prototype.setTask = function(task) {
 
 	this._show(this._index);
 
-	this._dom.task.className = "highlight";
+	this._dom.task.className = "fade";
 	this._dom.task.offsetWidth;
 	this._dom.task.className = "";
 }
 
 Game.Story.prototype._show = function(index) {
 	this._index = index;
+	this._dom.prev.style.opacity = (index > 0 ? "" : 0);
+	this._dom.next.style.opacity = (index+1 < this._chapters.length ? "" : 0);
 
 	this._dom.current.innerHTML = this._chapters[index];
 

@@ -72,6 +72,9 @@ var Game = {
 
 		this.story.addChapter("asdl asdl asd lasd sldas ldasd asdlasd asld as ldas asld asdl asd l");
 		this.story.setTask("pan cau neasi!");
+		this.story.addChapter("xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx ");
+		this.story.addChapter("wqweqwe qe qewqew qew qweqwe qweqweweeqweqw qe qweqwe w w eeqw qw qwqwe qwqwe qweweq qw");
+		this.story.setTask("move to a torch to light your own");
 /*
 		var c1 = [100, 100, 150];
 		var c2 = [220, 170, 30];
