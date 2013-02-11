@@ -2,6 +2,7 @@ var Game = {
 	engine: new ROT.Engine(),
 	player: null,
 	level: null,
+	story: null,
 	
 	init: function() {
 		window.addEventListener("load", this);
@@ -66,7 +67,11 @@ var Game = {
 	},
 
 	_load: function(e) {
+		this.story = new Game.Story("player");
 		this.player = Game.Beings.create("player");
+
+		this.story.addChapter("asdl asdl asd lasd sldas ldasd asdlasd asld as ldas asld asdl asd l");
+		this.story.setTask("pan cau neasi!");
 /*
 		var c1 = [100, 100, 150];
 		var c2 = [220, 170, 30];

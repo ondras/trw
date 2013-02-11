@@ -6,10 +6,27 @@
 	height: 100%;
 }
 
-#text #story {
-	background-color: blue;
+#text .highlight {
+	color: white;
+	transition: none;
+}
+
+#story {
 	height: 200px;
 }
+
+#story * {
+	transition: all 3s;
+}
+
+#current {
+}
+
+#task {
+	color: #f33;
+}
+
+
 
 #text #story:before {
 	content: "The story so far...";
