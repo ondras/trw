@@ -265,7 +265,6 @@ Game.Level.prototype._drawFog = function(x, y) {
 		/* 3. average */
 		var gray = (color[0]+color[1]+color[2])/3;
 		
-//		color[0] = color[1] = color[2] = Math.round(gray);
 		color[0] = Math.round((color[0]+gray)/2);
 		color[1] = Math.round((color[1]+gray)/2);
 		color[2] = Math.round((color[2]+gray)/2);

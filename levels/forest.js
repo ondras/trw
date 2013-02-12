@@ -48,7 +48,7 @@ Game.Level.Forest.prototype.setBeing = function(being, x, y) {
 	
 	
 	var item = this.items[x+","+y];
-	if (item && item.getType() == "torch") { being.setLight([150, 150, 30]); }
+	if (item && item.getType() == "torch") { being.setLight([150, 150, 80]); }
 	
 	return this;
 }

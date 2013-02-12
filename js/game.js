@@ -68,7 +68,8 @@ var Game = {
 	},
 
 	_load: function(e) {
-		this.story = new Game.Story("player");
+		this.story = new Game.Story();
+		this.description = new Game.Description();
 		this.player = Game.Beings.create("player");
 
 /*

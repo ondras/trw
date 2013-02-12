@@ -38,10 +38,6 @@
 	transition: all 3s;
 }
 
-#current, #task {
-	margin-top: 1em;
-}
-
 #task {
 	color: #f33;
 }
