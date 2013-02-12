@@ -34,17 +34,18 @@ var Game = {
 			this.engine.clear();
 		}
 
+		this.level = newLevel;
+		this.level.notify()
+
 		/* welcome the new level */
 		newLevel.setBeing(this.player, position[0], position[1]);
 		for (var p in newLevel.beings) {
 			this.engine.addActor(newLevel.beings[p]);
 		}
 
-		this.level = newLevel; /* AFTER the player has been set to prevent recursive transitions */
 		this._resize();
-
 		this._transitionLevel(newLevel, oldLevel, direction);
-		this.level.notify()
+
 		this.engine.unlock();
 	},
 

@@ -30,12 +30,6 @@ Game.Cell.prototype.setId = function(id) {
 	return this;
 }
 
-Game.Cell.prototype.isInteresting = function() {
-	if (this._label) { return true; }
-	var defaultTypes = this._level.getDefaultCellTypes();
-	return (defaultTypes.indexOf(this._type) == -1);
-}
-
 Game.Cell.prototype.getId = function() {
 	return this._id;
 }

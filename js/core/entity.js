@@ -6,7 +6,6 @@ Game.Entity = function(type) {
 
 	this._char = "";
 	this._name = "";
-	this._label = "";
 	this._diffuse = [120, 120, 120];
 
 	this._color = ""; /* computed */
@@ -17,7 +16,6 @@ Game.Entity = function(type) {
 
 Game.Entity.prototype.fromTemplate = function(template) {
 	if ("name" in template) { this._name = template.name; }
-	if ("label" in template) { this._label = template.label; }
 	if ("char" in template) { 
 		if (template["char"] instanceof Array) {
 			this._char = template["char"].random();
@@ -81,5 +79,5 @@ Game.Entity.prototype.describeThe = function() {
 }
 
 Game.Entity.prototype.describe = function() {
-	return this._name + (this._label ? " labeled \""+this._label + "\"" : "");
+	return this._name;
 }

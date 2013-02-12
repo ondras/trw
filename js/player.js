@@ -89,6 +89,7 @@ Game.Player.prototype.setPosition = function(x, y, level) {
 		this._level.addLight(x, y, this._light); 
 		var visibility = this._getVisibleArea();
 		this._level.setVisibility(visibility);
+		Game.description.local();
 	}
 }
 

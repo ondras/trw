@@ -42,8 +42,9 @@
 	color: #f33;
 }
 
-#text #description {
-	background-color: red;
+
+#text #description li:empty {
+	display: none;
 }
 
 #text #inventory {}
