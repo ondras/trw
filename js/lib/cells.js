@@ -18,7 +18,7 @@ Game.Cells.define("floor", {
 
 Game.Cells.define("ground", {
 	"char": ".",
-	color: [150, 80, 30],
+	color: [150, 100, 50],
 	name: "plain ground"
 });
 
