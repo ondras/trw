@@ -15,16 +15,16 @@ Game.Level.Forest.prototype.fromTemplate = function(map, def) {
 	var height = this._maxMaze[1]-this._minMaze[1]+1;
 	var maze = new ROT.Map.EllerMaze(width, height);
 	maze.create(function(x, y, type) {
-		var cellType = (type == 1 ? "tree" : "path");
+		var cellType = (type == 1 ? "tree" : "ground");
 		var cell = Game.Cells.create(cellType);
 		this.setCell(cell, x+this._minMaze[0], y+this._minMaze[1]);
 	}.bind(this));
 
 	var entry = this.getCellById("entry").getPosition();
-	this.setCell(Game.Cells.create("path"), entry[0]+1, entry[1]);
+	this.setCell(Game.Cells.create("ground"), entry[0]+1, entry[1]);
 
 	var exit = this.getCellById("exit").getPosition();
-	this.setCell(Game.Cells.create("path"), exit[0]-1, exit[1]);
+	this.setCell(Game.Cells.create("ground"), exit[0]-1, exit[1]);
 
 	return this;
 }
@@ -42,15 +42,12 @@ Game.Level.Forest.prototype._fromChar = function(x, y, ch, def) {
 }
 
 Game.Level.Forest.prototype.setBeing = function(being, x, y) {
-	Game.Level.prototype.setBeing.call(this, being, x, y);
+	if (being == Game.player) {
+		var item = this.items[x+","+y];
+		if (item && item.getType() == "torch") { being.setLight([150, 150, 80]); }
+	}
 	
-	if (being != Game.player) { return; }
-	
-	
-	var item = this.items[x+","+y];
-	if (item && item.getType() == "torch") { being.setLight([150, 150, 80]); }
-	
-	return this;
+	return Game.Level.prototype.setBeing.call(this, being, x, y);
 }
 
 Game.Level.Forest.prototype.notify = function() {
@@ -60,9 +57,4 @@ Game.Level.Forest.prototype.notify = function() {
 		Game.story.addChapter("Damn, it is dark in here. I should find some fire to light my own torch.");
 		Game.story.setTask("Move onto a place with a lit torch");
 	}, 2000);
-/*
-	this.story.setTask("pan cau neasi!");
-	this.story.addChapter("xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx xxxxxxx xxxxxxxxxxxx ");
-	this.story.addChapter("wqweqwe qe qewqew qew qweqwe qweqweweeqweqw qe qweqwe w w eeqw qw qwqwe qwqwe qweweq qw");
-*/
 }

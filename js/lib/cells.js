@@ -16,18 +16,18 @@ Game.Cells.define("floor", {
 	name: "plain floor"
 });
 
-Game.Cells.define("path", {
+Game.Cells.define("ground", {
 	"char": ".",
 	color: [150, 80, 30],
-	name: "plain floor"
+	name: "plain ground"
 });
 
 Game.Cells.define("water", {
 	"char": "≈",
+	name: "water",
 	blocksMovement: 1,
 	color: [50, 50, 240],
-	colorVariation: 20,
-	name: "plain floor"
+	colorVariation: 20
 });
 
 Game.Cells.define("pier", {

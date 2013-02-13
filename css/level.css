@@ -2,8 +2,8 @@
 	position: absolute;
 	overflow: hidden;
 	width: 50%;
-	height: 100%;
-	left: 50%;
+	height: 80%;
+	right: 0;
 	top: 0;
 }
 
@@ -48,4 +48,25 @@
 	display: block;
 	margin: auto;
 	position: relative;
+}
+
+
+#legend {
+	position: absolute;
+	overflow: hidden;
+	width: 50%;
+	height: 20%;
+	right: 0;
+	bottom: 0;
+	color: #888;
+}
+
+#legend p {
+	display: inline-block;
+	width: 220px;
+	margin: 0 0 0 1em;
+}
+
+#legend span {
+	vertical-align: middle;
 }

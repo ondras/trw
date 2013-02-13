@@ -71,6 +71,7 @@ var Game = {
 	_load: function(e) {
 		this.story = new Game.Story();
 		this.description = new Game.Description();
+		this.legend = new Game.Legend(document.querySelector("#legend"));
 		this.player = Game.Beings.create("player");
 
 /*

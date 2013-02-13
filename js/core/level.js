@@ -72,8 +72,16 @@ Game.Level.prototype._fromChar = function(x, y, ch, def) {
  */
 Game.Level.prototype.notify = function() {}
 
+Game.Level.prototype.getFontSize = function() {
+	return this._display.getOptions().fontSize;
+}
+
 Game.Level.prototype.getContainer = function() {
 	return this._node;
+}
+
+Game.Level.prototype.getVisibleArea = function() {
+	return this._visibleArea;
 }
 
 Game.Level.prototype.getCellById = function(id) {
@@ -245,16 +253,16 @@ Game.Level.prototype._draw = function(x, y) {
 	var key = x+","+y;
 	if (!(key in this._visibleArea)) { return; }
 
-	var visual = this.beings[key] || this.items[key] || this.cells[key];
-	if (visual) { this._display.draw(x, y, visual.getChar(), ROT.Color.toRGB(visual.getColor())); }
+	var entity = this.beings[key] || this.items[key] || this.cells[key];
+	if (entity) { this._display.draw(x, y, entity.getChar(), ROT.Color.toRGB(entity.getColor())); }
 }
 
 Game.Level.prototype._drawFog = function(x, y) {
 	var key = x+","+y;
 
-	var visual = this.items[key] || this.cells[key]; /* beings are not drawn in fog */
-	if (visual) { 
-		var color = visual.getColor();
+	var entity = this.items[key] || this.cells[key]; /* beings are not drawn in fog */
+	if (entity) { 
+		var color = entity.getColor();
 		
 		/* 1. lightness */
 		var gray = (Math.max.apply(null, color) + Math.min.apply(null, color))/2;
@@ -268,7 +276,7 @@ Game.Level.prototype._drawFog = function(x, y) {
 		color[0] = Math.round((color[0]+gray)/2);
 		color[1] = Math.round((color[1]+gray)/2);
 		color[2] = Math.round((color[2]+gray)/2);
-		this._display.draw(x, y, visual.getChar(), ROT.Color.toRGB(color)); 
+		this._display.draw(x, y, entity.getChar(), ROT.Color.toRGB(color)); 
 	}
 }
 

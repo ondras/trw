@@ -59,9 +59,9 @@ Game.Description.prototype._localCells = function(position) {
 	var key = position.join(",");
 	var centerType = Game.level.cells[key].getType();
 
-	var interestingCells = [];
+	var data = []; /* each record: count, cell, description */
+
 	var dirs = ROT.DIRS[8];
-	
 	for (var i=0;i<dirs.length;i++) {
 		var x = position[0] + dirs[i][0];
 		var y = position[1] + dirs[i][1];
@@ -69,8 +69,36 @@ Game.Description.prototype._localCells = function(position) {
 		var cell = Game.level.cells[key];
 		var type = cell.getType();
 		if (type == centerType || this._boringCellTypes.indexOf(type) != -1) { continue; }
-		//if (!(type in interestingCells)) { interestingCells}
+
+		var description = cell.describe();
+		var index = -1;
+		for (var j=0;j<data.length;j++) {
+			if (data[j].description == description) { index = j; }
+		}
+		if (index == -1) {
+			index = data.length;
+			data.push({description:description, count:0, cell:cell});
+		}
+		data[index].count++;
 	}
+
+	data.sort(function(a, b) {
+		return b.count-a.count;
+	});
+
+	var parts = [];
+	for (var i=0;i<data.length;i++) {
+		parts.push(this._localCellType(data[i]));
+	}
+
+	return parts.join("FIXME");
+}
+
+Game.Description.prototype._localCellType = function(data) {
+
+	/* 8 = completely surrounded */
+	/* 7 = surrounded + */
+	/* 6 = almost surrounded */
 
 }
 

@@ -1,4 +1,4 @@
-Game.Story = function() {
+Game.Story = function(/* FIXME node */) {
 	this._chapters = [];
 	this._tasks = [];
 	this._index = -1;

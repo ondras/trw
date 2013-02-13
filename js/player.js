@@ -2,6 +2,7 @@ Game.Player = function(type) {
 	Game.Being.call(this, type);
 	
 	this._light = [30, 30, 30]; 
+	this._name = "you";
 
 	this._actionKeys = {};
 	this._actionKeys[ROT.VK_PERIOD] = 1;
@@ -33,8 +34,8 @@ Game.Player = function(type) {
 Game.Player.extend(Game.Being);
 
 Game.Player.prototype.act = function() {
-/*	Game.status.describe(); */
 	this._level.updateLighting(); /* FIXME urco? */
+	Game.legend.update(this._position[0], this._position[1]);
 	Game.engine.lock();
 	window.addEventListener("keydown", this);
 }
@@ -89,7 +90,6 @@ Game.Player.prototype.setPosition = function(x, y, level) {
 		this._level.addLight(x, y, this._light); 
 		var visibility = this._getVisibleArea();
 		this._level.setVisibility(visibility);
-		Game.description.local();
 	}
 }
 
