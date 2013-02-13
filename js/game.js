@@ -35,7 +35,6 @@ var Game = {
 		}
 
 		this.level = newLevel;
-		this.level.notify()
 
 		/* welcome the new level */
 		newLevel.setBeing(this.player, position[0], position[1]);

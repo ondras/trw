@@ -85,7 +85,7 @@ Game.Cell.prototype._usePortal = function(entity) {
 		Game.switchLevel(level, cell, direction);
 	} else { /* get level, remember it and switch to it */
 		Game.engine.lock();
-		Game.levels.get(level).then(function(level) {
+		Game.LevelManager.get(level).then(function(level) {
 			this._portal.level = level;
 			Game.switchLevel(level, cell, direction);
 			Game.engine.unlock();

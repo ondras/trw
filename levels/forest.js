@@ -2,6 +2,8 @@ Game.Level.Forest = function() {
 	Game.Level.call(this);
 	this._lighting.setOptions({range:6});
 	this._ambientLight = [30, 30, 30];
+	
+	this._phase = 0; /* 0 not seen, 1 entered, 2 seeks torch, 3 first maze part, 4 second maze part */
 }
 Game.Level.Forest.extend(Game.Level);
 
@@ -42,19 +44,38 @@ Game.Level.Forest.prototype._fromChar = function(x, y, ch, def) {
 }
 
 Game.Level.Forest.prototype.setBeing = function(being, x, y) {
-	if (being == Game.player) {
-		var item = this.items[x+","+y];
-		if (item && item.getType() == "torch") { being.setLight([150, 150, 80]); }
-	}
-	
-	return Game.Level.prototype.setBeing.call(this, being, x, y);
-}
+	Game.Level.prototype.setBeing.call(this, being, x, y);
 
-Game.Level.Forest.prototype.notify = function() {
-	Game.story.newChapter("Cool! I have been invited to attend a royal wedding! It is early in the morning, I just left my ship and the sky is still dark. I will have to find a way to the castle before the wedding starts.");
+	if (being != Game.player) { return this; }
 	
-	setTimeout(function() {
-		Game.story.addChapter("Damn, it is dark in here. I should find some fire to light my own torch.");
-		Game.story.setTask("Move onto a place with a lit torch");
-	}, 2000);
+	switch (this._phase) {
+		case 0:
+			Game.story.newChapter("Cool! I have been invited to attend a royal wedding! It is early in the morning, I just left my ship and the sky is still dark. I will have to find a way to the castle before the wedding starts.");
+			this._phase++;
+		break;
+		case 1:
+			var id = this.cells[x+","+y].getId();
+			if (id == "1") {
+				this._phase++;
+				Game.story.addChapter("Damn, it is dark in here. I should find some fire to light my own torch.");
+				Game.story.setTask("Move onto a place with a lit torch");
+			}
+		break;
+		case 2:
+			var item = this.items[x+","+y];
+			if (item && item.getType() == "torch") { 
+				being.setLight([150, 150, 80]); 
+				this._phase++;
+				Game.story.newChapter("This torch is my only light source. Hopefully it will last long enough until I find my way to the royal castle through this forest.");
+				Game.story.setTask("Make your way through the forest");
+			}
+		break;
+		case 3:
+			if (x > (this._minMaze[0]+this._maxMaze[0])/2) {
+				this._phase++;
+				Game.story.addChapter("Navigating through this complex forest maze is taking longer than I expected. If I do not hurry, I will miss the wedding!");
+				this._phase++;
+			}
+		break;
+	}
 }
