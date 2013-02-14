@@ -2,6 +2,7 @@ Game.Player = function(type) {
 	Game.Being.call(this, type);
 	
 	this._light = [30, 30, 30]; 
+	this._sightRange = 8;
 	this._name = "you";
 
 	this._actionKeys = {};
@@ -51,6 +52,11 @@ Game.Player.prototype.handleEvent = function(e) {
 	}
 }
 
+Game.Player.prototype.setSightRange = function(range) {
+	this._sightRange = range;
+	return this;
+}
+
 Game.Player.prototype._handleKey = function(code) {
 	if (code in this._actionKeys) {
 		return this._action(this._actionKeys[code]);
@@ -89,7 +95,7 @@ Game.Player.prototype.setPosition = function(x, y, level) {
 	if (x !== null) { 
 		this._level.addLight(x, y, this._light); 
 		var visibility = this._getVisibleArea();
-		this._level.setVisibility(visibility);
+		this._level.setVisibility(true || visibility);
 	}
 }
 
@@ -111,7 +117,7 @@ Game.Player.prototype._action = function() {
 }
 
 Game.Player.prototype._getVisibleArea = function() {
-	var RANGE = 8; /* FIXME constant */
+	var RANGE = this._sightRange;
 	var result = {};
 	var level = this._level;
 	var pos = this._position;

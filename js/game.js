@@ -99,7 +99,7 @@ var Game = {
 		intro.parentNode.removeChild(intro);
 */		
 		window.addEventListener("resize", this);
-		Game.LevelManager.get("forest").then(function(level) {
+		Game.LevelManager.get("castle").then(function(level) {
 			this.switchLevel(level, null, "fade");
 		}.bind(this));
 	},

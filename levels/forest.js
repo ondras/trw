@@ -1,6 +1,8 @@
 Game.Level.Forest = function() {
 	Game.Level.call(this);
+
 	this._lighting.setOptions({range:6});
+	this._sightRange = 8;
 	this._ambientLight = [50, 50, 50];
 	
 	this._phase = 0; /* 0 not seen, 1 entered, 2 seeks torch, 3 first maze part, 4 second maze part */

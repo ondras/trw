@@ -5,6 +5,7 @@ Game.Level = function() {
 
 	this._display = new ROT.Display({fontFamily:"droid sans mono, monospace"});
 	this._ambientLight = [130, 130, 130];
+	this._sightRange = 8;
 	this._topology = 8;
 	this._lights = {};
 	this._defaultCell = "floor";
@@ -134,6 +135,7 @@ Game.Level.prototype.setCell = function(cell, x, y) {
 }
 
 Game.Level.prototype.setBeing = function(being, x, y) {
+	if (being == Game.player) { being.setSightRange(this._sightRange); }
 	this._setEntity(being, x, y, "beings");
 }
 	

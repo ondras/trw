@@ -22,6 +22,12 @@ Game.Cells.define("ground", {
 	name: "plain ground"
 });
 
+Game.Cells.define("meadow", {
+	"char": ".",
+	color: [50, 150, 50],
+	name: "meadow"
+});
+
 Game.Cells.define("water", {
 	"char": "≈",
 	name: "water",
