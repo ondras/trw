@@ -6,9 +6,7 @@ Game.Level = function() {
 	this._display = new ROT.Display({fontFamily:"droid sans mono, monospace"});
 	this._ambientLight = [130, 130, 130];
 	this._sightRange = 8;
-	this._topology = 8;
 	this._lights = {};
-	this._defaultCell = "floor";
 	this._name = "";
 	this._visibleArea = {};
 
@@ -16,7 +14,7 @@ Game.Level = function() {
 	this._node.appendChild(this._display.getContainer());
 
 	this._lighting = new ROT.Lighting(this._getReflectivity.bind(this), {passes:1});
-	var fov = new ROT.FOV.PreciseShadowcasting(this._lightPasses.bind(this), {topology:this._topology});
+	var fov = new ROT.FOV.PreciseShadowcasting(this._lightPasses.bind(this), {topology:8});
 	this._lighting.setFOV(fov);
 }
 
@@ -45,12 +43,7 @@ Game.Level.prototype._fromChar = function(x, y, ch, def) {
 	var d = def[ch];
 	if (!d) { throw new Error("Unknown character '" + ch + "'"); }
 
-	if (d.cell) {
-		if (typeof(d.cell) == "object" && !d.cell.type) { d.cell.type = this._defaultCell; }
-		var cell = Game.Cells.createFromObject(d.cell);
-	} else {
-		var cell = Game.Cells.createFromObject(this._defaultCell);
-	}
+	var cell = Game.Cells.createFromObject(d.cell);
 	this.setCell(cell, x, y);
 
 	if (d.being) {
@@ -67,11 +60,6 @@ Game.Level.prototype._fromChar = function(x, y, ch, def) {
 		this.addLight(x, y, d.light);
 	}
 }
-
-/**
- * This level is being used right now.
- */
-Game.Level.prototype.notify = function() {}
 
 Game.Level.prototype.getFontSize = function() {
 	return this._display.getOptions().fontSize;
@@ -90,10 +78,6 @@ Game.Level.prototype.getCellById = function(id) {
 		if (this.cells[key].getId() == id) { return this.cells[key]; }
 	}
 	return null;
-}
-
-Game.Level.prototype.getTopology = function() {
-	return this._topology;
 }
 
 Game.Level.prototype.resetLighting = function() {
@@ -274,10 +258,14 @@ Game.Level.prototype._drawFog = function(x, y) {
 
 		/* 3. average */
 		var gray = (color[0]+color[1]+color[2])/3;
+
+
+		var c1 = 0.4;
+		var c2 = 1-c1;
 		
-		color[0] = Math.round((color[0]+gray)/2);
-		color[1] = Math.round((color[1]+gray)/2);
-		color[2] = Math.round((color[2]+gray)/2);
+		color[0] = Math.round(c1*color[0]+c2*gray);
+		color[1] = Math.round(c1*color[1]+c2*gray);
+		color[2] = Math.round(c1*color[2]+c2*gray);
 		this._display.draw(x, y, entity.getChar(), ROT.Color.toRGB(color)); 
 	}
 }
