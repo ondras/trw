@@ -95,7 +95,7 @@ Game.Player.prototype.setPosition = function(x, y, level) {
 	if (x !== null) { 
 		this._level.addLight(x, y, this._light); 
 		var visibility = this._getVisibleArea();
-		this._level.setVisibility(true || visibility);
+		this._level.setVisibility(visibility);
 	}
 }
 
