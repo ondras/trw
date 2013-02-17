@@ -88,7 +88,6 @@ Game.Player.prototype._handleKey = function(code) {
 
 	return false; /* unknown key */
 }
-
 Game.Player.prototype.setPosition = function(x, y, level) {
 	if (this._position) { this._level.removeLight(this._position[0], this._position[1], this._light); }
 
@@ -97,7 +96,7 @@ Game.Player.prototype.setPosition = function(x, y, level) {
 	if (x !== null) { 
 		this._level.addLight(x, y, this._light); 
 		var visibility = this._getVisibleArea();
-		this._level.setVisibility(visibility);
+		this._level.setVisibility(true || visibility);
 	}
 }
 

@@ -31,6 +31,7 @@ Game.Entity.prototype.fromTemplate = function(template) {
 			this._diffuse = template.color;
 		}
 	}
+	if ("colors" in template) { this._diffuse = template.colors.random(); }
 	
 	return this;
 }

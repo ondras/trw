@@ -33,6 +33,13 @@ Game.Beings.define("dog", {
 	"char": "d"
 });
 
+Game.Beings.define("rat", {
+	extend: "animal",
+	name: "rat",
+	color: [160, 160, 160],
+	"char": "r"
+});
+
 Game.Beings.define("orc", {
 	"char": "o",
 	color: [30, 240, 30]

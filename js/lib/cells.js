@@ -68,7 +68,21 @@ Game.Cells.define("tree", {
 	name: "tree"
 });
 
-/* indoor features */
+Game.Cells.define("flower", {
+	"char": "*",
+	colors: [
+		[240, 60, 60],
+		[60, 60, 240],
+		[240, 120, 30],
+		[240, 120, 120],
+		[240, 240, 30],
+		[240, 30, 240],
+		[240, 240, 240],
+	],
+	name: "flower"
+});
+
+/* features */
 
 Game.Cells.define("staircase-up", {
 	"char": "<",
@@ -78,6 +92,13 @@ Game.Cells.define("staircase-up", {
 Game.Cells.define("staircase-down", {
 	"char": ">",
 	name: "staircase leading down"
+});
+
+Game.Cells.define("well", {
+	"char": "O",
+	name: "well",
+	blocksMovement: 1,
+	color: [120, 120, 120]
 });
 
 Game.Cells.define("door", {
