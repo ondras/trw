@@ -1,7 +1,7 @@
 #level {
 	position: absolute;
 	overflow: hidden;
-	width: 50%;
+	width: 60%;
 	height: 80%;
 	right: 0;
 	top: 0;
@@ -50,11 +50,10 @@
 	position: relative;
 }
 
-
 #legend {
 	position: absolute;
 	overflow: hidden;
-	width: 50%;
+	width: 60%;
 	height: 20%;
 	right: 0;
 	bottom: 0;

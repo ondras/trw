@@ -33,7 +33,7 @@
 		"cell": "ground"
 	},
 	"'": {
-		"cell": "grass"
+		"cell": "highgrass"
 	},
 	"T": {
 		"cell": "tree"

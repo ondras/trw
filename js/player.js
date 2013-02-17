@@ -35,6 +35,8 @@ Game.Player = function(type) {
 Game.Player.extend(Game.Being);
 
 Game.Player.prototype.act = function() {
+	this._level.checkRules(); /* FIXME tady? */
+	
 	this._level.updateLighting(); /* FIXME urco? */
 	Game.legend.update(this._position[0], this._position[1]);
 	Game.engine.lock();
@@ -137,4 +139,14 @@ Game.Player.prototype._getVisibleArea = function() {
 	var fov = new ROT.FOV.PreciseShadowcasting(lightPasses);
 	fov.compute(pos[0], pos[1], RANGE, callback);
 	return result;
+}
+
+Game.Player.prototype._isPassable = function(x, y) {
+	var key = x+","+y;
+	if (key in this._level.beings) { return false; }
+	
+	var cell = this._level.cells[key];
+	if (!cell) { return false; }
+	
+	return !cell.blocksMovement();
 }

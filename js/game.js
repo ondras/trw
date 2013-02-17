@@ -27,9 +27,8 @@ var Game = {
 		if (oldLevel) { this.engine.lock(); }
 
 		var position = newLevel.getCellById(cell || "start").getPosition();
-		
-		/* clear the old level */
-		if (oldLevel) {
+	
+		if (oldLevel) { /* clear the old level */
 			oldLevel.removeBeing(this.player);
 			this.engine.clear();
 		}
@@ -58,12 +57,12 @@ var Game = {
 		};
 
 		var newNode = newLevel.getContainer();
-		newNode.className = direction;
+		if (direction) { newNode.className = direction; }
 		document.querySelector("#level").appendChild(newNode);
 
 		document.body.offsetWidth; /* FIXME hack */
 
-		if (oldLevel) { oldLevel.getContainer().className = oppositeMap[direction]; }
+		if (oldLevel && oppositeMap[direction]) { oldLevel.getContainer().className = oppositeMap[direction]; }
 		newNode.className = "";
 	},
 
@@ -72,35 +71,13 @@ var Game = {
 		this.description = new Game.Description();
 		this.legend = new Game.Legend(document.querySelector("#legend"));
 		this.player = Game.Beings.create("player");
-
-/*
-		var c1 = [100, 100, 150];
-		var c2 = [220, 170, 30];
-		var h1 = document.querySelector("h1");
-		var str = h1.innerHTML;
-		h1.innerHTML = "";
-		for (var i=0;i<str.length;i++) {
-			var ch = str.charAt(i);
-			var span = document.createElement("span");
-			var color = ROT.Color.interpolateHSL(c1, c2, i/(str.length-1));
-			span.style.color = ROT.Color.toRGB(color);
-			span.innerHTML = ch;
-			h1.appendChild(span)
-		}
-		document.querySelector("#intro").className = "visible";
-
-		Promise.event(document, "keydown").then(this._start.bind(this));
-*/		
-		this._start();
+		new Game.Intro().then(this._start.bind(this));
 	},
 
 	_start: function(e) {
-/*		var intro = document.querySelector("#intro");
-		intro.parentNode.removeChild(intro);
-*/		
 		window.addEventListener("resize", this);
 		Game.LevelManager.get("castle").then(function(level) {
-			this.switchLevel(level, null, "fade");
+			this.switchLevel(level);
 		}.bind(this));
 	},
 	

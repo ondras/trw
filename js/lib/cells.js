@@ -1,5 +1,7 @@
 Game.Cells = new Game.Repository(Game.Cell);
 
+/* wall blocks */
+
 Game.Cells.define("stonewall", {
 	blocksMovement: 1,
 	blocksLight: 1,
@@ -9,10 +11,11 @@ Game.Cells.define("stonewall", {
 	name: "stone wall"
 });
 
+/* floor blocks */
+
 Game.Cells.define("floor", {
 	"char": ".",
 	color: [130, 130, 130],
-	colorVariation: 10,
 	name: "plain floor"
 });
 
@@ -22,11 +25,18 @@ Game.Cells.define("ground", {
 	name: "plain ground"
 });
 
-Game.Cells.define("meadow", {
-	"char": ".",
-	color: [100, 150, 50],
-	name: "meadow"
+Game.Cells.define("path", {
+	extend: "ground",
+	name: "path"
 });
+
+Game.Cells.define("pier", {
+	"char": "#",
+	color: [130, 90, 30],
+	name: "wooden pier"
+});
+
+/* nature blocks */
 
 Game.Cells.define("water", {
 	"char": "≈",
@@ -36,27 +46,17 @@ Game.Cells.define("water", {
 	colorVariation: 20
 });
 
-Game.Cells.define("pier", {
-	"char": "#",
-	color: [130, 90, 30],
-	name: "wooden pier"
-});
-
-Game.Cells.define("staircase-up", {
-	"char": "<",
-	name: "staircase leading up"
-});
-
-Game.Cells.define("staircase-down", {
-	"char": ">",
-	name: "staircase leading down"
-});
-
 Game.Cells.define("grass", {
+	"char": ".",
+	color: [100, 150, 50],
+	name: "grassy ground"
+});
+
+Game.Cells.define("highgrass", {
 	"char": ['"', '"', '"', "'"],
 	color: [150, 220, 50],
 	colorVariation: [30, 30, 10],
-	name: "grassy ground"
+	name: "high grass"
 });
 
 Game.Cells.define("tree", {
@@ -66,6 +66,18 @@ Game.Cells.define("tree", {
 	blocksMovement: 1,
 	blocksLight: 1,
 	name: "tree"
+});
+
+/* indoor features */
+
+Game.Cells.define("staircase-up", {
+	"char": "<",
+	name: "staircase leading up"
+});
+
+Game.Cells.define("staircase-down", {
+	"char": ">",
+	name: "staircase leading down"
 });
 
 Game.Cells.define("door", {

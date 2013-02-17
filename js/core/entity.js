@@ -65,6 +65,10 @@ Game.Entity.prototype.getPosition = function() {
 	return this._position;
 }
 
+Game.Entity.prototype.getLevel = function() {
+	return this._level;
+}
+
 Game.Entity.prototype.describeA = function() {
 	var first = this._name.charAt(0);
 	if (first.match(/[aeiouy]/i)) {

@@ -2,8 +2,22 @@ Game.Being = function(type) {
 	Game.Entity.call(this, type);
 
 	this._speed = 100;
+	this._ai = new Game.AI(this);
+	this._tasks = [];
 }
 Game.Being.extend(Game.Entity);
+
+Game.Being.prototype.fromTemplate = function(template) {
+	Game.Entity.prototype.fromTemplate.call(this, template);
+	if ("ai" in template) {
+		var ctor = Game.AI[template.ai.capitalize()];
+		if (!ctor) throw new Error("AI '"+template.ai+"' not available");
+		this._ai = new ctor(this);
+	}
+	if ("tasks" in template) { this.setTasks(template.tasks); }
+	
+	return this;
+}
 
 Game.Being.prototype.getSpeed = function() {
 	return this._speed;
@@ -16,15 +30,16 @@ Game.Being.prototype.setPosition = function(x, y, level) {
 }
 
 Game.Being.prototype.act = function() {
+	if (!this._ai) { return; }
+	this._ai.act(this._tasks);
 }
 
-Game.Being.prototype._isPassable = function(x, y) {
-	var key = x+","+y;
-	if (key in this._level.beings) { return false; }
-	
-	var cell = this._level.cells[key];
-	if (!cell) { return false; }
-	
-	return !cell.blocksMovement();
+Game.Being.prototype.getTasks = function() {
+	return this._tasks;
+}
+
+Game.Being.prototype.setTasks = function(tasks) {
+	this._tasks = tasks;
+	return this;
 }
 

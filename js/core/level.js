@@ -7,8 +7,10 @@ Game.Level = function() {
 	this._ambientLight = [130, 130, 130];
 	this._sightRange = 8;
 	this._lights = {};
-	this._name = "";
 	this._visibleArea = {};
+
+	this._rules = [];
+	this._story = {};
 
 	this._node = document.createElement("section");
 	this._node.appendChild(this._display.getContainer());
@@ -119,7 +121,7 @@ Game.Level.prototype.setCell = function(cell, x, y) {
 }
 
 Game.Level.prototype.setBeing = function(being, x, y) {
-	if (being == Game.player) { being.setSightRange(this._sightRange); }
+	if (being.getLevel() != this) { this._welcomeBeing(being); }
 	this._setEntity(being, x, y, "beings");
 }
 	
@@ -194,6 +196,23 @@ Game.Level.prototype.setVisibility = function(newVisible) {
 		var parts = key.split(",");
 		this._draw(parseInt(parts[0]), parseInt(parts[1]));
 	}
+}
+
+Game.Level.prototype.checkRules = function() {
+	for (var i=0;i<this._rules.length;i++) {
+		var rule = this._rules[i];
+		if (rule.conditions.call(this)) { 
+			var result = rule.actions.call(this);
+			if (result) { this._rules.splice(i, 1); }
+			return;
+		}
+	}
+}
+
+Game.Level.prototype._addRule = function(conditions, actions) {
+	var rule = {conditions:conditions, actions:actions};
+	this._rules.push(rule);
+	return this;
 }
 
 /**
@@ -285,4 +304,8 @@ Game.Level.prototype._lightPasses = function(x, y) {
 	if (!cell) { return false; }
 
 	return !(cell.blocksLight());
+}
+
+Game.Level.prototype._welcomeBeing = function(being) {
+	if (being == Game.player) { being.setSightRange(this._sightRange); }
 }
