@@ -2,13 +2,8 @@ Game.Player = function(type) {
 	Game.Being.call(this, type);
 	
 	this._light = [30, 30, 30]; 
-	this._sightRange = 8;
 	this._name = "you";
 
-	this._actionKeys = {};
-	this._actionKeys[ROT.VK_PERIOD] = 1;
-	this._actionKeys[ROT.VK_CLEAR] = 1;
-	this._actionKeys[ROT.VK_NUMPAD5] = 1;
 
 	this._directionKeys = {};
 	this._directionKeys[ROT.VK_K] = 0;
@@ -31,12 +26,15 @@ Game.Player = function(type) {
 	this._directionKeys[ROT.VK_NUMPAD4] = 6;
 	this._directionKeys[ROT.VK_Y] = 7;
 	this._directionKeys[ROT.VK_NUMPAD7] = 7;
+
+	this._directionKeys[ROT.VK_PERIOD] = -1;
+	this._directionKeys[ROT.VK_CLEAR] = -1;
+	this._directionKeys[ROT.VK_NUMPAD5] = -1;
 }
 Game.Player.extend(Game.Being);
 
 Game.Player.prototype.act = function() {
-	this._level.checkRules(); /* FIXME tady? */
-	
+	this._level.checkRules(); /* FIXME tady? */	
 	this._level.updateLighting(); /* FIXME urco? */
 	Game.legend.update(this._position[0], this._position[1]);
 	Game.engine.lock();
@@ -54,67 +52,29 @@ Game.Player.prototype.handleEvent = function(e) {
 	}
 }
 
-Game.Player.prototype.setSightRange = function(range) {
-	this._sightRange = range;
-	return this;
-}
-
 Game.Player.prototype._handleKey = function(code) {
-	if (code in this._actionKeys) {
-		return this._action(this._actionKeys[code]);
-	}
+	Game.status.clear();
 
 	if (code in this._directionKeys) {
-		var dir = ROT.DIRS[8][this._directionKeys[code]];
+		var direction = this._directionKeys[code];
+		if (direction == -1) { return true; } /* noop */
+
+		var dir = ROT.DIRS[8][direction];
 		var x = this._position[0] + dir[0];
-		var y = this._position[1] + dir[1];
-		if (this._isPassable(x, y)) { /* MOVE */
-			this._level.setBeing(this, x, y);
-			return true;
-		}
-
-		var cell = this._level.cells[x+","+y];
-		if (cell instanceof Game.Cell.Door) {
-			if (cell.isLocked()) {
-				Game.status.message("The door is locked.");
-				return false;
-			}
-			cell.open();
-			return true;
-		}
-
-		return false; /* wall */
+		var y = this._position[1] + dir[1];		
+		return this._tryMovingTo(x, y);
 	}
 
 	return false; /* unknown key */
 }
+
 Game.Player.prototype.setPosition = function(x, y, level) {
-	if (this._position) { this._level.removeLight(this._position[0], this._position[1], this._light); }
-
 	Game.Being.prototype.setPosition.call(this, x, y, level);
-
-	if (x !== null) { 
-		this._level.addLight(x, y, this._light); 
-		var visibility = this._getVisibleArea();
-		this._level.setVisibility(true || visibility);
-	}
-}
-
-Game.Player.prototype.setLight = function(light) {
-	if (!this._level) { 
-		this._light = light;
-		return;
-	}
 	
-	if (this._light) { this._level.removeLight(this._position[0], this._position[1], this._light); }
-	this._light = light;
-	if (this._light) { this._level.addLight(this._position[0], this._position[1], this._light); }
+	var visibility = this._getVisibleArea();
+	this._level.setVisibility(true || visibility);
 	
 	return this;
-}
-
-Game.Player.prototype._action = function() {
-	/* FIXME action */
 }
 
 Game.Player.prototype._getVisibleArea = function() {
@@ -148,4 +108,38 @@ Game.Player.prototype._isPassable = function(x, y) {
 	if (!cell) { return false; }
 	
 	return !cell.blocksMovement();
+}
+
+Game.Player.prototype._tryMovingTo = function(x, y) {
+	var key = x+","+y;
+	var being = this._level.beings[key];
+	
+	if (being) { /* being - chat or fight */
+		if (being.isHostile()) {
+			this._attack(being);
+		} else {
+			this._talk(being);
+		}
+		return true;
+	}
+	
+	var cell = this._level.cells[key];
+	if (cell) {
+		if (!cell.blocksMovement()) {
+			Game.status.show("You move.");
+			this._level.setBeing(this, x, y);
+			return true;
+		}
+		
+		/* bump into */
+		return false;
+	}
+	
+	return false; /* non-existant cell */
+}
+
+Game.Player.prototype._attack = function(being) {
+}
+
+Game.Player.prototype._talk = function(being) {
 }

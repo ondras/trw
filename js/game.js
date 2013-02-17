@@ -68,7 +68,7 @@ var Game = {
 
 	_load: function(e) {
 		this.story = new Game.Story();
-		this.description = new Game.Description();
+		this.status = new Game.Status(document.querySelector("#status"));
 		this.legend = new Game.Legend(document.querySelector("#legend"));
 		this.player = Game.Beings.create("player");
 		new Game.Intro().then(this._start.bind(this));
@@ -85,6 +85,8 @@ var Game = {
 		if (!this.level) { return; }
 		var parent = document.querySelector("#level");
 		this.level.resize(parent.offsetWidth, parent.offsetHeight);
+		var position = this.player.getPosition();
+		Game.legend.update(position[0], position[1]);
 	}
 }
 
