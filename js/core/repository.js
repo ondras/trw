@@ -9,7 +9,7 @@ Game.Repository = function(ctor) {
 Game.Repository.prototype.define = function(type, template) {
 	if (template.extend) { /* create prototype link to parent definition */
 		if (!(template.extend in this._storage)) { 
-			throw new Error("Repository type '"+type+"' cannot extend '"+features.extend+"'");
+			throw new Error("Repository type '"+type+"' cannot extend '"+template.extend+"'");
 		}	
 		var parentTemplate = this._storage[template.extend];
 		var newTemplate = Object.create(parentTemplate);

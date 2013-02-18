@@ -47,7 +47,6 @@ Game.Cell.Door.prototype.unlock = function() {
 }
 
 Game.Cell.Door.prototype.blocksLight = function() {
-
 	return this._closed;
 }
 

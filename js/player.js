@@ -118,7 +118,7 @@ Game.Player.prototype._tryMovingTo = function(x, y) {
 		if (being.isHostile()) {
 			this._attack(being);
 		} else {
-			this._talk(being);
+			this._chat(being);
 		}
 		return true;
 	}
@@ -140,5 +140,13 @@ Game.Player.prototype._tryMovingTo = function(x, y) {
 Game.Player.prototype._attack = function(being) {
 }
 
-Game.Player.prototype._talk = function(being) {
+Game.Player.prototype._chat = function(being) {
+	Game.status.show("You talk to " + being.describeA()+".");
+	var response = being.chat(this);
+	if (response) {
+		response = being.describeThe().capitalize() + " responds: \"" + response + "\"";
+	} else {
+		response = "No response."
+	}
+	Game.status.show(response);
 }

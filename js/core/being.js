@@ -7,6 +7,7 @@ Game.Being = function(type) {
 	this._sightRange = 8;
 	this._light = null;
 	this._hostile = false;
+	this._chats = null;
 }
 Game.Being.extend(Game.Entity);
 
@@ -19,6 +20,7 @@ Game.Being.prototype.fromTemplate = function(template) {
 	}
 	if ("tasks" in template) { this.setTasks(template.tasks); }
 	if ("hostile" in template) { this._hostile = template.hostile; }
+	if ("chats" in template) { this._chats = template.chats; }
 	
 	return this;
 }
@@ -85,4 +87,8 @@ Game.Being.prototype.setHostile = function(hostile) {
 
 Game.Being.prototype.describe = function() {
 	return (this._hostile ? "hostile " : "") + Game.Entity.prototype.describe.call(this);
+}
+
+Game.Being.prototype.chat = function(being) {
+	return (this._chats ? this._chats.random() : null);
 }
