@@ -106,3 +106,8 @@ Game.Cells.define("door", {
 	ctor: Game.Cell.Door,
 	color: [153, 102, 51]
 });
+
+Game.Cells.define("gate", {
+	extend: "door",
+	ctor: Game.Cell.Gate
+});

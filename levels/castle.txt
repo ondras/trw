@@ -112,12 +112,7 @@ T==========w#                       ##################-####
 		}
 	},
 	"|": {
-		"cell": {
-			"type": "door",
-			"closed": 1,
-			"locked": 1,
-			"name": "castle gate"
-		}
+		"cell": "gate"
 	},
 	"^": {
 		"cell": "floor",

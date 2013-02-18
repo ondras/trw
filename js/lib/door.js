@@ -3,12 +3,12 @@ Game.Cell.Door = function(type) {
 	this._closed = false;
 	this._locked = false;
 	this._name = "door";
+	this.open();
 }
 Game.Cell.Door.extend(Game.Cell);
 
 Game.Cell.Door.prototype.fromTemplate = function(template) {
 	Game.Cell.prototype.fromTemplate.call(this, template);
-	this.open();
 	if ("closed" in template) {
 		if (template.closed) { this.close(); } else { this.open(); }
 	}
