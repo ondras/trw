@@ -125,14 +125,13 @@ Game.Player.prototype._tryMovingTo = function(x, y) {
 	
 	var cell = this._level.cells[key];
 	if (cell) {
-		if (!cell.blocksMovement()) {
-			Game.status.show("You move.");
+		if (cell.blocksMovement()) {
+			cell.bumpInto(this);
+			return false;
+		} else {
 			this._level.setBeing(this, x, y);
 			return true;
 		}
-		
-		/* bump into */
-		return false;
 	}
 	
 	return false; /* non-existant cell */

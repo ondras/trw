@@ -43,6 +43,10 @@ Game.Cell.prototype.setLight = function(light) {
 	return this;
 }
 
+Game.Cell.prototype.bumpInto = function(being) {
+	if (being == Game.player) { Game.status.show(this.describeA().capitalize() + " blocks the way."); }
+}
+
 Game.Cell.prototype.blocksLight = function() {
 	return this._blocksLight;
 }

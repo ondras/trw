@@ -6,6 +6,7 @@ Game.Entity = function(type) {
 
 	this._char = "";
 	this._name = "";
+	this._countable = true;
 	this._diffuse = [120, 120, 120];
 
 	this._color = ""; /* computed */
@@ -16,6 +17,7 @@ Game.Entity = function(type) {
 
 Game.Entity.prototype.fromTemplate = function(template) {
 	if ("name" in template) { this._name = template.name; }
+	if ("countable" in template) { this._countable = template.countable; }
 	if ("char" in template) { 
 		if (template["char"] instanceof Array) {
 			this._char = template["char"].random();
@@ -71,6 +73,7 @@ Game.Entity.prototype.getLevel = function() {
 }
 
 Game.Entity.prototype.describeA = function() {
+	if (!this._countable) { return this.describe(); }
 	var first = this._name.charAt(0);
 	if (first.match(/[aeiouy]/i)) {
 		return "an " + this.describe();

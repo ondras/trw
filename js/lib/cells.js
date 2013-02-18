@@ -41,6 +41,7 @@ Game.Cells.define("pier", {
 Game.Cells.define("water", {
 	"char": "≈",
 	name: "water",
+	countable: 0,
 	blocksMovement: 1,
 	color: [50, 50, 240],
 	colorVariation: 20
