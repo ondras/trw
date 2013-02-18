@@ -71,10 +71,14 @@ Game.Player.prototype._handleKey = function(code) {
 Game.Player.prototype.setPosition = function(x, y, level) {
 	Game.Being.prototype.setPosition.call(this, x, y, level);
 	
-	var visibility = this._getVisibleArea();
-	this._level.setVisibility(true || visibility);
+	this.updateVisibility();
 	
 	return this;
+}
+
+Game.Player.prototype.updateVisibility = function() {
+	var visibility = this._getVisibleArea();
+	this._level.setVisibility(visibility);
 }
 
 Game.Player.prototype._getVisibleArea = function() {
@@ -100,16 +104,6 @@ Game.Player.prototype._getVisibleArea = function() {
 	return result;
 }
 
-Game.Player.prototype._isPassable = function(x, y) {
-	var key = x+","+y;
-	if (key in this._level.beings) { return false; }
-	
-	var cell = this._level.cells[key];
-	if (!cell) { return false; }
-	
-	return !cell.blocksMovement();
-}
-
 Game.Player.prototype._tryMovingTo = function(x, y) {
 	var key = x+","+y;
 	var being = this._level.beings[key];
@@ -127,11 +121,10 @@ Game.Player.prototype._tryMovingTo = function(x, y) {
 	if (cell) {
 		if (cell.blocksMovement()) {
 			cell.bumpInto(this);
-			return false;
 		} else {
 			this._level.setBeing(this, x, y);
-			return true;
 		}
+		return true;
 	}
 	
 	return false; /* non-existant cell */

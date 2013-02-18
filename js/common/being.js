@@ -8,6 +8,8 @@ Game.Being = function(type) {
 	this._light = null;
 	this._hostile = false;
 	this._chats = null;
+	
+	this._chattedWith = false;
 }
 Game.Being.extend(Game.Entity);
 
@@ -90,5 +92,11 @@ Game.Being.prototype.describe = function() {
 }
 
 Game.Being.prototype.chat = function(being) {
+	this._chattedWith = true;
 	return (this._chats ? this._chats.random() : null);
 }
+
+Game.Being.prototype.chattedWith = function() {
+	return this._chattedWith;
+}
+

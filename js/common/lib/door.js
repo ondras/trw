@@ -27,14 +27,20 @@ Game.Cell.Door.prototype.isLocked = function() {
 Game.Cell.Door.prototype.close = function() {
 	this._closed = true;
 	this._char = "+";
-	if (this._level) { this._level.resetLighting(); }
+	if (this._level) { 
+		this._level.resetLighting(); 
+		Game.player.updateVisibility();
+	}
 }
 
 Game.Cell.Door.prototype.open = function() {
 	this.unlock();
 	this._closed = false;
 	this._char = "/";
-	if (this._level) { this._level.resetLighting(); }
+	if (this._level) { 
+		this._level.resetLighting(); 
+		Game.player.updateVisibility();
+	}
 }
 
 Game.Cell.Door.prototype.lock = function() {
@@ -56,4 +62,17 @@ Game.Cell.Door.prototype.blocksMovement = function() {
 
 Game.Cell.Door.prototype.describe = function() {
 	return (this._closed ? "closed" : "open") + " " + Game.Cell.prototype.describe.call(this);
+}
+
+Game.Cell.Door.prototype.bumpInto = function(being) {
+	if (being == Game.player) { 
+		if (this._locked) {
+			Game.status.show(this.describeThe().capitalize() + " is locked!"); 
+		} else {
+			Game.status.show("You open " + this.describeThe() + "."); 
+			this.open();
+		}
+	} else {
+		if (!this._locked) { this.open(); }
+	}
 }

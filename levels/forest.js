@@ -46,10 +46,6 @@ Game.Level.Forest.prototype._fromChar = function(x, y, ch, def) {
 }
 
 Game.Level.Forest.prototype._initStory = function() {
-	this._story = {
-		inMaze: false
-	};
-	
 	this._addRule(function() {
 		return true;
 	}, function() {
@@ -62,7 +58,7 @@ Game.Level.Forest.prototype._initStory = function() {
 		return (this.cells[key].getId() == "1");
 	}, function() {
 		Game.story.addChapter("Damn, it is dark in here. I should find some fire to light my own torch.");
-		Game.story.setTask("Move onto a place with a lit torch");
+		Game.story.setTask("Move onto a place with a lit torch.");
 		return true;
 	});
 	
@@ -74,7 +70,7 @@ Game.Level.Forest.prototype._initStory = function() {
 		this._story.hasTorch = true;
 		Game.player.setLight([150, 150, 80]); 
 		Game.story.newChapter("This torch is my only light source. Hopefully it will last long enough until I find my way to the royal castle through this forest.");
-		Game.story.setTask("Make your way through the forest");
+		Game.story.setTask("Make your way through the forest.");
 		return true;
 	});
 
