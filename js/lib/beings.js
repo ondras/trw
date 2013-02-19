@@ -10,3 +10,10 @@ Game.Beings.define("guard", {
 	tasks: [],
 	color: [220, 140, 140]
 });
+
+Game.Beings.define("jester", {
+	extend: "humanoid",
+	ctor: Game.Being.Jester,
+	name: "jester",
+	color: [240, 100, 100]
+});

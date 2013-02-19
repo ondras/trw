@@ -4,19 +4,24 @@
 Game.Entity = function(type) {
 	this._type = type;
 
+	this._id = null;
 	this._char = "";
 	this._name = "";
 	this._countable = true;
-	this._diffuse = [120, 120, 120];
+	this._diffuse = [120, 120, 120]; /* base color */
+	this._light = null; /* emitting light? */
 
 	this._color = ""; /* computed */
-	this._cell = null;
+	this._cell = null; /* to compute the color */
+
 	this._level = null;
 	this._position = null;
 }
 
 Game.Entity.prototype.fromTemplate = function(template) {
+	if ("id" in template) { this._id = template.id; }
 	if ("name" in template) { this._name = template.name; }
+	if ("light" in template) { this._light = template.light; }
 	if ("countable" in template) { this._countable = template.countable; }
 	if ("char" in template) { 
 		if (template["char"] instanceof Array) {
@@ -38,9 +43,18 @@ Game.Entity.prototype.fromTemplate = function(template) {
 	return this;
 }
 
+Game.Entity.prototype.setId = function(id) {
+	this._id = id;
+	return this;
+}
+
+Game.Entity.prototype.getId = function() {
+	return this._id;
+}
+
 Game.Entity.prototype.computeColor = function(ambientLight) {
 	var totalLight = ambientLight;
-	var cellLight = this._cell.getLight();
+	var cellLight = this._cell.getTotalLight();
 	if (cellLight) { totalLight = ROT.Color.add(totalLight, cellLight); }
 	this._color = ROT.Color.multiply(this._diffuse, totalLight);
 	return this;
@@ -59,8 +73,18 @@ Game.Entity.prototype.getType = function() {
 }
 
 Game.Entity.prototype.setPosition = function(x, y, level) {
+	if (this._light && this._position) {
+		this._level.removeLight(this._position[0], this._position[1], this._light);
+	}
+
 	this._level = level;
 	this._position = (x === null ? null : [x, y]);
+	this._cell = (x === null ? null : this._level.cells[x+","+y]);
+	
+	if (this._light && x !== null) {
+		this._level.addLight(this._position[0], this._position[1], this._light);
+	}
+
 	return this;
 }
 
@@ -89,3 +113,17 @@ Game.Entity.prototype.describeThe = function() {
 Game.Entity.prototype.describe = function() {
 	return this._name;
 }
+
+Game.Entity.prototype.setLight = function(light) {
+	if (!this._level) { 
+		this._light = light;
+		return this;
+	}
+	
+	if (this._light) { this._level.removeLight(this._position[0], this._position[1], this._light); }
+	this._light = light;
+	if (this._light) { this._level.addLight(this._position[0], this._position[1], this._light); }
+	
+	return this;
+}
+

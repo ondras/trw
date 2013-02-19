@@ -27,6 +27,9 @@ Game.Level.Forest.prototype.fromTemplate = function(map, def) {
 
 	var exit = this.getCellById("exit").getPosition();
 	this.setCell(Game.Cells.create("ground"), exit[0]-1, exit[1]);
+
+	var gold = Game.Items.create("gold");
+	this.setItem(gold, this._minMaze[0]+1, this._minMaze[1]+1);
 	
 	this._initStory();
 
@@ -64,8 +67,7 @@ Game.Level.Forest.prototype._initStory = function() {
 	
 	this._addRule(function() {
 		var key = Game.player.getPosition().join(",");
-		var item = this.items[key];
-		return (item && item.getType() == "torch");
+		return (this.cells[key].getType() == "torch");
 	}, function() {
 		this._story.hasTorch = true;
 		Game.player.setLight([150, 150, 80]); 

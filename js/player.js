@@ -4,7 +4,6 @@ Game.Player = function(type) {
 	this._light = [30, 30, 30]; 
 	this._name = "you";
 
-
 	this._directionKeys = {};
 	this._directionKeys[ROT.VK_K] = 0;
 	this._directionKeys[ROT.VK_UP] = 0;
@@ -78,7 +77,7 @@ Game.Player.prototype.setPosition = function(x, y, level) {
 
 Game.Player.prototype.updateVisibility = function() {
 	var visibility = this._getVisibleArea();
-	this._level.setVisibility(visibility);
+	this._level.setVisibility(/*true || */visibility);
 }
 
 Game.Player.prototype._getVisibleArea = function() {

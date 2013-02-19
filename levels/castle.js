@@ -7,6 +7,7 @@ Game.Level.Castle = function() {
 	
 	this._gates = [];
 	this._guards = [];
+	this._jester = null;
 }
 Game.Level.Castle.extend(Game.Level);
 
@@ -17,10 +18,11 @@ Game.Level.Castle.prototype.fromTemplate = function(map, def) {
 		var cell = this.cells[key];
 		if (cell.getType() == "gate") { this._gates.push(cell); }
 	}
-	
+
 	for (var key in this.beings) {
 		var being = this.beings[key];
 		if (being.getType() == "guard") { this._guards.push(being); }
+		if (being.getType() == "jester") { this._jester = being; }
 	}
 
 	this._initStory();
@@ -59,7 +61,7 @@ Game.Level.Castle.prototype._initStory = function() {
 	
 	this._addRule(function() {
 		var key = Game.player.getPosition().join(",");
-		return (this.cells[key].getId() == "1");
+		return (this.cells[key].getId() == "entry");
 	}, function() {
 		Game.story.newChapter("Here I am! Unfortunately, the castle seems to be rather quiet. I am late to the wedding, so maybe people are already in the chapel. I shall make my way further through the throne room.");
 		return true;
@@ -67,9 +69,24 @@ Game.Level.Castle.prototype._initStory = function() {
 	
 	this._addRule(function() {
 		var key = Game.player.getPosition().join(",");
-		return (this.cells[key].getId() == "2");
+		return (this.cells[key].getId() == "throneroom");
 	}, function() {
 		Game.story.newChapter("The throne room is empty as well - and locked, too. How am I supposed to get into the chapel through all those locked doors? Perhaps that funny jester will provide an answer.");
+		return true;
+	});
+
+	this._addRule(function() {
+		var key = Game.player.getPosition().join(",");
+		return (this.cells[key].getId() == "throne" && this._jester.chattedWith());
+	}, function() {
+		Game.status.show("As you sit on the throne, the jester exclaims: \"The King! We have a King! Look how mighty he looks on his throne! He surely knows about that secret passage in the southern wall.\"");
+		this._jester.setChats(["Howdy! How is your majesty today?"]);
+
+		var cell = this.getCellById("secretdoor");
+		var pos = cell.getPosition();
+		var door = Game.Cells.create("door", {name:"secret door"});
+		door.close();
+		this.setCell(door, pos[0], pos[1]);
 		return true;
 	});
 }

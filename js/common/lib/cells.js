@@ -106,3 +106,10 @@ Game.Cells.define("door", {
 	ctor: Game.Cell.Door,
 	color: [153, 102, 51]
 });
+
+Game.Cells.define("torch",  {
+	"char": "^",
+	name: "torch",
+	light: [240, 240, 30],
+	color: [240, 240, 30]
+});

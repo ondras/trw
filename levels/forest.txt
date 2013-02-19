@@ -39,8 +39,7 @@
 		"cell": "tree"
 	},
 	"^": {
-		"cell": "ground",
-		"item": "torch"
+		"cell": "torch"
 	},
 	"1": {
 		"cell": {

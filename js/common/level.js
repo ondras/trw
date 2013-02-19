@@ -146,15 +146,15 @@ Game.Level.prototype.updateLighting = function() {
 	
 	for (var key in cells) {
 		var cell = cells[key];
-		if (!cell.getLight()) { continue; }
+		if (!cell.getTotalLight()) { continue; }
 		dirty[key] = 1;
-		cell.setLight(null);
+		cell.setTotalLight(null);
 	}
 
 	this._lighting.compute(function(x, y, color) {
 		var key = x+","+y;
 		if (!cells[key]) { return; }
-		cells[key].setLight(color);
+		cells[key].setTotalLight(color);
 		dirty[key] = 1;
 	});
 	
