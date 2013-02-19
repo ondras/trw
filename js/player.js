@@ -77,7 +77,7 @@ Game.Player.prototype.setPosition = function(x, y, level) {
 
 Game.Player.prototype.updateVisibility = function() {
 	var visibility = this._getVisibleArea();
-	this._level.setVisibility(/*true || */visibility);
+	this._level.setVisibility(true || visibility);
 }
 
 Game.Player.prototype._getVisibleArea = function() {

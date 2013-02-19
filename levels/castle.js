@@ -89,4 +89,12 @@ Game.Level.Castle.prototype._initStory = function() {
 		this.setCell(door, pos[0], pos[1]);
 		return true;
 	});
+
+	this._addRule(function() {
+		var key = Game.player.getPosition().join(",");
+		return (this.cells[key].getId() == "armory");
+	}, function() {
+		Game.story.newChapter("I managed to advance deeper into the castle by following that jester's advice. The kitchen is close, but I hear some squeaking sounds from inside. Perhaps I should arm myself in this little armory nearby.");
+		return true;
+	});
 }
