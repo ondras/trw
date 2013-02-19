@@ -61,8 +61,15 @@ Game.Level.Castle.prototype._initStory = function() {
 		var key = Game.player.getPosition().join(",");
 		return (this.cells[key].getId() == "1");
 	}, function() {
-		Game.story.newChapter("Here I am! Unfortunately, the castle seem to be rather quiet. I am late to the wedding, so maybe people are already in the chapel. I shall make my way further through the throne room.");
+		Game.story.newChapter("Here I am! Unfortunately, the castle seems to be rather quiet. I am late to the wedding, so maybe people are already in the chapel. I shall make my way further through the throne room.");
 		return true;
 	});
 	
+	this._addRule(function() {
+		var key = Game.player.getPosition().join(",");
+		return (this.cells[key].getId() == "2");
+	}, function() {
+		Game.story.newChapter("The throne room is empty as well - and locked, too. How am I supposed to get into the chapel through all those locked doors? Perhaps that funny jester will provide an answer.");
+		return true;
+	});
 }

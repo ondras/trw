@@ -7,5 +7,6 @@ Game.Beings.define("player", {
 Game.Beings.define("guard", {
 	extend: "humanoid",
 	name: "guard",
+	tasks: [],
 	color: [220, 140, 140]
 });

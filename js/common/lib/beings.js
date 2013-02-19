@@ -19,6 +19,7 @@ Game.Beings.define("rat", {
 });
 
 Game.Beings.define("humanoid", {
+	tasks: ["wander"],
 	"char": "@"
 });
 
