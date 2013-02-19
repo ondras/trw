@@ -16,6 +16,7 @@ Game.Items.define("weapon", {
 Game.Items.define("dagger", {
 	extend: "weapon",
 	name: "dagger",
+	color: [150, 80, 80],
 	speed: 120,
 	damage: 3
 });
