@@ -41,7 +41,7 @@ Game.Cell.prototype.setTotalLight = function(light) {
 }
 
 Game.Cell.prototype.bumpInto = function(being) {
-	if (being == Game.player) { Game.status.show(this.describeA().capitalize() + " blocks the way."); }
+	if (being == Game.player) { Game.status.show("%s blocks the way.", this.describeA().capitalize()); }
 }
 
 Game.Cell.prototype.blocksLight = function() {

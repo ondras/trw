@@ -1,6 +1,8 @@
 #text {
-	width: 40%;
-	padding: 1em;
+	width: 38%;
+	padding: 1%;
+	font-size: 17px;
+	font-family: merienda;
 }
 
 #story .fade {
@@ -39,4 +41,8 @@
 
 #status {
 	color: #57f;
+}
+
+#stats {
+	color: #aaa;
 }

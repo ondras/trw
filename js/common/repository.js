@@ -6,6 +6,14 @@ Game.Repository = function(ctor) {
 	this._defaultCtor = ctor;
 }
 
+Game.Repository.prototype.is = function(type, parent) {
+	while (type) {
+		if (type == parent) { return true; }
+		type = this._storage[type].extend;
+	}
+	return false;
+}
+
 Game.Repository.prototype.define = function(type, template) {
 	if (template.extend) { /* create prototype link to parent definition */
 		if (!(template.extend in this._storage)) { 
@@ -40,3 +48,5 @@ Game.Repository.prototype.createFromObject = function(data) {
 	}
 	return this.create(type, template);
 }
+
+

@@ -69,8 +69,11 @@ var Game = {
 	_load: function(e) {
 		this.story = new Game.Story();
 		this.status = new Game.Status(document.querySelector("#status"));
+		this.stats = new Game.Stats(document.querySelector("#stats"));
 		this.legend = new Game.Legend(document.querySelector("#legend"));
+
 		this.player = Game.Beings.create("player");
+
 		new Game.Intro().then(this._start.bind(this));
 	},
 

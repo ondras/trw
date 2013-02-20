@@ -133,6 +133,10 @@ Game.Level.prototype.removeBeing = function(being) {
 	this._removeEntity(being, "beings");
 }
 
+Game.Level.prototype.removeItem = function(item) {
+	this._removeEntity(item, "items");
+}
+
 Game.Level.prototype.resize = function(width, height) {
 	var fontSize = this._display.computeFontSize(width, height);
 	this._display.setOptions({fontSize:fontSize});

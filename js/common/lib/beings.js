@@ -26,7 +26,7 @@ Game.Beings.define("humanoid", {
 Game.Beings.define("mugger", {
 	extend: "humanoid",
 	name: "mugger",
-	color: [100, 240, 100],
+	color: [160, 100, 100],
 	chats: [
 		"Help the poor!",
 		"Have some spare gold?",

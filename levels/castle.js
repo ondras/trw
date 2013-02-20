@@ -97,4 +97,13 @@ Game.Level.Castle.prototype._initStory = function() {
 		Game.story.newChapter("I managed to advance deeper into the castle by following that jester's advice. The kitchen is close, but I hear some squeaking sounds from inside. Perhaps I should arm myself in this little armory nearby.");
 		return true;
 	});
+
+	this._addRule(function() {
+		var key = Game.player.getPosition().join(",");
+		return (this.cells[key].getId() == "kitchen");
+	}, function() {
+		Game.story.newChapter("Indeed! There are some nasty (and hungry) rats in the kitchen. Slaughtering them should be an easy combat excercise.");
+		Game.story.setTask("Kill all the rats.");
+		return true;
+	});
 }

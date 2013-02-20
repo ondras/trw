@@ -17,3 +17,9 @@ Game.Beings.define("jester", {
 	name: "jester",
 	color: [240, 100, 100]
 });
+
+Game.Beings.define("gardener", {
+	extend: "humanoid",
+	name: "gardener",
+	color: [100, 240, 100],
+});

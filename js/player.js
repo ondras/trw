@@ -3,6 +3,15 @@ Game.Player = function(type) {
 	
 	this._light = [30, 30, 30]; 
 	this._name = "you";
+	
+	this._gold = 0;
+	this._weapon = null;
+	this._knownTypes = [];
+	this._descriptions = {
+		"dagger": "a fast and light",
+		"sword": "an all-round",
+		"axe": "a slow and hard-hitting"
+	}; /* FIXME */
 
 	this._directionKeys = {};
 	this._directionKeys[ROT.VK_K] = 0;
@@ -52,11 +61,15 @@ Game.Player.prototype.handleEvent = function(e) {
 }
 
 Game.Player.prototype._handleKey = function(code) {
-	Game.status.clear();
 
 	if (code in this._directionKeys) {
+		Game.status.clear();
+
 		var direction = this._directionKeys[code];
-		if (direction == -1) { return true; } /* noop */
+		if (direction == -1) { /* noop */
+			Game.status.show("You wait.");
+			return true;
+		}
 
 		var dir = ROT.DIRS[8][direction];
 		var x = this._position[0] + dir[0];
@@ -122,6 +135,8 @@ Game.Player.prototype._tryMovingTo = function(x, y) {
 			cell.bumpInto(this);
 		} else {
 			this._level.setBeing(this, x, y);
+			var item = this._level.items[key];
+			if (item) { this._pickItem(x, y); }
 		}
 		return true;
 	}
@@ -133,7 +148,7 @@ Game.Player.prototype._attack = function(being) {
 }
 
 Game.Player.prototype._chat = function(being) {
-	Game.status.show("You talk to " + being.describeA()+".");
+	Game.status.show("You talk to %s.", being.describeA());
 	var response = being.chat(this);
 	if (response) {
 		response = being.describeThe().capitalize() + " responds: \"" + response + "\"";
@@ -141,4 +156,40 @@ Game.Player.prototype._chat = function(being) {
 		response = "No response."
 	}
 	Game.status.show(response);
+}
+
+Game.Player.prototype._pickItem = function(x, y) {
+	var item = this._level.items[x+","+y];
+	var type = item.getType();
+
+	if (Game.Items.is(type, "gold")) {
+		
+		this._level.removeItem(item);
+		this._gold++;
+		Game.status.show("You pick up %s.", item.describeA());
+		
+	} else if (Game.Items.is(type, "weapon")) {
+		this._level.removeItem(item);
+
+		if (this._weapon) {
+			this._level.setItem(this._weapon, x, y);
+			Game.status.show("You drop %s and pick up %s.", this._weapon.describeA(), item.describeA());
+		} else {
+			Game.status.show("You pick up %s.", item.describeA());
+		}
+		this._weapon = item;
+		if (this._knownTypes.indexOf(type) == -1 && type in this._descriptions) {
+			this._knownTypes.push(type);
+			Game.status.show("%s is %s weapon.".format(item.describeThe().capitalize(), this._descriptions[type]));
+		}
+		
+		this._updateStats();
+
+	} else {
+		throw new Error("Nothing to do with item '"+type+"'");
+	}
+}
+
+Game.Player.prototype._updateStats = function() {
+	Game.stats.update(this._weapon, this._armor, this._hp, this._maxHP);
 }
