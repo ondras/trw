@@ -1,3 +1,10 @@
+String.format.map = {
+	"s": "toString",
+	"a": "describeA",
+	"the": "describeThe",
+	"verb": "describeVerb",
+	"him": "describeHim"
+}
 /**
  * @class Anything with a place and a visual representation
  */
@@ -112,6 +119,10 @@ Game.Entity.prototype.describeThe = function() {
 
 Game.Entity.prototype.describe = function() {
 	return this._name;
+}
+
+Game.Entity.prototype.toString = function() {
+	return this.describe();
 }
 
 Game.Entity.prototype.setLight = function(light) {

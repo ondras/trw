@@ -145,10 +145,10 @@ Game.Player.prototype._tryMovingTo = function(x, y) {
 }
 
 Game.Player.prototype._chat = function(being) {
-	Game.status.show("You talk to %s.", being.describeA());
+	Game.status.show("You talk to %a.", being);
 	var response = being.chat(this);
 	if (response) {
-		response = being.describeThe().capitalize() + " responds: \"" + response + "\"";
+		response = "%The responds: \"%s\"".format(being, response);
 	} else {
 		response = "No response."
 	}
@@ -162,7 +162,7 @@ Game.Player.prototype._pickItem = function(x, y) {
 	if (Game.Items.is(type, "gold")) {
 		this._level.removeItem(item);
 		this._gold++;
-		Game.status.show("You pick up %s.", item.describeA());
+		Game.status.show("You pick up %a.", item);
 		return;
 	} 
 
@@ -171,14 +171,14 @@ Game.Player.prototype._pickItem = function(x, y) {
 
 		if (this._weapon) {
 			this._level.setItem(this._weapon, x, y);
-			Game.status.show("You drop %s and pick up %s.", this._weapon.describeA(), item.describeA());
+			Game.status.show("You drop %a and pick up %a.", this._weapon, item);
 		} else {
-			Game.status.show("You pick up %s.", item.describeA());
+			Game.status.show("You pick up %a.", item);
 		}
 		this._weapon = item;
 		if (this._knownTypes.indexOf(type) == -1 && type in this._descriptions) {
 			this._knownTypes.push(type);
-			Game.status.show("%s is %s weapon.".format(item.describeThe().capitalize(), this._descriptions[type]));
+			Game.status.show("%The is %s weapon.".format(item, this._descriptions[type]));
 		}
 		
 		this._updateStats();
@@ -200,4 +200,16 @@ Game.Player.prototype._die = function() {
 	level.setCell(floor, 0, 0);
 	level.setBeing(this, 0, 0);
 	Game.switchLevel(level, null, "fade");
+}
+
+Game.Player.prototype.describeVerb = function(verb) {
+	return verb;
+}
+
+Game.Player.prototype.describeA = function(verb) {
+	return this.describe();
+}
+
+Game.Player.prototype.describeThe = function(verb) {
+	return this.describe();
 }

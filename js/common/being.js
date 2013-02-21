@@ -7,6 +7,7 @@ Game.Being = function(type) {
 	this._sightRange = 8;
 	this._hostile = false;
 	this._chats = null;
+	this._sex = 0;
 
 	this._hp = 1;
 	this._damage = 1;
@@ -39,6 +40,10 @@ Game.Being.prototype.getSpeed = function() {
 	return this._speed;
 }
 
+Game.Being.prototype.isAlive = function() {
+	return (this._hp > 0);
+}
+
 Game.Being.prototype.act = function() {
 	if (!this._ai) { return; }
 	this._ai.act(this._tasks);
@@ -69,10 +74,6 @@ Game.Being.prototype.isHostile = function() {
 Game.Being.prototype.setHostile = function(hostile) {
 	this._hostile = hostile;
 	return this;
-}
-
-Game.Being.prototype.describe = function() {
-	return (this._hostile ? "hostile " : "") + Game.Entity.prototype.describe.call(this);
 }
 
 Game.Being.prototype.chat = function(being) {
@@ -113,29 +114,33 @@ Game.Being.prototype.attack = function(target) {
 	/* 1. hit? */
 	var speed1 = this.getSpeed() + ROT.RNG.getNormal(0, 5);
 	var speed2 = target.getSpeed() + ROT.RNG.getNormal(0, 5);
-	console.log("hit", speed1, speed2);
 
 	/* 1a. miss */
 	if (speed1 < speed2) {
-		Game.status.show("TEH MISS");
+		Game.status.show("%The %verb,miss %the.".format(this, this, target));
 		return; 
 	}
 
 	/* 1b. hit */
-	var dmg = this.getDamage() + ROT.RNG.getNormal(0, 1);
+		var dmg = this.getDamage() + ROT.RNG.getNormal(0, 1);
 	var pv = target.getPV() + ROT.RNG.getNormal(0, 1);
 	dmg = Math.round(dmg-pv);
-	console.log("dmg", dmg);
 
 	/* 2a. not enough damage */
 	if (dmg <= 0) {
-		Game.status.show("not enuf dmg");
+		Game.status.show("%The %verb,fail to hurt %the.".format(this, this, target));
 		return;
 	}
 
 	/* 2b. damage */
-	Game.status.show("dmg!");
-	target.adjustHP(-dmg);
+	target.adjustHP(-dmg);	
+	var str = "%The %verb,hit %the".format(this, this, target);
+	if (target.isAlive()) {
+		str += ".";
+	} else {
+		str += " and %verb,kill %him.".format(this, target);
+	}
+	Game.status.show(str);
 }
 
 Game.Being.prototype._die = function() {
@@ -143,4 +148,12 @@ Game.Being.prototype._die = function() {
 	this._level.setItem(corpse, this._position[0], this._position[1]);
 	this._level.removeBeing(this);
 	Game.engine.removeActor(this);
+}
+
+Game.Being.prototype.describeVerb = function(verb) {
+	return verb + (verb.charAt(verb.length-1) == "s" ? "e" : "") + "s";
+}
+
+Game.Being.prototype.describeHim = function() {
+	return ["it", "him", "her"][this._sex];
 }
