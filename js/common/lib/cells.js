@@ -102,6 +102,13 @@ Game.Cells.define("well", {
 	color: [120, 120, 120]
 });
 
+Game.Cells.define("statue", {
+	"char": "Y",
+	name: "status",
+	blocksMovement: 1,
+	color: [100, 100, 100]
+});
+
 Game.Cells.define("door", {
 	ctor: Game.Cell.Door,
 	color: [153, 102, 51]

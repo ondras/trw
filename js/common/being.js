@@ -79,3 +79,10 @@ Game.Being.prototype.setChats = function(chats) {
 	this._chats = chats;
 	return this;
 }
+
+Game.Being.prototype._die = function() {
+	var corpse = Game.Items.create("corpse", {color:this._color, name:this._name+" corpse"});
+	this._level.setItem(corpse, this._position[0], this._position[1]);
+	this._level.removeBeing(this);
+	Game.engine.removeActor(this);
+}

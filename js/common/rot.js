@@ -1,6 +1,6 @@
 /*
 	This is rot.js, the ROguelike Toolkit in JavaScript.
-	Version 0.4~dev, generated on Sun Feb 10 15:57:42 CET 2013.
+	Version 0.4~dev, generated on Thu Feb 21 11:45:11 CET 2013.
 */
 
 /**
@@ -694,15 +694,6 @@ Array.prototype.random = function() {
 }
 
 /**
- * @returns {array} Shallow copy
- */
-Array.prototype.clone = function() {
-	var arr = [];
-	for (var i=0;i<this.length;i++) { arr.push(this[i]); }
-	return arr;
-}
-
-/**
  * @returns {array} New array with randomized items
  * FIXME destroys this!
  */
@@ -735,21 +726,6 @@ String.prototype.capitalize = function() {
 	return this.charAt(0).toUpperCase() + this.substring(1);
 }
 
-/**
- * @returns {string} This string with "%s"s replaced with arguments
- */
-String.prototype.format = function() {
-	var args = Array.prototype.slice.call(arguments);
-	var str = this;
-	return str.replace(/%s/g, function(match, index) {
-		if (str.charAt(index-1) == "%") {
-			return match;
-		} else {
-			return args.shift();
-		}
-	});
-}
-
 /** 
  * Left pad
  * @param {string} [character="0"]
@@ -779,6 +755,45 @@ String.prototype.rpad = function(character, count) {
 	s = s.substring(0, cnt-this.length);
 	return this+s;
 }
+
+/**
+ * Format a string in a flexible way. Scans for %s strings and replaces them with arguments. List of patterns is modifiable via String.format.map.
+ * @param {string} template
+ * @param {any} [argv]
+ */
+String.format = function(template) {
+	var map = String.format.map;
+	var args = Array.slice(arguments, 1);
+
+	var replacer = function(match, name, index) {
+		if (template.charAt(index-1) == "%" || !args.length) { return match; }
+
+		var method = map[name.toLowerCase()];
+		if (!method) { return match; }
+
+		var replaced = args.shift()[method]();
+
+		var first = name.charAt(0);
+		if (first != first.toLowerCase()) { replaced = replaced.capitalize(); }
+
+		return replaced;
+	}
+	return template.replace(/%{?([a-zA-Z]+)}?/g, replacer);
+}
+
+String.format.map = {
+	"s": "toString"
+}
+
+/**
+ * Convenience shortcut to String.format(this)
+ */
+String.prototype.format = function() {
+	var args = Array.slice(arguments);
+	args.unshift(this);
+	return String.format.apply(String, args);
+}
+
 if (!Object.create) {  
 	/**
 	 * ES5 Object.create
@@ -2288,7 +2303,7 @@ ROT.Map.Uniform.prototype._generateCorridors = function() {
 			room.create(this._digCallback); 
 		}
 
-		this._unconnected = this._rooms.clone().randomize();
+		this._unconnected = this._rooms.slice().randomize();
 		this._connected = [];
 		if (this._unconnected.length) { this._connected.push(this._unconnected.pop()); } /* first one is always connected */
 		
@@ -2365,7 +2380,7 @@ ROT.Map.Uniform.prototype._connectRooms = function(room1, room2) {
 	if (!start) { return false; }
 
 	if (start[index] >= min && start[index] <= max) { /* possible to connect with straight line (I-like) */
-		var end = start.clone();
+		var end = start.slice();
 		var value = null;
 		switch (dirIndex2) {
 			case 0: value = room2.getTop()-1; break;
@@ -3278,7 +3293,7 @@ ROT.Color = {
 			this._cache[str] = cached;
 		}
 
-		return cached.clone();
+		return cached.slice();
 	},
 
 	/**
@@ -3288,7 +3303,7 @@ ROT.Color = {
 	 * @returns {number[]}
 	 */
 	add: function(color1, color2) {
-		var result = color1.clone();
+		var result = color1.slice();
 		for (var i=0;i<3;i++) {
 			for (var j=1;j<arguments.length;j++) {
 				result[i] += arguments[j][i];
@@ -3319,7 +3334,7 @@ ROT.Color = {
 	 * @returns {number[]}
 	 */
 	multiply: function(color1, color2) {
-		var result = color1.clone();
+		var result = color1.slice();
 		for (var i=0;i<3;i++) {
 			for (var j=1;j<arguments.length;j++) {
 				result[i] *= arguments[j][i] / 255;
@@ -3354,7 +3369,7 @@ ROT.Color = {
 	 */
 	interpolate: function(color1, color2, factor) {
 		if (arguments.length < 3) { factor = 0.5; }
-		var result = color1.clone();
+		var result = color1.slice();
 		for (var i=0;i<3;i++) {
 			result[i] = Math.round(result[i] + factor*(color2[i]-color1[i]));
 		}
@@ -3386,7 +3401,7 @@ ROT.Color = {
 	 */
 	randomize: function(color, diff) {
 		if (!(diff instanceof Array)) { diff = ROT.RNG.getNormal(0, diff); }
-		var result = color.clone();
+		var result = color.slice();
 		for (var i=0;i<3;i++) {
 			result[i] += (diff instanceof Array ? Math.round(ROT.RNG.getNormal(0, diff[i])) : diff);
 		}

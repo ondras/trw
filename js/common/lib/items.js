@@ -6,6 +6,10 @@ Game.Items.define("gold", {
 	name: "piece of gold"
 });
 
+Game.Items.define("corpse", {
+	"char": "%"
+});
+
 Game.Items.define("weapon", {
 	"char": "(",
 	ctor: Game.Item.Weapon,
