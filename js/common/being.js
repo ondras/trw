@@ -7,6 +7,10 @@ Game.Being = function(type) {
 	this._sightRange = 8;
 	this._hostile = false;
 	this._chats = null;
+
+	this._hp = 1;
+	this._damage = 1;
+	this._pv = 1;
 	
 	this._chattedWith = false;
 }
@@ -19,9 +23,14 @@ Game.Being.prototype.fromTemplate = function(template) {
 		if (!ctor) throw new Error("AI '"+template.ai+"' not available");
 		this._ai = new ctor(this);
 	}
-	if ("tasks" in template) { this.setTasks(template.tasks); }
+	if ("tasks" in template) { this.setTasks(template.tasks.slice()); }
 	if ("hostile" in template) { this._hostile = template.hostile; }
 	if ("chats" in template) { this._chats = template.chats; }
+	if ("hp" in template) { this._hp = template.hp; }
+	if ("pv" in template) { this._pv = template.pv; }
+	if ("damage" in template) { this._damage = template.damage; }
+
+	if (this._hostile) { this._tasks.push("attack"); }
 	
 	return this;
 }
@@ -42,6 +51,10 @@ Game.Being.prototype.getTasks = function() {
 Game.Being.prototype.setTasks = function(tasks) {
 	this._tasks = tasks;
 	return this;
+}
+
+Game.Being.prototype.getSightRange = function() {
+	return this._sightRange;
 }
 
 Game.Being.prototype.setSightRange = function(range) {
@@ -78,6 +91,51 @@ Game.Being.prototype.getChats = function() {
 Game.Being.prototype.setChats = function(chats) {
 	this._chats = chats;
 	return this;
+}
+
+Game.Being.prototype.getDamage = function() {
+	return this._damage + (this._weapon ? this._weapon.getDamage() : 0);
+}
+
+Game.Being.prototype.getPV = function() {
+	return this._pv + (this._armor ? this._armor.getPV() : 0);
+}
+
+Game.Being.prototype.adjustHP = function(diff) {
+	this._hp = Math.max(0, this._hp + diff);
+	if (!this._hp) { this._die(); }
+	return this;
+}
+
+Game.Being.prototype.attack = function(target) {
+	/* FIXME probably refactor to a dedicated attack logic? */
+
+	/* 1. hit? */
+	var speed1 = this.getSpeed() + ROT.RNG.getNormal(0, 5);
+	var speed2 = target.getSpeed() + ROT.RNG.getNormal(0, 5);
+	console.log("hit", speed1, speed2);
+
+	/* 1a. miss */
+	if (speed1 < speed2) {
+		Game.status.show("TEH MISS");
+		return; 
+	}
+
+	/* 1b. hit */
+	var dmg = this.getDamage() + ROT.RNG.getNormal(0, 1);
+	var pv = target.getPV() + ROT.RNG.getNormal(0, 1);
+	dmg = Math.round(dmg-pv);
+	console.log("dmg", dmg);
+
+	/* 2a. not enough damage */
+	if (dmg <= 0) {
+		Game.status.show("not enuf dmg");
+		return;
+	}
+
+	/* 2b. damage */
+	Game.status.show("dmg!");
+	target.adjustHP(-dmg);
 }
 
 Game.Being.prototype._die = function() {

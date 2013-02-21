@@ -83,7 +83,7 @@ Game.Player.prototype._handleKey = function(code) {
 Game.Player.prototype.setPosition = function(x, y, level) {
 	Game.Being.prototype.setPosition.call(this, x, y, level);
 	
-	this.updateVisibility();
+	if (x !== null) { this.updateVisibility(); }
 	
 	return this;
 }
@@ -122,7 +122,7 @@ Game.Player.prototype._tryMovingTo = function(x, y) {
 	
 	if (being) { /* being - chat or fight */
 		if (being.isHostile()) {
-			this._attack(being);
+			this.attack(being);
 		} else {
 			this._chat(being);
 		}
@@ -144,9 +144,6 @@ Game.Player.prototype._tryMovingTo = function(x, y) {
 	return false; /* non-existant cell */
 }
 
-Game.Player.prototype._attack = function(being) {
-}
-
 Game.Player.prototype._chat = function(being) {
 	Game.status.show("You talk to %s.", being.describeA());
 	var response = being.chat(this);
@@ -163,12 +160,13 @@ Game.Player.prototype._pickItem = function(x, y) {
 	var type = item.getType();
 
 	if (Game.Items.is(type, "gold")) {
-		
 		this._level.removeItem(item);
 		this._gold++;
 		Game.status.show("You pick up %s.", item.describeA());
-		
-	} else if (Game.Items.is(type, "weapon")) {
+		return;
+	} 
+
+	if (Game.Items.is(type, "weapon")) {
 		this._level.removeItem(item);
 
 		if (this._weapon) {
@@ -184,12 +182,22 @@ Game.Player.prototype._pickItem = function(x, y) {
 		}
 		
 		this._updateStats();
-
-	} else {
-		throw new Error("Nothing to do with item '"+type+"'");
 	}
 }
 
 Game.Player.prototype._updateStats = function() {
 	Game.stats.update(this._weapon, this._armor, this._hp, this._maxHP);
+}
+
+Game.Player.prototype._die = function() {
+	Game.Being.prototype._die.call(this);
+	Game.engine.lock();
+
+	var floor = Game.Cells.create("floor").setId("start");
+	var level = new Game.Level().setSize(1, 1);
+	this._char = "☠";
+	this._color = [255, 255, 255];
+	level.setCell(floor, 0, 0);
+	level.setBeing(this, 0, 0);
+	Game.switchLevel(level, null, "fade");
 }

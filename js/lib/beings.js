@@ -1,6 +1,9 @@
 Game.Beings.define("player", {
 	extend: "humanoid",
 	"char": "@",
+	pv: 0*3,
+	hp: 0*10,
+	damage: 0*3,
 	ctor: Game.Player,
 	color: [200, 200, 200]
 });

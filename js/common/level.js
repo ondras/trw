@@ -36,8 +36,11 @@ Game.Level.prototype.fromTemplate = function(map, def) {
 		}
 	}
 
-	this._display.setOptions({width:width, height:height});
+	return this.setSize(width, height);
+}
 
+Game.Level.prototype.setSize = function(width, height) {
+	this._display.setOptions({width:width, height:height});
 	return this;
 }
 
