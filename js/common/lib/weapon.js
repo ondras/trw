@@ -1,6 +1,7 @@
 Game.Item.Weapon = function(type) {
 	Game.Item.call(this, type);
 	this._damage = 1;
+	/* FIXME speed? to-hit? */
 }
 
 Game.Item.Weapon.extend(Game.Item);

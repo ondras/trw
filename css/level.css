@@ -28,13 +28,13 @@
 	transform: translate(100%, 0);
 }
 
-#level section.top {
+#level section.up {
 	-webkit-transform: translate(0, -100%);
 	-moz-transform: translate(0, -100%);
 	transform: translate(0, -100%);
 }
 
-#level section.bottom {
+#level section.down {
 	-webkit-transform: translate(0, 100%);
 	-moz-transform: translate(0, 100%);
 	transform: translate(0, 100%);

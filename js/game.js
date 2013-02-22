@@ -51,8 +51,8 @@ var Game = {
 		var oppositeMap = {
 			left: "right",
 			right: "left",
-			top: "bottom",
-			bottom: "top",
+			up: "down",
+			down: "up",
 			fade: "fade"
 		};
 

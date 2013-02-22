@@ -1,4 +1,4 @@
-Game.Level.Castle = function() {
+Game.Level.Chapel = function() {
 	Game.Level.call(this);
 
 	this._lighting.setOptions({range:8});
@@ -10,9 +10,9 @@ Game.Level.Castle = function() {
 	this._jester = null;
 	this._rats = [];
 }
-Game.Level.Castle.extend(Game.Level);
+Game.Level.Chapel.extend(Game.Level);
 
-Game.Level.Castle.prototype.fromTemplate = function(map, def) {
+Game.Level.Chapel.prototype.fromTemplate = function(map, def) {
 	Game.Level.prototype.fromTemplate.call(this, map, def);
 	
 	for (var key in this.cells) {
@@ -31,11 +31,11 @@ Game.Level.Castle.prototype.fromTemplate = function(map, def) {
 	return this;
 }
 
-Game.Level.Castle.prototype._initStory = function() {
+Game.Level.Chapel.prototype._initStory = function() {
 	this._addRule(function() {
 		return true;
 	}, function() {
-		Game.story.newChapter("The castle is in view. Getting inside should be pretty straightforward...");
+		Game.story.newChapter("The Chapel is in view. Getting inside should be pretty straightforward...");
 		return true; /* remove from rule list */
 	});
 	
@@ -65,7 +65,7 @@ Game.Level.Castle.prototype._initStory = function() {
 		var key = Game.player.getPosition().join(",");
 		return (this.cells[key].getId() == "entry");
 	}, function() {
-		Game.story.newChapter("Here I am! Unfortunately, the castle seems to be rather quiet. I am late to the wedding, so maybe people are already in the chapel. I shall make my way further through the throne room.");
+		Game.story.newChapter("Here I am! Unfortunately, the Chapel seems to be rather quiet. I am late to the wedding, so maybe people are already in the chapel. I shall make my way further through the throne room.");
 		return true;
 	});
 	
@@ -96,7 +96,7 @@ Game.Level.Castle.prototype._initStory = function() {
 		var key = Game.player.getPosition().join(",");
 		return (this.cells[key].getId() == "armory");
 	}, function() {
-		Game.story.newChapter("I managed to advance deeper into the castle by following that jester's advice. The kitchen is close, but I hear some squeaking sounds from inside. Perhaps I should arm myself in this little armory nearby.");
+		Game.story.newChapter("I managed to advance deeper into the Chapel by following that jester's advice. The kitchen is close, but I hear some squeaking sounds from inside. Perhaps I should arm myself in this little armory nearby.");
 		return true;
 	});
 

@@ -25,6 +25,7 @@ Game.Story.prototype.newChapter = function(text) {
 	this._chapters.push([]);
 	this._tasks.push(null);
 	this.addChapter(text);
+	this._showTask();
 }
 
 Game.Story.prototype.addChapter = function(text) {

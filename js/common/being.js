@@ -27,6 +27,7 @@ Game.Being.prototype.fromTemplate = function(template) {
 	if ("tasks" in template) { this.setTasks(template.tasks.slice()); }
 	if ("hostile" in template) { this._hostile = template.hostile; }
 	if ("chats" in template) { this._chats = template.chats; }
+	if ("sight" in template) { this._sightRange = template.sight; }
 	if ("hp" in template) { this._hp = template.hp; }
 	if ("pv" in template) { this._pv = template.pv; }
 	if ("damage" in template) { this._damage = template.damage; }
