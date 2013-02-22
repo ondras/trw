@@ -20,6 +20,19 @@ var Game = {
 			break;
 		}
 	},
+	
+	over: function() {
+		this.engine.lock();
+
+		var floor = Game.Cells.create("floor").setId("start");
+		var level = new Game.Level().setSize(3, 3);
+		level.setCell(floor, 1, 1);
+		level.setBeing(this.player, 1, 1);
+		Game.switchLevel(level, null, "fade");
+		
+		this.story.newChapter("I am dead! What the hell? How could this ever happen? My mission is over and I will have to start again.");
+		this.story.setTask("Reload the page to start a new game.");
+	},
 
 	switchLevel: function(newLevel, cell, direction) {
 		var oldLevel = this.level;

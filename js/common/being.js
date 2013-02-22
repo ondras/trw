@@ -24,7 +24,8 @@ Game.Being.prototype.fromTemplate = function(template) {
 		if (!ctor) throw new Error("AI '"+template.ai+"' not available");
 		this._ai = new ctor(this);
 	}
-	if ("tasks" in template) { this.setTasks(template.tasks.slice()); }
+	if ("speed" in template) { this._speed = template.speed;; }
+	if ("tasks" in template) { this._tasks = template.tasks.slice(); }
 	if ("hostile" in template) { this._hostile = template.hostile; }
 	if ("chats" in template) { this._chats = template.chats; }
 	if ("sight" in template) { this._sightRange = template.sight; }

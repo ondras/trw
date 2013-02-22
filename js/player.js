@@ -191,15 +191,9 @@ Game.Player.prototype._updateStats = function() {
 
 Game.Player.prototype._die = function() {
 	Game.Being.prototype._die.call(this);
-	Game.engine.lock();
-
-	var floor = Game.Cells.create("floor").setId("start");
-	var level = new Game.Level().setSize(1, 1);
 	this._char = "☠";
 	this._color = [255, 255, 255];
-	level.setCell(floor, 0, 0);
-	level.setBeing(this, 0, 0);
-	Game.switchLevel(level, null, "fade");
+	Game.over();
 }
 
 Game.Player.prototype.describeVerb = function(verb) {
@@ -212,4 +206,8 @@ Game.Player.prototype.describeA = function(verb) {
 
 Game.Player.prototype.describeThe = function(verb) {
 	return this.describe();
+}
+
+Game.Player.prototype.describeHim = function() {
+	return "you";
 }
