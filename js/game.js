@@ -79,7 +79,7 @@ var Game = {
 
 	_start: function(e) {
 		window.addEventListener("resize", this);
-		Game.LevelManager.get("castle").then(function(level) {
+		Game.LevelManager.get("chapel").then(function(level) {
 			this.switchLevel(level);
 		}.bind(this));
 	},

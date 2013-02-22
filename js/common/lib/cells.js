@@ -102,6 +102,13 @@ Game.Cells.define("well", {
 	color: [120, 120, 120]
 });
 
+Game.Cells.define("tombstone", {
+	"char": "+",
+	name: "tombstone",
+	blocksMovement: 1,
+	color: [120, 120, 120]
+});
+
 Game.Cells.define("statue", {
 	"char": "Y",
 	name: "status",
