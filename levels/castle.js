@@ -2,8 +2,6 @@ Game.Level.Castle = function() {
 	Game.Level.call(this);
 
 	this._lighting.setOptions({range:8});
-	this._sightRange = 10;
-	this._ambientLight = [220, 220, 180];
 	
 	this._gates = [];
 	this._guards = [];
@@ -84,10 +82,8 @@ Game.Level.Castle.prototype._initStory = function() {
 		Game.status.show("As you sit on the throne, the jester exclaims: \"The King! We have a King! Look how mighty he looks on his throne! He surely knows about that secret passage in the southern wall.\"");
 		this._jester.setChats(["Howdy! How is your majesty today?"]);
 
-		var cell = this.getCellById("secretdoor");
-		var pos = cell.getPosition();
-		var door = Game.Cells.create("door", {name:"secret door"});
-		door.close();
+		var pos = this.getCellById("secretdoor").getPosition();
+		var door = Game.Cells.create("door", {name:"secret door", "closed":1});
 		this.setCell(door, pos[0], pos[1]);
 		return true;
 	});
@@ -111,7 +107,7 @@ Game.Level.Castle.prototype._initStory = function() {
 
 	this._addRule(function() {
 		for (var i=0;i<this._rats.length;i++) {
-			if (this._rats[i].isAlive()) { return false; }
+			if (this._rats[i].getHP() > 0) { return false; }
 		}
 		return true;
 	}, function() {

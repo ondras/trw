@@ -10,6 +10,7 @@ Game.Being = function(type) {
 	this._sex = 0;
 
 	this._hp = 1;
+	this._maxHP = this._hp;
 	this._damage = 1;
 	this._pv = 1;
 	
@@ -34,16 +35,13 @@ Game.Being.prototype.fromTemplate = function(template) {
 	if ("damage" in template) { this._damage = template.damage; }
 
 	if (this._hostile) { this._tasks.push("attack"); }
+	this._maxHP = this._hp;
 	
 	return this;
 }
 
 Game.Being.prototype.getSpeed = function() {
 	return this._speed;
-}
-
-Game.Being.prototype.isAlive = function() {
-	return (this._hp > 0);
 }
 
 Game.Being.prototype.act = function() {
@@ -104,6 +102,14 @@ Game.Being.prototype.getPV = function() {
 	return this._pv + (this._armor ? this._armor.getPV() : 0);
 }
 
+Game.Being.prototype.getHP = function() {
+	return this._hp;
+}
+
+Game.Being.prototype.getMaxHP = function() {
+	return this._maxHP;
+}
+
 Game.Being.prototype.adjustHP = function(diff) {
 	this._hp = Math.max(0, this._hp + diff);
 	if (!this._hp) { this._die(); }
@@ -137,7 +143,7 @@ Game.Being.prototype.attack = function(target) {
 	/* 2b. damage */
 	target.adjustHP(-dmg);	
 	var str = "%The %verb,hit %the".format(this, this, target);
-	if (target.isAlive()) {
+	if (target.getHP() > 0) {
 		str += ".";
 	} else {
 		str += " and %verb,kill %him.".format(this, target);

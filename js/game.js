@@ -62,10 +62,10 @@ var Game = {
 
 	_transitionLevel: function(newLevel, oldLevel, direction) {
 		var oppositeMap = {
-			left: "right",
-			right: "left",
-			up: "down",
-			down: "up",
+			north: "south",
+			south: "north",
+			east: "west",
+			west: "east",
 			fade: "fade"
 		};
 

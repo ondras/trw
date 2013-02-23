@@ -2,15 +2,12 @@ Game.Level.Chapel = function() {
 	Game.Level.call(this);
 
 	this._lighting.setOptions({range:8});
-	this._sightRange = 10;
-	this._ambientLight = [220, 220, 180];
 }
 Game.Level.Chapel.extend(Game.Level);
 
 Game.Level.Chapel.prototype.fromTemplate = function(map, def) {
 	Game.Level.prototype.fromTemplate.call(this, map, def);
 	
-
 	this._initStory();
 	return this;
 }

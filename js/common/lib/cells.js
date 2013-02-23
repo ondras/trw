@@ -11,6 +11,14 @@ Game.Cells.define("stonewall", {
 	name: "stone wall"
 });
 
+Game.Cells.define("window", {
+	blocksMovement: 1,
+	blocksLight: 1,
+	"char": "=",
+	color: [100, 100, 200],
+	name: "window"
+});
+
 /* floor blocks */
 
 Game.Cells.define("floor", {
@@ -114,6 +122,19 @@ Game.Cells.define("statue", {
 	name: "status",
 	blocksMovement: 1,
 	color: [100, 100, 100]
+});
+
+Game.Cells.define("bench", {
+	"char": "|",
+	name: "bench",
+	color: [150, 100, 50]
+});
+
+Game.Cells.define("altar", {
+	"char": "±",
+	name: "altar",
+	blocksMovement: 1,
+	color: [200, 200, 200]
 });
 
 Game.Cells.define("door", {

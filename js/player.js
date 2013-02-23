@@ -90,7 +90,7 @@ Game.Player.prototype.setPosition = function(x, y, level) {
 
 Game.Player.prototype.updateVisibility = function() {
 	var visibility = this._getVisibleArea();
-	this._level.setVisibility(true || visibility);
+	this._level.setVisibility(/*true ||*/ visibility);
 }
 
 Game.Player.prototype._getVisibleArea = function() {
@@ -187,6 +187,11 @@ Game.Player.prototype._pickItem = function(x, y) {
 
 Game.Player.prototype._updateStats = function() {
 	Game.stats.update(this._weapon, this._armor, this._hp, this._maxHP);
+}
+
+Game.Player.prototype.adjustHP = function(diff) {
+	Game.Being.prototype.adjustHP.call(this, diff);
+	this._updateStats();
 }
 
 Game.Player.prototype._die = function() {

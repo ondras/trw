@@ -46,3 +46,7 @@
 #stats {
 	color: #aaa;
 }
+
+#stats .crit {
+	color: #f33;
+}

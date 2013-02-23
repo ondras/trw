@@ -6,7 +6,9 @@ Game.Level = function() {
 	this._display = new ROT.Display({fontFamily:"droid sans mono, monospace"});
 	this._ambientLight = [130, 130, 130];
 	this._sightRange = 8;
+	
 	this._lights = {};
+	this._portals = {};
 	this._visibleArea = {};
 
 	this._rules = [];
@@ -21,6 +23,10 @@ Game.Level = function() {
 }
 
 Game.Level.prototype.fromTemplate = function(map, def) {
+	if ("light" in def) { this._ambientLight = def.light; }
+	if ("sight" in def) { this._sightRange = def.sight; }
+	if ("portals" in def) { this._portals = def.portals; }
+
 	var width = 0, height = 0;
 
 	for (var j=0;j<map.length;j++) {
@@ -126,6 +132,26 @@ Game.Level.prototype.setCell = function(cell, x, y) {
 Game.Level.prototype.setBeing = function(being, x, y) {
 	if (being.getLevel() != this) { this._welcomeBeing(being); }
 	this._setEntity(being, x, y, "beings");
+	
+	var id = this.cells[x+","+y].getId();
+	if (being == Game.player && id in this._portals) { /* change level */
+		var portal = this._portals[id];
+		var level = portal.level || this;
+
+		if (level == this._level) { /* move within this level */
+			var position = this.getCellById(portal.cell).getPosition();
+			this.setBeing(being, position[0], position[1]);
+		} else if (level instanceof Game.Level) { /* switch to a complete level */
+			Game.switchLevel(level, portal.cell, portal.direction);
+		} else { /* get level, remember it and switch to it */
+			Game.engine.lock();
+			Game.LevelManager.get(level).then(function(level) {
+				portal.level = level;
+				Game.switchLevel(level, portal.cell, portal.direction);
+				Game.engine.unlock();
+			}.bind(this));
+		}
+	}
 }
 	
 Game.Level.prototype.setItem = function(item, x, y) {
@@ -244,8 +270,6 @@ Game.Level.prototype._setEntity = function(entity, x, y, type) {
 		var key = x+","+y;
 		this[type][key] = entity;
 		this._draw(x, y);
-		var cell = this.cells[key];
-		cell.notify(entity);
 	}
 	
 }

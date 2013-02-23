@@ -16,25 +16,25 @@
 	transition: all 2s;
 }
 
-#level section.left {
+#level section.west {
 	-webkit-transform: translate(-100%, 0);
 	-moz-transform: translate(-100%, 0);
 	transform: translate(-100%, 0);
 }
 
-#level section.right {
+#level section.east {
 	-webkit-transform: translate(100%, 0);
 	-moz-transform: translate(100%, 0);
 	transform: translate(100%, 0);
 }
 
-#level section.up {
+#level section.north {
 	-webkit-transform: translate(0, -100%);
 	-moz-transform: translate(0, -100%);
 	transform: translate(0, -100%);
 }
 
-#level section.down {
+#level section.south {
 	-webkit-transform: translate(0, 100%);
 	-moz-transform: translate(0, 100%);
 	transform: translate(0, 100%);

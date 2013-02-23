@@ -1,9 +1,6 @@
 Game.Level.Forest = function() {
 	Game.Level.call(this);
-
 	this._lighting.setOptions({range:6});
-	this._sightRange = 8;
-	this._ambientLight = [50, 50, 50];
 }
 Game.Level.Forest.extend(Game.Level);
 
@@ -26,7 +23,7 @@ Game.Level.Forest.prototype.fromTemplate = function(map, def) {
 	this.setCell(Game.Cells.create("ground"), entry[0]+1, entry[1]);
 
 	var exit = this.getCellById("exit").getPosition();
-	this.setCell(Game.Cells.create("ground"), exit[0]-1, exit[1]);
+	this.setCell(Game.Cells.create("ground", {id:"from-castle"}), exit[0]-1, exit[1]);
 
 	var gold = Game.Items.create("gold");
 	this.setItem(gold, this._minMaze[0]+1, this._minMaze[1]+1);
@@ -70,7 +67,8 @@ Game.Level.Forest.prototype._initStory = function() {
 		return (this.cells[key].getType() == "torch");
 	}, function() {
 		this._story.hasTorch = true;
-		Game.player.setLight([150, 150, 80]); 
+		Game.player.setLight([150, 150, 80]);
+		/* FIXME revert in other levels, give back at this level */
 		Game.story.newChapter("This torch is my only light source. Hopefully it will last long enough until I find my way to the royal castle through this forest.");
 		Game.story.setTask("Make your way through the forest.");
 		return true;
