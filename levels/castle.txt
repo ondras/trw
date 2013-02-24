@@ -74,7 +74,8 @@ T==========w#                       ##################5####
 		"item": "gold"
 	},
 	"f": {
-		"cell": "flower"
+		"cell": "grass",
+		"item": "flower"
 	},
 	"W": {
 		"cell": "well"

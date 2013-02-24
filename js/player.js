@@ -1,4 +1,5 @@
 Game.Player = function(type) {
+	this._debug = true;
 	Game.Being.call(this, type);
 	
 	this._light = [30, 30, 30]; 
@@ -90,7 +91,7 @@ Game.Player.prototype.setPosition = function(x, y, level) {
 
 Game.Player.prototype.updateVisibility = function() {
 	var visibility = this._getVisibleArea();
-	this._level.setVisibility(/*true ||*/ visibility);
+	this._level.setVisibility(this._debug || visibility);
 }
 
 Game.Player.prototype._getVisibleArea = function() {
@@ -166,7 +167,7 @@ Game.Player.prototype._pickItem = function(x, y) {
 		return;
 	} 
 
-	if (Game.Items.is(type, "weapon")) {
+	if (Game.Items.is(type, "weapon") && (type != "flower" || Game.storyFlags.wantsFlower)) {
 		this._level.removeItem(item);
 
 		if (this._weapon) {
@@ -194,8 +195,8 @@ Game.Player.prototype.adjustHP = function(diff) {
 	this._updateStats();
 }
 
-Game.Player.prototype._die = function() {
-	Game.Being.prototype._die.call(this);
+Game.Player.prototype.die = function() {
+	Game.Being.prototype.die.call(this);
 	this._char = "☠";
 	this._color = [255, 255, 255];
 	Game.over();

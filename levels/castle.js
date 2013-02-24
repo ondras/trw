@@ -6,6 +6,7 @@ Game.Level.Castle = function() {
 	this._gates = [];
 	this._guards = [];
 	this._jester = null;
+	this._gardener = null;
 	this._rats = [];
 }
 Game.Level.Castle.extend(Game.Level);
@@ -23,6 +24,7 @@ Game.Level.Castle.prototype.fromTemplate = function(map, def) {
 		if (being.getType() == "guard") { this._guards.push(being); }
 		if (being.getType() == "jester") { this._jester = being; }
 		if (being.getType() == "rat") { this._rats.push(being); }
+		if (being.getType() == "gardener") { this._gardener = being; }
 	}
 
 	this._initStory();
@@ -112,6 +114,14 @@ Game.Level.Castle.prototype._initStory = function() {
 		return true;
 	}, function() {
 		Game.story.newChapter("Me versus rats – 3:0. Nice. Now let's get to that chapel before the wedding is over!");
+		return true;
+	});
+
+	this._addRule(function() {
+		return Game.storyFlags.wantsFlower;
+	}, function() {
+		this.removeBeing(this._gardener);
+		Game.engine.removeActor(this._gardener);
 		return true;
 	});
 }

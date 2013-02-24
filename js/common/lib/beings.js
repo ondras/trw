@@ -4,15 +4,16 @@ Game.Beings.define("animal", {
 	tasks: ["wander"]
 });
 
+Game.Beings.define("humanoid", {
+	tasks: ["wander"],
+	"char": "@"
+});
+
 Game.Beings.define("dog", {
 	extend: "animal",
 	name: "dog",
 	color: [204, 204, 102],
 	"char": "d"
-});
-
-Game.Beings.define("humanoid", {
-	tasks: ["wander"],
 });
 
 Game.Beings.define("rat", {
@@ -24,7 +25,6 @@ Game.Beings.define("rat", {
 
 Game.Beings.define("mugger", {
 	extend: "humanoid",
-	"char": "M",
 	name: "mugger",
 	color: [160, 100, 100],
 	chats: [

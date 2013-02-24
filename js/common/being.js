@@ -112,8 +112,12 @@ Game.Being.prototype.getMaxHP = function() {
 
 Game.Being.prototype.adjustHP = function(diff) {
 	this._hp = Math.max(0, this._hp + diff);
-	if (!this._hp) { this._die(); }
+	if (!this._hp) { this.die(); }
 	return this;
+}
+
+Game.Being.prototype.getWeapon = function() {
+	return this._weapon;
 }
 
 Game.Being.prototype.attack = function(target) {
@@ -151,7 +155,7 @@ Game.Being.prototype.attack = function(target) {
 	Game.status.show(str);
 }
 
-Game.Being.prototype._die = function() {
+Game.Being.prototype.die = function() {
 	var corpse = Game.Items.create("corpse", {color:this._color, name:this._name+" corpse"});
 	this._level.setItem(corpse, this._position[0], this._position[1]);
 	this._level.removeBeing(this);

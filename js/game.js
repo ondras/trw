@@ -3,6 +3,9 @@ var Game = {
 	player: null,
 	level: null,
 	story: null,
+	storyFlags: {
+		wantsFlower: false
+	},
 	
 	init: function() {
 		window.addEventListener("load", this);

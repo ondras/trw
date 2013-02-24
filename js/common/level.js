@@ -3,7 +3,7 @@ Game.Level = function() {
 	this.beings = {};
 	this.items = {};
 
-	this._display = new ROT.Display({fontFamily:"droid sans mono, monospace"});
+	this._display = new Game.Display({fontFamily:"droid sans mono, monospace"});
 	this._ambientLight = [130, 130, 130];
 	this._sightRange = 8;
 	
@@ -290,7 +290,10 @@ Game.Level.prototype._draw = function(x, y) {
 	if (!(key in this._visibleArea)) { return; }
 
 	var entity = this.beings[key] || this.items[key] || this.cells[key];
-	if (entity) { this._display.draw(x, y, entity.getChar(), ROT.Color.toRGB(entity.getColor())); }
+	if (entity) { 
+		this._display.draw(x, y, entity.getChar(), ROT.Color.toRGB(entity.getColor())); 
+		if (entity == Game.player) { this._display.setCursor(x, y); }
+	}
 }
 
 Game.Level.prototype._drawFog = function(x, y) {
@@ -308,7 +311,6 @@ Game.Level.prototype._drawFog = function(x, y) {
 
 		/* 3. average */
 		var gray = (color[0]+color[1]+color[2])/3;
-
 
 		var c1 = 0.4;
 		var c2 = 1-c1;

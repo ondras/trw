@@ -1,6 +1,5 @@
 Game.Beings.define("player", {
 	extend: "humanoid",
-	"char": "@",
 	pv: 3,
 	hp: 10,
 	damage: 3,
@@ -11,23 +10,43 @@ Game.Beings.define("player", {
 Game.Beings.define("guard", {
 	extend: "humanoid",
 	name: "guard",
-	"char": "G",
 	tasks: [],
 	color: [220, 140, 140]
 });
 
 Game.Beings.define("jester", {
 	extend: "humanoid",
-	"char": "J",
-	ctor: Game.Being.Jester,
+	chats: ["There is a secret passage to the kitchen, hidden in the throne room. But only the King shall know about it!"],
 	name: "jester",
 	color: [240, 100, 100]
 });
 
 Game.Beings.define("gardener", {
 	extend: "humanoid",
-	"char": "G",
 	name: "gardener",
 	chats: ["Good day to you, sir!", "Watch these flowers blossom!", "This garden needs my attention."],
 	color: [100, 240, 100],
+});
+
+Game.Beings.define("bride", {
+	extend: "humanoid",
+	ctor: Game.Being.Bride,
+	tasks: [],
+	name: "bride",
+	color: [240, 240, 240]
+});
+
+Game.Beings.define("groom", {
+	extend: "humanoid",
+	tasks: [],
+	name: "groom",
+	color: [80, 80, 80]
+});
+
+Game.Beings.define("priest", {
+	extend: "humanoid",
+	tasks: [],
+	chats: ["You would like to talk to the bride - and you brought her nothing? Shame on you!"],
+	name: "priest",
+	color: [200, 30, 200]
 });

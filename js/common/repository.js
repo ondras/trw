@@ -15,7 +15,7 @@ Game.Repository.prototype.is = function(type, parent) {
 }
 
 Game.Repository.prototype.define = function(type, template) {
-	if (template.extend) { /* create prototype link to parent definition */
+	if ("extend" in template) { /* create prototype link to parent definition */
 		if (!(template.extend in this._storage)) { 
 			throw new Error("Repository type '"+type+"' cannot extend '"+template.extend+"'");
 		}	
@@ -34,7 +34,8 @@ Game.Repository.prototype.create = function(type, template) {
 	var finalTemplate = Object.create(this._storage[type]);
 	for (var p in template) { finalTemplate[p] = template[p]; }
 	
-	var ctor = finalTemplate.ctor || this._defaultCtor; /* constructor function */
+	/* constructor function; ternary operator guarantees crash instead of wrong ctor */
+	var ctor = ("ctor" in finalTemplate ? finalTemplate.ctor : this._defaultCtor); 
 	return new ctor(type).fromTemplate(finalTemplate);
 }
 
