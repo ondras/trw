@@ -1,5 +1,5 @@
 Game.Level.Chapel = function() {
-	/* FIXME druhy blocker krom priesta; konverzace a AI guestu */
+	/* FIXME druhy blocker krom priesta; konverzace guestu a priesta */
 	Game.Level.call(this);
 
 	this._lighting.setOptions({range:8});
@@ -47,17 +47,44 @@ Game.Level.Chapel.prototype._initStory = function() {
 		var weapon = Game.player.getWeapon();
 		return (weapon && weapon.getType() == "flower");
 	}, function() {
-		this._groom.die(); /* :-/ */
-		
-		var pos = this.getCellById("window").getPosition();
-		var floor = Game.Cells.create("floor");
-		this.setCell(floor, pos[0], pos[1]);
-		
-		var pos = this.getCellById("exit").getPosition();
-		var staircase = Game.Cells.create("staircase-down");
-		this.setCell(staircase, pos[0], pos[1]);
-		
-
+		this._murderGroom();
 		return true;
 	});
+}
+
+Game.Level.Chapel.prototype._murderGroom = function() {
+	var pos = this._groom.getPosition();
+	this._groom.die(); /* :-/ */
+	
+	for (var i=0;i<ROT.DIRS[8].length;i++) {
+		var x = pos[0] + ROT.DIRS[8][i][0];
+		var y = pos[1] + ROT.DIRS[8][i][1];
+		var item = this.items[x+","+y];
+		if (!item && ROT.RNG.getUniform() > 0.5) {
+			this.setCell(Game.Cells.create("blood"), x, y);
+		}
+	}
+	
+	var pos = this.getCellById("window").getPosition();
+	this.setCell(Game.Cells.create("floor"), pos[0], pos[1]);
+	
+	var pos = this.getCellById("exit").getPosition();
+	var staircase = Game.Cells.create("staircase-down");
+	this.setCell(staircase, pos[0], pos[1]);
+	
+	var dungeon = new Game.Level.Dungeon(1);
+	
+	this._portals["staircase-down"] = {
+		level: dungeon,
+		direction: "fade"
+	};
+	
+	for (var i=0;i<this._guests.length;i++) {
+		var guest = this._guests[i];
+		guest.setTasks(["wander"]);
+	}
+	
+	var pos = this.getCellById("bride").getPosition();
+	this.setBeing(this._bride, pos[0], pos[1]);
+
 }

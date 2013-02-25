@@ -21,6 +21,9 @@ Game.AI.prototype._performTask = function(task) {
 		case "wander":
 			return this._wander();
 		break;
+		case "slowwander":
+			return (ROT.RNG.getUniform() > 0.67 ? this._wander() : true);
+		break;
 		case "attack":
 			return this._attack();
 		break;

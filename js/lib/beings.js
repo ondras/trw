@@ -43,6 +43,14 @@ Game.Beings.define("groom", {
 	color: [80, 80, 80]
 });
 
+Game.Beings.define("guest", {
+	extend: "humanoid",
+	tasks: ["slowwander"],
+	name: "wedding guest",
+	color: [140, 140, 140],
+	colorVariation: [30, 30, 30]
+});
+
 Game.Beings.define("priest", {
 	extend: "humanoid",
 	tasks: [],

@@ -95,9 +95,11 @@ var Game = {
 
 	_start: function(e) {
 		window.addEventListener("resize", this);
-		Game.LevelManager.get("chapel").then(function(level) {
-			this.switchLevel(level);
-		}.bind(this));
+//		Game.LevelManager.get("chapel").then(function(level) {
+//			this.switchLevel(level);
+//		}.bind(this));
+var d = new Game.Level.Dungeon(1);
+this.switchLevel(d, "start", "fade");
 	},
 	
 	_resize: function() {

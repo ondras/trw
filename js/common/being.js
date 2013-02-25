@@ -160,6 +160,7 @@ Game.Being.prototype.die = function() {
 	this._level.setItem(corpse, this._position[0], this._position[1]);
 	this._level.removeBeing(this);
 	Game.engine.removeActor(this);
+	return corpse;
 }
 
 Game.Being.prototype.describeVerb = function(verb) {
