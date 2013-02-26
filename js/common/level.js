@@ -5,7 +5,7 @@ Game.Level = function() {
 
 	this._display = new Game.Display({fontFamily:"droid sans mono, monospace"});
 	this._ambientLight = [130, 130, 130];
-	this._sightRange = 8;
+	this._sightRange = 10;
 	
 	this._lights = {};
 	this._portals = {};
@@ -133,25 +133,9 @@ Game.Level.prototype.setBeing = function(being, x, y) {
 	if (being.getLevel() != this) { this._welcomeBeing(being); }
 	this._setEntity(being, x, y, "beings");
 	
+	/* change level? */
 	var id = this.cells[x+","+y].getId();
-	if (being == Game.player && id in this._portals) { /* change level */
-		var portal = this._portals[id];
-		var level = portal.level || this;
-
-		if (level == this._level) { /* move within this level */
-			var position = this.getCellById(portal.cell).getPosition();
-			this.setBeing(being, position[0], position[1]);
-		} else if (level instanceof Game.Level) { /* switch to a complete level */
-			Game.switchLevel(level, portal.cell, portal.direction);
-		} else { /* get level, remember it and switch to it */
-			Game.engine.lock();
-			Game.LevelManager.get(level).then(function(level) {
-				portal.level = level;
-				Game.switchLevel(level, portal.cell, portal.direction);
-				Game.engine.unlock();
-			}.bind(this));
-		}
-	}
+	if (being == Game.player && id in this._portals) { this._enterPortal(id); }
 }
 	
 Game.Level.prototype.setItem = function(item, x, y) {
@@ -194,10 +178,12 @@ Game.Level.prototype.updateLighting = function() {
 	
 	for (var key in dirty) {
 		var cell = cells[key];
-		cell.computeColor(this._ambientLight);
+		var light = cell.getTotalLight();
+
+		cell.computeColor(this._ambientLight, light);
 		
-		if (this.items[key]) { this.items[key].computeColor(this._ambientLight); }
-		if (this.beings[key]) { this.beings[key].computeColor(this._ambientLight); }
+		if (this.items[key]) { this.items[key].computeColor(this._ambientLight, light); }
+		if (this.beings[key]) { this.beings[key].computeColor(this._ambientLight, light); }
 		
 		var parts = key.split(",");
 		this._draw(parseInt(parts[0]), parseInt(parts[1]));
@@ -253,6 +239,8 @@ Game.Level.prototype._addRule = function(conditions, actions) {
  * @param {Game.Entity}
  */
 Game.Level.prototype._setEntity = function(entity, x, y, type) {
+	var key = x+","+y;
+
 	var oldPosition = entity.getPosition();
 	if (oldPosition) {
 		var oldKey = oldPosition.join(",");
@@ -264,15 +252,14 @@ Game.Level.prototype._setEntity = function(entity, x, y, type) {
 		this._draw(oldPosition[0], oldPosition[1]);
 	}
 
+	this[type][key] = entity;
 	entity.setPosition(x, y, this);
-	entity.computeColor(this._ambientLight);
 
-	if (x !== null) {
-		var key = x+","+y;
-		this[type][key] = entity;
-		this._draw(x, y);
-	}
-	
+	var cell = this.cells[key];
+	var light = (cell ? cell.getTotalLight() : null);
+	entity.computeColor(this._ambientLight, light);
+
+	this._draw(x, y);
 }
 
 Game.Level.prototype._removeEntity = function(entity, type) {
@@ -343,3 +330,22 @@ Game.Level.prototype._lightPasses = function(x, y) {
 Game.Level.prototype._welcomeBeing = function(being) {
 	if (being == Game.player) { being.setSightRange(this._sightRange); }
 }
+
+Game.Level.prototype._enterPortal = function(id) {
+	var portal = this._portals[id];
+	var level = portal.level || this;
+
+	if (level == this._level) { /* move within this level */
+		var position = this.getCellById(portal.cell).getPosition();
+		this.setBeing(being, position[0], position[1]);
+	} else if (level instanceof Game.Level) { /* switch to a complete level */
+		Game.switchLevel(level, portal.cell, portal.direction);
+	} else { /* get level, remember it and switch to it */
+		Game.engine.lock();
+		Game.LevelManager.get(level).then(function(level) {
+			portal.level = level;
+			Game.switchLevel(level, portal.cell, portal.direction);
+			Game.engine.unlock();
+		}.bind(this));
+	}
+}	

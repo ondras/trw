@@ -3,14 +3,14 @@ Game.Beings = new Game.Repository(Game.Being);
 Game.Beings.define("animal", {
 	tasks: ["wander"]
 }, {
-	unique: true
+	weight: 0
 });
 
 Game.Beings.define("humanoid", {
 	tasks: ["wander"],
 	"char": "@"
 }, {
-	unique: true
+	weight: 0
 });
 
 Game.Beings.define("dog", {

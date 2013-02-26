@@ -8,6 +8,8 @@ Game.Items.define("gold", {
 
 Game.Items.define("corpse", {
 	"char": "%"
+}, {
+	weight: 0
 });
 
 Game.Items.define("weapon", {
@@ -15,6 +17,8 @@ Game.Items.define("weapon", {
 	ctor: Game.Item.Weapon,
 	color: [100, 100, 100],
 	name: "weapon"
+}, {
+	weight: 0
 });
 
 Game.Items.define("dagger", {

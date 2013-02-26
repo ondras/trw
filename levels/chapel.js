@@ -69,12 +69,12 @@ Game.Level.Chapel.prototype._murderGroom = function() {
 	this.setCell(Game.Cells.create("floor"), pos[0], pos[1]);
 	
 	var pos = this.getCellById("exit").getPosition();
-	var staircase = Game.Cells.create("staircase-down");
+	var staircase = Game.Cells.create("staircase-down", {id:"dungeon"});
 	this.setCell(staircase, pos[0], pos[1]);
 	
-	var dungeon = new Game.Level.Dungeon(1);
+	var dungeon = new Game.Level.Dungeon(1, this, "from-dungeon");
 	
-	this._portals["staircase-down"] = {
+	this._portals["dungeon"] = {
 		level: dungeon,
 		direction: "fade"
 	};

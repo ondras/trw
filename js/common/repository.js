@@ -3,6 +3,7 @@
  */
 Game.Repository = function(ctor) {
 	this._storage = {};
+	this._factoryOptions = {};
 	this._defaultCtor = ctor;
 }
 
@@ -14,7 +15,7 @@ Game.Repository.prototype.is = function(type, parent) {
 	return false;
 }
 
-Game.Repository.prototype.define = function(type, template) {
+Game.Repository.prototype.define = function(type, template, factoryOptions) {
 	if ("extend" in template) { /* create prototype link to parent definition */
 		if (!(template.extend in this._storage)) { 
 			throw new Error("Repository type '"+type+"' cannot extend '"+template.extend+"'");
@@ -26,6 +27,7 @@ Game.Repository.prototype.define = function(type, template) {
 	}
 
 	this._storage[type] = template;
+	this._factoryOptions[type] = factoryOptions || {};
 }
 
 Game.Repository.prototype.create = function(type, template) {
@@ -39,12 +41,44 @@ Game.Repository.prototype.create = function(type, template) {
 	return new ctor(type).fromTemplate(finalTemplate);
 }
 
-Game.Repository.prototype.createRandom = function(rules) {
-	var availableTypes = [];
+Game.Repository.prototype.createRandom = function(options) {
+	var o = {
+		include: "*",
+		exclude: [],
+		level: 1
+	}
+	for (var p in options) { o[p] = options[p]; }
+	
+	var types = {};
+	var count = 0;
+	
+	var include = [].concat(o.include);
+	var exclude = [].concat(o.exclude);
+	
+	for (var type in this._factoryOptions) {
+		var fO = this._factoryOptions[type];
+		var level = ("level" in fO ? fO.level : 1);
+		var weight = ("weight" in fO ? fO.weight : 1);
+		var includeOK = false;
+		var excludeOK = true;
+		
+		for (var i=0;i<include.length;i++) {
+			if (this.is(type, include[i]) || include[i] == "*") { includeOK = true; }
+		}
 
-	if (!availableTypes.length) { throw new Error("Repository does not contain any available types"); }
+		for (var i=0;i<exclude.length;i++) {
+			if (this.is(type, exclude[i])) { excludeOK = false; }
+		}
+		
+		if (includeOK && excludeOK) { 
+			types[type] = weight; 
+			count++;
+		}
+	}
 
-	return this.create(availableTypes.random());
+	if (!count) { throw new Error("Repository does not contain any available types"); }
+	var type = ROT.RNG.getWeightedValue(types);
+	return this.create(type);
 }
 
 Game.Repository.prototype.createFromObject = function(data) {

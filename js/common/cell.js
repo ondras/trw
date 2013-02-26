@@ -16,12 +16,6 @@ Game.Cell.prototype.fromTemplate = function(template) {
 	return this;
 }
 
-Game.Cell.prototype.setPosition = function(x, y, level) {
-	Game.Entity.prototype.setPosition.call(this, x, y, level);
-	this._cell = this;
-	return this;
-}
-
 /**
  * Total amount of light at this cell
  */

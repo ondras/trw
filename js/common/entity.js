@@ -19,7 +19,6 @@ Game.Entity = function(type) {
 	this._light = null; /* emitting light? */
 
 	this._color = ""; /* computed */
-	this._cell = null; /* to compute the color */
 
 	this._level = null;
 	this._position = null;
@@ -59,10 +58,9 @@ Game.Entity.prototype.getId = function() {
 	return this._id;
 }
 
-Game.Entity.prototype.computeColor = function(ambientLight) {
+Game.Entity.prototype.computeColor = function(ambientLight, diffuseLight) {
 	var totalLight = ambientLight;
-	var cellLight = this._cell.getTotalLight();
-	if (cellLight) { totalLight = ROT.Color.add(totalLight, cellLight); }
+	if (diffuseLight) { totalLight = ROT.Color.add(totalLight, diffuseLight); }
 	this._color = ROT.Color.multiply(this._diffuse, totalLight);
 	return this;
 }
@@ -86,7 +84,6 @@ Game.Entity.prototype.setPosition = function(x, y, level) {
 
 	this._level = level;
 	this._position = (x === null ? null : [x, y]);
-	this._cell = (x === null ? null : this._level.cells[x+","+y]);
 	
 	if (this._light && x !== null) {
 		this._level.addLight(this._position[0], this._position[1], this._light);

@@ -12,4 +12,6 @@ Game.Items.define("flower", {
 		[240, 240, 240],
 	],
 	name: "flower"
+}, {
+	weight: 0
 });

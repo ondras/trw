@@ -11,9 +11,9 @@
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	-webkit-transition: -webkit-transform 2s;
-	-moz-transition: -moz-transform 2s;
-	transition: transform 2s;
+	-webkit-transition: -webkit-transform 2s, opacity 2s;
+	-moz-transition: -moz-transform 2s, opacity 2s;
+	transition: transform 2s, opacity 2s;
 }
 
 #level section.west {
