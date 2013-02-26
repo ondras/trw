@@ -11,7 +11,6 @@ Game.Legend.prototype.update = function(x, y) {
 
 	var R = 2; /* FIXME */
 	var dataObj = {};
-	var fontSize = level.getFontSize();
 
 	for (var dx = -R; dx <= R; dx++) {
 		for (var dy = -R; dy <= R; dy++) {
@@ -45,19 +44,25 @@ Game.Legend.prototype.update = function(x, y) {
 		return a.entity.describe().localeCompare(b.entity.describe());
 	});
 
+	var fontSize = level.getFontSize();
+	this._node.style.fontSize = fontSize + "px";
+	this._node.innerHTML = "<span>x</span>";
+	var width = this._node.firstChild.offsetWidth;
 	this._node.innerHTML = "";
+
 	for (var i=0;i<dataArr.length;i++) {
-		var item = this._buildItem(dataArr[i].entity, fontSize);
+		var item = this._buildItem(dataArr[i].entity, width * 27);
 		this._node.appendChild(item);
 	}
 }
 
-Game.Legend.prototype._buildItem = function(entity, fontSize) {
+Game.Legend.prototype._buildItem = function(entity, width) {
 	var node = document.createElement("p");
+	node.style.width = width+"px";
 	var ch = document.createElement("span");
 	ch.innerHTML = entity.getChar();
-	ch.style.fontSize = fontSize + "px";1
 	ch.style.color = ROT.Color.toRGB(entity.getColor());
+	ch.style.fontWeight = "bold";
 	node.appendChild(ch);
 	var span = document.createElement("span");
 	span.innerHTML = " " + entity.describe();

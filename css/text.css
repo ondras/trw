@@ -29,12 +29,6 @@
 	opacity: 1;
 }
 
-#story p {
-	-webkit-transition: all 3s;
-	-moz-transition: all 3s;
-	transition: all 3s;
-}
-
 #task {
 	color: #f33;
 }

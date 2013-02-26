@@ -171,6 +171,7 @@ Game.Level.prototype.resize = function(width, height) {
 	this._display.setOptions({fontSize:fontSize});
 	var canvas = this._display.getContainer();
 	canvas.style.top = Math.floor((height-canvas.height)/2) + "px";
+	return this;
 }
 
 Game.Level.prototype.updateLighting = function() {
