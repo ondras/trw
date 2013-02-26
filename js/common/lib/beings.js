@@ -2,11 +2,15 @@ Game.Beings = new Game.Repository(Game.Being);
 
 Game.Beings.define("animal", {
 	tasks: ["wander"]
+}, {
+	unique: true
 });
 
 Game.Beings.define("humanoid", {
 	tasks: ["wander"],
 	"char": "@"
+}, {
+	unique: true
 });
 
 Game.Beings.define("dog", {

@@ -5,8 +5,7 @@ Game.Level.Dungeon = function(depth) {
 
 	this._rooms = [];
 	this._build();
-	if (depth == 3) { this._initStory(); }
-
+	if (depth == 1) { this._initStory(); }
 }
 Game.Level.Dungeon.extend(Game.Level);
 
@@ -97,6 +96,16 @@ Game.Level.Dungeon.prototype._buildDoors = function() {
 	}
 	for (var i=0;i<this._rooms.length;i++) {
 		this._rooms[i].getDoors(callback.bind(this));
+	}
+}
+
+Game.Level.Dungeon.prototype._buildBeings = function() {
+	var cells = this._getFreeCells().randomize();
+	var beingCount = 3 + Math.floor(ROT.RNG.getUniform() * 5);
+	for (var i=0;i<beingCount;i++) {
+		var being = Game.Beings.create();
+		var pos = cells[i].getPosition();
+		this.setBeing(being, pos[0], pos[1]);
 	}
 }
 

@@ -39,6 +39,14 @@ Game.Repository.prototype.create = function(type, template) {
 	return new ctor(type).fromTemplate(finalTemplate);
 }
 
+Game.Repository.prototype.createRandom = function(rules) {
+	var availableTypes = [];
+
+	if (!availableTypes.length) { throw new Error("Repository does not contain any available types"); }
+
+	return this.create(availableTypes.random());
+}
+
 Game.Repository.prototype.createFromObject = function(data) {
 	if (typeof(data) == "string") {
 		var type = data;
