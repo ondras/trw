@@ -171,6 +171,18 @@ Game.Player.prototype._pickItem = function(x, y) {
 		return;
 	} 
 
+	if (Game.Items.is(type, "potion")) {
+		this._level.removeItem(item);
+		item.drink(this);
+		return;
+	} 
+
+	if (Game.Items.is(type, "food")) {
+		this._level.removeItem(item);
+		item.eat(this);
+		return;
+	} 
+
 	if (Game.Items.is(type, "gem")) {
 		this._level.removeItem(item);
 		this._gems++;

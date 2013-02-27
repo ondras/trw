@@ -98,6 +98,34 @@ Game.Items.define("potion", {
 
 Game.Items.define("healing-potion", {
 	extend: "potion",
+	ctor: Game.Item.HealingPotion,
 	color: [240, 30, 30],
 	name: "healing potion"
+});
+
+/* FOOD */
+
+Game.Items.define("food", {
+	"char": "%",
+	ctor: Game.Item.Food
+}, {
+	weight: 0
+});
+
+Game.Items.define("apple", {
+	extend: "food",
+	color: [80, 240, 30],
+	name: "apple"
+});
+
+Game.Items.define("iron-ration", {
+	extend: "food",
+	color: [180, 100, 30],
+	name: "iron ration"
+});
+
+Game.Items.define("lutefisk", {
+	extend: "food",
+	color: [160, 160, 220],
+	name: "lutefisk"
 });

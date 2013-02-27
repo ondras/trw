@@ -119,7 +119,9 @@ Game.Being.prototype.getMaxHP = function() {
 }
 
 Game.Being.prototype.adjustHP = function(diff) {
-	this._hp = Math.max(0, this._hp + diff);
+	this._hp += diff;
+	this._hp = Math.max(this._hp, 0);
+	this._hp = Math.min(this._hp, this._maxHP);
 	if (!this._hp) { this.die(); }
 	return this;
 }
