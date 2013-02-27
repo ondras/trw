@@ -144,13 +144,7 @@ Game.Player.prototype._tryMovingTo = function(x, y) {
 
 Game.Player.prototype._chat = function(being) {
 	Game.status.show("You talk to %a.", being);
-	var response = being.chat(this);
-	if (response) {
-		response = "%The responds: \"%s\"".format(being, response);
-	} else {
-		response = "No response."
-	}
-	Game.status.show(response);
+	being.chat(this);
 }
 
 Game.Player.prototype._pickItem = function(x, y) {
@@ -207,7 +201,30 @@ Game.Player.prototype._pickItem = function(x, y) {
 		}
 		
 		this._updateStats();
+		return;
 	}
+
+	if (Game.Items.is(type, "armor")) {
+		this._level.removeItem(item);
+
+		if (this._armor) {
+			this._level.setItem(this._armor, x, y);
+			Game.status.show("You drop %a and pick up %a.", this._armor, item);
+		} else {
+			Game.status.show("You pick up %a.", item);
+		}
+		this._armor = item;
+		var description = item.getDescription();
+		if (this._knownTypes.indexOf(type) == -1 && description) {
+			this._knownTypes.push(type);
+			Game.status.show("%The is %s armor.".format(item, description));
+		}
+
+		this._updateStats();
+		return;
+	}
+	
+	Game.status.show("%A is lying here.".format(item));
 }
 
 Game.Player.prototype._updateStats = function() {

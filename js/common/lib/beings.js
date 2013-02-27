@@ -83,3 +83,12 @@ Game.Beings.define("goblin chieftain", {
 }, {
 	level: 2
 });
+
+Game.Beings.define("skeleton", {
+	extend: "humanoid",
+	name: "skeleton",
+	"char": "s",
+	color: [220, 220, 220]
+}, {
+	level: 1
+});

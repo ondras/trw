@@ -28,6 +28,7 @@ Game.Being.prototype.fromTemplate = function(template) {
 		if (!ctor) throw new Error("AI '"+template.ai+"' not available");
 		this._ai = new ctor(this);
 	}
+	if ("sex" in template) { this._sex = (template.sex instanceof Array ? template.sex.random() : template.sex); }
 	if ("speed" in template) { this._speed = template.speed;; }
 	if ("tasks" in template) { this._tasks = template.tasks.slice(); }
 	if ("hostile" in template) { this._hostile = this.setHostile(true); }
@@ -42,8 +43,37 @@ Game.Being.prototype.fromTemplate = function(template) {
 	return this;
 }
 
+Game.Being.prototype.getAttackSpeed = function() {
+	var speed = this._speed;
+	var count = 1;
+	
+	if (this._weapon) {
+		speed += this._weapon.getSpeed();
+		count++;
+	}
+	
+	if (this._armor) {
+		speed += this._armor.getSpeed();
+		count++;
+	}
+
+	return speed/count;
+}
+
+Game.Being.prototype.getDefenseSpeed = function() {
+	var speed = this._speed;
+	var count = 1;
+	
+	if (this._armor) {
+		speed += this._armor.getSpeed();
+		count++;
+	}
+
+	return speed/count;
+}
+
 Game.Being.prototype.getSpeed = function() {
-	return this._speed;
+	return this.getDefenseSpeed();
 }
 
 Game.Being.prototype.act = function() {
@@ -86,7 +116,16 @@ Game.Being.prototype.setHostile = function(hostile) {
 
 Game.Being.prototype.chat = function(being) {
 	this._chattedWith = true;
-	return (this._chats ? this._chats.random() : null);
+	/* FIXME proper formatting */
+	
+	if (this._chats) {
+		response = "%He responds: \"%s\"".format(this, this._chats.random());
+	} else {
+		response = "No response."
+	}
+	Game.status.show(response);
+	
+	return this;
 }
 
 Game.Being.prototype.chattedWith = function() {
@@ -134,8 +173,8 @@ Game.Being.prototype.attack = function(target) {
 	/* FIXME probably refactor to a dedicated attack logic? */
 
 	/* 1. hit? */
-	var speed1 = this.getSpeed() + ROT.RNG.getNormal(0, 5);
-	var speed2 = target.getSpeed() + ROT.RNG.getNormal(0, 5);
+	var speed1 = this.getAttackSpeed() + ROT.RNG.getNormal(0, 5);
+	var speed2 = target.getDefenseSpeed() + ROT.RNG.getNormal(0, 5);
 
 	/* 1a. miss */
 	if (speed1 < speed2) {
@@ -179,4 +218,8 @@ Game.Being.prototype.describeVerb = function(verb) {
 
 Game.Being.prototype.describeHim = function() {
 	return ["it", "him", "her"][this._sex];
+}
+
+Game.Being.prototype.describeHe = function() {
+	return ["it", "he", "she"][this._sex];
 }

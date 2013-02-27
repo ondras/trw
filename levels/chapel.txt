@@ -120,7 +120,7 @@
 	},
 	"2": {
 		"cell": {
-			"type": "path",
+			"type": "floor",
 			"id": "bride"
 		}
 	},

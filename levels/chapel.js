@@ -48,11 +48,21 @@ Game.Level.Chapel.prototype._initStory = function() {
 		return (weapon && weapon.getType() == "flower");
 	}, function() {
 		this._murderGroom();
+		Game.story.newChapter("I hear some unusual voices and screams from the chapel. What the hell is happening in there? I should investigate.");
+		return true;
+	});
+
+	this._addRule(function() {
+		return (Game.storyFlags.groomDead && this._priest.chattedWith());
+	}, function() {
+		Game.story.addChapter("I was away for only a few moments - and there was a crime committed, right next to the altar! The groom lies dead in a pool of blood; the assassin seems to have left the chapel through the window. I shall follow him.");
+		Game.story.setTask("Follow the murderer.");
 		return true;
 	});
 }
 
 Game.Level.Chapel.prototype._murderGroom = function() {
+	Game.storyFlags.groomDead = true;
 	var pos = this._groom.getPosition();
 	this._groom.die(); /* :-/ */
 	
@@ -69,7 +79,7 @@ Game.Level.Chapel.prototype._murderGroom = function() {
 	this.setCell(Game.Cells.create("floor"), pos[0], pos[1]);
 	
 	var pos = this.getCellById("exit").getPosition();
-	var staircase = Game.Cells.create("staircase-down", {id:"dungeon"});
+	var staircase = Game.Cells.create("staircase-down", {id:"dungeon", name:"to the dungeon"});
 	this.setCell(staircase, pos[0], pos[1]);
 	
 	var dungeon = new Game.Level.Dungeon(1, this, "from-dungeon");
@@ -82,7 +92,11 @@ Game.Level.Chapel.prototype._murderGroom = function() {
 	for (var i=0;i<this._guests.length;i++) {
 		var guest = this._guests[i];
 		guest.setTasks(["wander"]);
+		guest.setChats(["Have you seen it? The groom has been stabbed!", "They say that the groom has been murdered!", "A hooded figure suddenly appeared and killed the groom!", "Oh my god oh my god!", "He jumped out right through that window!"]);
 	}
+	
+	this._priest.setChats(["The groom is dead! His murderer jumped out of the chapel window; please try to follow him as fast as possible!"]);
+	this._priest._chattedWith = false; /* FIXME ! */
 	
 	var pos = this.getCellById("bride").getPosition();
 	this.setBeing(this._bride, pos[0], pos[1]);

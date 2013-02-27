@@ -1,6 +1,7 @@
 String.format.map.a = "describeA";
 String.format.map.the = "describeThe";
 String.format.map.verb = "describeVerb";
+String.format.map.he = "describeHe";
 String.format.map.him = "describeHim";
 
 /**

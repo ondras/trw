@@ -4,7 +4,8 @@ var Game = {
 	level: null,
 	story: null,
 	storyFlags: {
-		wantsFlower: false
+		wantsFlower: false,
+		groomDead: false
 	},
 	
 	init: function() {
@@ -97,11 +98,11 @@ var Game = {
 
 	_start: function(e) {
 		window.addEventListener("resize", this);
-//		Game.LevelManager.get("chapel").then(function(level) {
-//			this.switchLevel(level);
-//		}.bind(this));
-var d = new Game.Level.Dungeon(1);
-this.switchLevel(d, "start", "fade");
+		Game.LevelManager.get("chapel").then(function(level) {
+			this.switchLevel(level);
+		}.bind(this));
+//var d = new Game.Level.Dungeon(1);
+//this.switchLevel(d, "start", "fade");
 	},
 	
 	_resize: function() {

@@ -1,9 +1,12 @@
 Game.Level.Dungeon = function(depth, previousLevel, previousCell) {
 	Game.Level.call(this);
 	this._depth = depth;
-	this._maxDepth = 2;
+	this._maxDepth = 1;
 	this._gardener = null;
-	if (this._depth == this._maxDepth) { this._gardener = Game.Beings.create("gardener"); }
+	if (this._depth == this._maxDepth) { 
+		this._gardener = Game.Beings.create("gardener"); 
+		this._gardener.setChats(["Okay, so I murdered him. But it wasn't my idea! She promised me gold if I do it!"]);
+	}
 	this._playerLight = [140, 110, 60];
 
 	this._rooms = [];
@@ -146,12 +149,30 @@ Game.Level.Dungeon.prototype._initStory = function() {
 		this._addRule(function() {
 			return true;
 		}, function() {
-			Game.story.newChapter("I finally arrived at the Dungeon. By this time the wedding ceremony is probably already over, so I should at least get in and give my congratulations. I guess a lot of people are attending...");
+			Game.story.newChapter("A castle dungeon, right. I guess it just won't work without a dungeon. Narrow corridors, rotten smell in the air, poor visibility. Just you wait, murderer, I'm coming!");
+			Game.story.setTask("Make your way through the dungeon and find the assassin.");
 			return true; /* remove from rule list */
 		});
 	}
 	
-	if (this._depth != this._maxDepth) {
+	if (this._depth == this._maxDepth) {
+
+		this._addRule(function() {
+			return this._gardener.chattedWith();
+		}, function() {
+			this._gardener.setHostile(true);
+			return true;
+		});
+
+		this._addRule(function() {
+			return !this._gardener.getHP();
+		}, function() {
+			Game.story.newChapter("The gardener lies dead. Looks like the groom is avenged now. But my task is far from being over: if the gardener spoke truth, there is someone else behind this - and I have a feeling that I know who.");
+			Game.story.setTask("Get back to the castle and find the bride.");
+			return true;
+		});
+	} else {
+
 		this._addRule(function() {
 			var key = Game.player.getPosition().join(",");
 			return (this.cells[key].getId() == "exit");
@@ -164,6 +185,7 @@ Game.Level.Dungeon.prototype._initStory = function() {
 			this._enterPortal("exit");
 			return true;
 		});
+
 	}
 }
 

@@ -18,7 +18,6 @@ Game.Items.define("weapon", {
 	"char": "(",
 	ctor: Game.Item.Weapon,
 	color: [100, 100, 100],
-	name: "weapon"
 }, {
 	weight: 0
 });
@@ -48,6 +47,43 @@ Game.Items.define("axe", {
 	color: [150, 150, 100],
 	speed: 80,
 	damage: 5
+});
+
+/* ARMOR */
+
+Game.Items.define("armor", {
+	"char": "[",
+	ctor: Game.Item.Armor,
+	color: [100, 100, 100],
+}, {
+	weight: 0
+});
+
+Game.Items.define("leather-armor", {
+	extend: "armor",
+	name: "leather armor",
+	description: "a basic and light",
+	color: [150, 80, 30],
+	speed: 100,
+	pv: 1
+});
+
+Game.Items.define("chain-mail", {
+	extend: "armor",
+	name: "chain mail",
+	description: "strong yet wearable",
+	color: [150, 150, 150],
+	speed: 80,
+	pv: 2
+});
+
+Game.Items.define("plate-mail", {
+	extend: "armor",
+	name: "plate mail",
+	description: "a very heavy but resistant",
+	color: [180, 180, 200],
+	speed: 50,
+	pv: 3
 });
 
 /* GEMS */
