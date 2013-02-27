@@ -12,6 +12,8 @@ Game.Items.define("corpse", {
 	weight: 0
 });
 
+/* WEAPONS */
+
 Game.Items.define("weapon", {
 	"char": "(",
 	ctor: Game.Item.Weapon,
@@ -24,6 +26,7 @@ Game.Items.define("weapon", {
 Game.Items.define("dagger", {
 	extend: "weapon",
 	name: "dagger",
+	description: "a fast and light",
 	color: [150, 80, 80],
 	speed: 120,
 	damage: 3
@@ -32,6 +35,7 @@ Game.Items.define("dagger", {
 Game.Items.define("sword", {
 	extend: "weapon",
 	name: "sword",
+	description: "an all-round",
 	color: [150, 150, 150],
 	speed: 100,
 	damage: 4
@@ -40,7 +44,60 @@ Game.Items.define("sword", {
 Game.Items.define("axe", {
 	extend: "weapon",
 	name: "axe",
+	description: "a slow and hard-hitting",
 	color: [150, 150, 100],
 	speed: 80,
 	damage: 5
+});
+
+/* GEMS */
+
+Game.Items.define("gem", {
+	"char": "*"
+}, {
+	weight: 0
+});
+
+Game.Items.define("ruby", {
+	extend: "gem",
+	name: "ruby",
+	color: [255, 30, 30]
+});
+
+Game.Items.define("sapphire", {
+	extend: "gem",
+	name: "sapphire",
+	color: [30, 30, 255]
+});
+
+Game.Items.define("diamond", {
+	extend: "gem",
+	name: "diamond",
+	color: [255, 255, 255]
+});
+
+Game.Items.define("opal", {
+	extend: "gem",
+	name: "opal",
+	color: [255, 30, 255]
+});
+
+Game.Items.define("turquoise", {
+	extend: "gem",
+	name: "turquoise",
+	color: [50, 200, 200]
+});
+
+/* POTIONS */
+
+Game.Items.define("potion", {
+	"char": "!"
+}, {
+	weight: 0
+});
+
+Game.Items.define("healing-potion", {
+	extend: "potion",
+	color: [240, 30, 30],
+	name: "healing potion"
 });

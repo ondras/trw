@@ -51,20 +51,20 @@ Game.Legend.prototype.update = function(x, y) {
 	this._node.innerHTML = "";
 
 	for (var i=0;i<dataArr.length;i++) {
-		var item = this._buildItem(dataArr[i].entity, width * 27);
+		var item = this._buildItem(dataArr[i].entity, width * 27, fontSize-2);
 		this._node.appendChild(item);
 	}
 }
 
-Game.Legend.prototype._buildItem = function(entity, width) {
+Game.Legend.prototype._buildItem = function(entity, width, labelSize) {
 	var node = document.createElement("p");
 	node.style.width = width+"px";
 	var ch = document.createElement("span");
 	ch.innerHTML = entity.getChar();
 	ch.style.color = ROT.Color.toRGB(entity.getColor());
-	ch.style.fontWeight = "bold";
 	node.appendChild(ch);
 	var span = document.createElement("span");
+	span.style.fontSize = labelSize + "px";
 	span.innerHTML = " " + entity.describe();
 	node.appendChild(span);
 	return node;

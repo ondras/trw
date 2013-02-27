@@ -8,9 +8,12 @@ Game.Being = function(type) {
 	this._hostile = false;
 	this._chats = null;
 	this._sex = 0;
+	this._weapon = null;
+	this._armor = null;
 
 	this._hp = 1;
 	this._maxHP = this._hp;
+
 	this._damage = 1;
 	this._pv = 1;
 	
@@ -27,14 +30,13 @@ Game.Being.prototype.fromTemplate = function(template) {
 	}
 	if ("speed" in template) { this._speed = template.speed;; }
 	if ("tasks" in template) { this._tasks = template.tasks.slice(); }
-	if ("hostile" in template) { this._hostile = template.hostile; }
+	if ("hostile" in template) { this._hostile = this.setHostile(true); }
 	if ("chats" in template) { this._chats = template.chats; }
 	if ("sight" in template) { this._sightRange = template.sight; }
 	if ("hp" in template) { this._hp = template.hp; }
 	if ("pv" in template) { this._pv = template.pv; }
 	if ("damage" in template) { this._damage = template.damage; }
 
-	if (this._hostile) { this._tasks.push("attack"); }
 	this._maxHP = this._hp;
 	
 	return this;
@@ -73,6 +75,12 @@ Game.Being.prototype.isHostile = function() {
 
 Game.Being.prototype.setHostile = function(hostile) {
 	this._hostile = hostile;
+	if (hostile) {
+		this._tasks.push("attack");
+	} else {
+		var index = this._tasks.indexOf("attack");
+		this._tasks.splice(index, 1);
+	}
 	return this;
 }
 
@@ -129,34 +137,34 @@ Game.Being.prototype.attack = function(target) {
 
 	/* 1a. miss */
 	if (speed1 < speed2) {
-		Game.status.show("%The %verb,miss %the.".format(this, this, target));
+		Game.status.show("%The %verb %the.".format(this, this, "miss", target));
 		return; 
 	}
 
 	/* 1b. hit */
-		var dmg = this.getDamage() + ROT.RNG.getNormal(0, 1);
+	var dmg = this.getDamage() + ROT.RNG.getNormal(0, 1);
 	var pv = target.getPV() + ROT.RNG.getNormal(0, 1);
 	dmg = Math.round(dmg-pv);
 
 	/* 2a. not enough damage */
 	if (dmg <= 0) {
-		Game.status.show("%The %verb,fail to hurt %the.".format(this, this, target));
+		Game.status.show("%The %verb to hurt %the.".format(this, this, "fail", target));
 		return;
 	}
 
 	/* 2b. damage */
 	target.adjustHP(-dmg);	
-	var str = "%The %verb,hit %the".format(this, this, target);
+	var str = "%The %verb %the".format(this, this, "hit", target);
 	if (target.getHP() > 0) {
 		str += ".";
 	} else {
-		str += " and %verb,kill %him.".format(this, target);
+		str += " and %verb %him.".format(this, "kill", target);
 	}
 	Game.status.show(str);
 }
 
 Game.Being.prototype.die = function() {
-	var corpse = Game.Items.create("corpse", {color:this._color, name:this._name+" corpse"});
+	var corpse = Game.Items.create("corpse", {color:this._diffuse, name:this._name+" corpse"});
 	this._level.setItem(corpse, this._position[0], this._position[1]);
 	this._level.removeBeing(this);
 	Game.engine.removeActor(this);

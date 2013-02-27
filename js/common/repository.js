@@ -58,6 +58,7 @@ Game.Repository.prototype.createRandom = function(options) {
 	for (var type in this._factoryOptions) {
 		var fO = this._factoryOptions[type];
 		var level = ("level" in fO ? fO.level : 1);
+		if (level > o.level) { continue; }
 		var weight = ("weight" in fO ? fO.weight : 1);
 		var includeOK = false;
 		var excludeOK = true;

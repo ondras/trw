@@ -1,6 +1,6 @@
 /*
 	This is rot.js, the ROguelike Toolkit in JavaScript.
-	Version 0.4~dev, generated on Tue Feb 26 20:39:16 CET 2013.
+	Version 0.4~dev, generated on Wed Feb 27 12:00:34 CET 2013.
 */
 
 /**
@@ -765,29 +765,28 @@ String.format = function(template) {
 	var map = String.format.map;
 	var args = Array.prototype.slice.call(arguments, 1);
 
-	var replacer = function(match, group1, group2, index) {
+	var replacer = function(match, name1, name2, index) {
 		if (template.charAt(index-1) == "%" || !args.length) { return match; }
+		var obj = args.shift();
 
-		var group = group1 || group2;
-		var parts = group.split(",");
-		var name = parts.shift();
-		
+		var name = name1 || name2;
 		var method = map[name.toLowerCase()];
+		if (typeof(method) == "string") { method = obj[method]; }
 		if (!method) { return match; }
 
-		var obj = args.shift();
-		var replaced = obj[method].apply(obj, parts);
+		var methodArgs = args.splice(0, method.length);
+		var replaced = method.apply(obj, methodArgs);
 
 		var first = name.charAt(0);
 		if (first != first.toLowerCase()) { replaced = replaced.capitalize(); }
 
 		return replaced;
 	}
-	return template.replace(/%(?:([\w,]+)|(?:{([\w,]+)}))/g, replacer);
+	return template.replace(/%(?:([a-z]+)|(?:{([a-z]+)}))/gi, replacer);
 }
 
 String.format.map = {
-	"s": "toString"
+	"s": function() { return this.toString(); }
 }
 
 /**

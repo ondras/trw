@@ -25,7 +25,7 @@ Game.Level.Forest.prototype.fromTemplate = function(map, def) {
 	var exit = this.getCellById("exit").getPosition();
 	this.setCell(Game.Cells.create("ground", {id:"from-castle"}), exit[0]-1, exit[1]);
 
-	var gold = Game.Items.create("gold");
+	var gold = Game.Items.create("secret-gold");
 	this.setItem(gold, this._minMaze[0]+1, this._minMaze[1]+1);
 	
 	this._initStory();

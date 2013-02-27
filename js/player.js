@@ -5,14 +5,11 @@ Game.Player = function(type) {
 	this._light = [30, 30, 30]; 
 	this._name = "you";
 	
+	this._secretGold = 0;
 	this._gold = 0;
-	this._weapon = null;
+	this._gems = 0;
+
 	this._knownTypes = [];
-	this._descriptions = {
-		"dagger": "a fast and light",
-		"sword": "an all-round",
-		"axe": "a slow and hard-hitting"
-	}; /* FIXME */
 
 	this._directionKeys = {};
 	this._directionKeys[ROT.VK_K] = 0;
@@ -43,7 +40,6 @@ Game.Player = function(type) {
 Game.Player.extend(Game.Being);
 
 Game.Player.prototype.act = function() {
-	this._level.checkRules(); /* FIXME tady? */	
 	this._level.updateLighting(); /* FIXME urco? */
 	Game.legend.update(this._position[0], this._position[1]);
 	Game.engine.lock();
@@ -57,6 +53,7 @@ Game.Player.prototype.handleEvent = function(e) {
 
 	if (keyHandled) {
 		window.removeEventListener("keydown", this);
+		this._level.checkRules(); /* FIXME tady? */	
 		Game.engine.unlock();
 	}
 }
@@ -160,9 +157,23 @@ Game.Player.prototype._pickItem = function(x, y) {
 	var item = this._level.items[x+","+y];
 	var type = item.getType();
 
-	if (Game.Items.is(type, "gold")) {
+	if (type == "secret-gold") {
+		this._level.removeItem(item);
+		this._secretGold++;
+		Game.status.show("You pick up %a.", item);
+		return;
+	} 
+
+	if (type == "gold") {
 		this._level.removeItem(item);
 		this._gold++;
+		Game.status.show("You pick up %a.", item);
+		return;
+	} 
+
+	if (Game.Items.is(type, "gem")) {
+		this._level.removeItem(item);
+		this._gems++;
 		Game.status.show("You pick up %a.", item);
 		return;
 	} 
@@ -177,9 +188,10 @@ Game.Player.prototype._pickItem = function(x, y) {
 			Game.status.show("You pick up %a.", item);
 		}
 		this._weapon = item;
-		if (this._knownTypes.indexOf(type) == -1 && type in this._descriptions) {
+		var description = item.getDescription();
+		if (this._knownTypes.indexOf(type) == -1 && description) {
 			this._knownTypes.push(type);
-			Game.status.show("%The is %s weapon.".format(item, this._descriptions[type]));
+			Game.status.show("%The is %s weapon.".format(item, description));
 		}
 		
 		this._updateStats();
@@ -206,11 +218,11 @@ Game.Player.prototype.describeVerb = function(verb) {
 	return verb;
 }
 
-Game.Player.prototype.describeA = function(verb) {
+Game.Player.prototype.describeA = function() {
 	return this.describe();
 }
 
-Game.Player.prototype.describeThe = function(verb) {
+Game.Player.prototype.describeThe = function() {
 	return this.describe();
 }
 

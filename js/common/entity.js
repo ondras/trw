@@ -1,10 +1,8 @@
-String.format.map = {
-	"s": "toString",
-	"a": "describeA",
-	"the": "describeThe",
-	"verb": "describeVerb",
-	"him": "describeHim"
-}
+String.format.map.a = "describeA";
+String.format.map.the = "describeThe";
+String.format.map.verb = "describeVerb";
+String.format.map.him = "describeHim";
+
 /**
  * @class Anything with a place and a visual representation
  */

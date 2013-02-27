@@ -71,7 +71,7 @@ T==========w#                       ##################5####
 	},
 	"$": {
 		"cell": "grass",
-		"item": "gold"
+		"item": "secret-gold"
 	},
 	"f": {
 		"cell": "grass",

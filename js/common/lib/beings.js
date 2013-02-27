@@ -27,6 +27,13 @@ Game.Beings.define("rat", {
 	"char": "r"
 });
 
+Game.Beings.define("bat", {
+	extend: "animal",
+	name: "large bat",
+	color: [160, 120, 30],
+	"char": "B"
+});
+
 Game.Beings.define("mugger", {
 	extend: "humanoid",
 	name: "mugger",
@@ -36,15 +43,43 @@ Game.Beings.define("mugger", {
 		"Have some spare gold?",
 		"I am so hungry."
 	]
+}, {
+	weight: 0
 });
 
 Game.Beings.define("orc", {
 	"char": "o",
+	name: "orc",
 	extend: "humanoid",
 	color: [30, 240, 30]
 });
 
-Game.Beings.define("orc warlord", {
+Game.Beings.define("goblin", {
+	"char": "g",
+	name: "goblin",
+	extend: "humanoid",
+	color: [30, 30, 240]
+});
+
+Game.Beings.define("kobold", {
+	"char": "k",
+	name: "kobold",
+	extend: "humanoid",
+	color: [30, 240, 30]
+});
+
+Game.Beings.define("orc chieftain", {
 	extend: "orc",
+	name: "orc chieftain",
 	"char": "O"
+}, {
+	level: 2
+});
+
+Game.Beings.define("goblin chieftain", {
+	extend: "goblin",
+	name: "goblin chieftain",
+	color: [30, 30, 160]
+}, {
+	level: 2
 });

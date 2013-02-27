@@ -57,6 +57,8 @@ var Game = {
 			this.engine.addActor(newLevel.beings[p]);
 		}
 
+		this.level.checkRules();
+
 		this._resize();
 		this._transitionLevel(newLevel, oldLevel, direction);
 
@@ -95,11 +97,11 @@ var Game = {
 
 	_start: function(e) {
 		window.addEventListener("resize", this);
-		Game.LevelManager.get("chapel").then(function(level) {
-			this.switchLevel(level);
-		}.bind(this));
-//var d = new Game.Level.Dungeon(1);
-//this.switchLevel(d, "start", "fade");
+//		Game.LevelManager.get("chapel").then(function(level) {
+//			this.switchLevel(level);
+//		}.bind(this));
+var d = new Game.Level.Dungeon(1);
+this.switchLevel(d, "start", "fade");
 	},
 	
 	_resize: function() {

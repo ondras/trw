@@ -15,3 +15,9 @@ Game.Items.define("flower", {
 }, {
 	weight: 0
 });
+
+Game.Items.define("secret-gold", {
+	extend: "gold"
+}, {
+	weight: 0
+})

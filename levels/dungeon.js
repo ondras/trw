@@ -1,11 +1,10 @@
 Game.Level.Dungeon = function(depth, previousLevel, previousCell) {
-	/* FIXME player light */
 	Game.Level.call(this);
 	this._depth = depth;
 	this._maxDepth = 2;
 	this._gardener = null;
 	if (this._depth == this._maxDepth) { this._gardener = Game.Beings.create("gardener"); }
-	this._playerLight = [160, 120, 30];
+	this._playerLight = [140, 110, 60];
 
 	this._rooms = [];
 	this._build(previousLevel, previousCell);
@@ -14,7 +13,7 @@ Game.Level.Dungeon = function(depth, previousLevel, previousCell) {
 Game.Level.Dungeon.extend(Game.Level);
 
 Game.Level.Dungeon.prototype._build = function(previousLevel, previousCell) {
-	var w = 60, h = 30;
+	var w = 60, h = 26;
 	var generator = new ROT.Map.Uniform(w, h);
 
 	var bitMap = [];
@@ -38,9 +37,7 @@ Game.Level.Dungeon.prototype._build = function(previousLevel, previousCell) {
 	this._buildFromBitMap(bitMap, w, h);
 	this._buildStaircases(previousLevel, previousCell);
 	this._buildDoors();
-	/*
 	this._buildItems();
-	* */
 	this._buildBeings();
 	this.setSize(w, h);
 }
@@ -84,11 +81,9 @@ Game.Level.Dungeon.prototype._buildFromBitMap = function(bitMap, w, h) {
 						this.setCell(wall, i, j);
 					}
 				break;
-			}
-
+			} /* switch */
 		}
 	}
-
 }
 
 Game.Level.Dungeon.prototype._getNeighborCount = function(bitMap, x, y, value) {
@@ -119,17 +114,17 @@ Game.Level.Dungeon.prototype._buildDoors = function() {
 
 Game.Level.Dungeon.prototype._buildBeings = function() {
 	var cells = this._getFreeCells().randomize();
-	var beingCount = 3 + Math.floor(ROT.RNG.getUniform() * 5);
+	var beingCount = 3 + Math.floor(ROT.RNG.getUniform() * 3);
 	for (var i=0;i<beingCount;i++) {
-		var being = Game.Beings.createRandom();
+		var being = Game.Beings.createRandom({level:this._depth}).setHostile(true);
 		var pos = cells[i].getPosition();
 		this.setBeing(being, pos[0], pos[1]);
 	}
 }
 
-Game.Level.Dungeon.prototype._buildBeings = function() {
+Game.Level.Dungeon.prototype._buildItems = function() {
 	var cells = this._getFreeCells().randomize();
-	var itemCount = 3 + Math.floor(ROT.RNG.getUniform() * 5);
+	var itemCount = 3 + Math.floor(ROT.RNG.getUniform() * 3);
 	for (var i=0;i<itemCount;i++) {
 		var item = Game.Items.createRandom();
 		var pos = cells[i].getPosition();
