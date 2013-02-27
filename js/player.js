@@ -53,7 +53,7 @@ Game.Player.prototype.handleEvent = function(e) {
 
 	if (keyHandled) {
 		window.removeEventListener("keydown", this);
-		this._level.checkRules(); /* FIXME tady? */	
+		this._level.checkRules();
 		Game.engine.unlock();
 	}
 }

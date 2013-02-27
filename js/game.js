@@ -86,7 +86,7 @@ var Game = {
 	},
 
 	_load: function(e) {
-		this.story = new Game.Story();
+		this.story = new Game.Story(document.querySelector("#story"));
 		this.status = new Game.Status(document.querySelector("#status"));
 		this.stats = new Game.Stats(document.querySelector("#stats"));
 		this.legend = new Game.Legend(document.querySelector("#legend"));
@@ -98,7 +98,7 @@ var Game = {
 
 	_start: function(e) {
 		window.addEventListener("resize", this);
-		Game.LevelManager.get("chapel").then(function(level) {
+		Game.LevelManager.get("forest").then(function(level) {
 			this.switchLevel(level);
 		}.bind(this));
 //var d = new Game.Level.Dungeon(1);

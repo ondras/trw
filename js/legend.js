@@ -51,7 +51,7 @@ Game.Legend.prototype.update = function(x, y) {
 	this._node.innerHTML = "";
 
 	for (var i=0;i<dataArr.length;i++) {
-		var item = this._buildItem(dataArr[i].entity, width * 27, fontSize-2);
+		var item = this._buildItem(dataArr[i].entity, width * 22, Math.round(fontSize/1.3));
 		this._node.appendChild(item);
 	}
 }

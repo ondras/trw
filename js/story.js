@@ -1,12 +1,12 @@
-Game.Story = function(/* FIXME node */) {
+Game.Story = function(node) {
 	this._chapters = [];
 	this._tasks = [];
 	this._index = -1;
 	this._dom = {
-		current: document.querySelector("#story #current"),
-		task: document.querySelector("#story #task"),
-		prev: document.querySelector("#story #prev"),
-		next: document.querySelector("#story #next")
+		current: node.querySelector("#current"),
+		task: node.querySelector("#task"),
+		prev: node.querySelector("#story #prev"),
+		next: node.querySelector("#next")
 	}
 	this._dom.prev.addEventListener("click", this);
 	this._dom.next.addEventListener("click", this);

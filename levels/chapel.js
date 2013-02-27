@@ -1,5 +1,5 @@
 Game.Level.Chapel = function() {
-	/* FIXME druhy blocker krom priesta; konverzace guestu a priesta */
+	/* FIXME druhy blocker krom priesta */
 	Game.Level.call(this);
 
 	this._lighting.setOptions({range:8});

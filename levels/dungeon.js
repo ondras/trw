@@ -1,7 +1,7 @@
 Game.Level.Dungeon = function(depth, previousLevel, previousCell) {
 	Game.Level.call(this);
 	this._depth = depth;
-	this._maxDepth = 1;
+	this._maxDepth = 2;
 	this._gardener = null;
 	if (this._depth == this._maxDepth) { 
 		this._gardener = Game.Beings.create("gardener"); 

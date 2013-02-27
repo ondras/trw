@@ -16,9 +16,9 @@
 }
 
 #story p {
-	-webkit-transition: all 3s;
-	-moz-transition: all 3s;
-	transition: all 3s;
+	-webkit-transition: all 4s;
+	-moz-transition: all 4s;
+	transition: all 4s;
 }
 
 #story a {
