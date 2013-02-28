@@ -178,7 +178,7 @@ Game.Being.prototype.attack = function(target) {
 
 	/* 1a. miss */
 	if (speed1 < speed2) {
-		Game.status.show("%The %verb %the.".format(this, this, "miss", target));
+		Game.status.show("%The %{verb,miss} %the.".format(this, this, target));
 		return; 
 	}
 
@@ -189,17 +189,17 @@ Game.Being.prototype.attack = function(target) {
 
 	/* 2a. not enough damage */
 	if (dmg <= 0) {
-		Game.status.show("%The %verb to hurt %the.".format(this, this, "fail", target));
+		Game.status.show("%The %{verb,fail} to hurt %the.".format(this, this, target));
 		return;
 	}
 
 	/* 2b. damage */
 	target.adjustHP(-dmg);	
-	var str = "%The %verb %the".format(this, this, "hit", target);
+	var str = "%The %{verb,hit} %the".format(this, this, target);
 	if (target.getHP() > 0) {
 		str += ".";
 	} else {
-		str += " and %verb %him.".format(this, "kill", target);
+		str += " and %{verb,kill} %him.".format(this, target);
 	}
 	Game.status.show(str);
 }
