@@ -3,6 +3,7 @@ Game.Level.Chapel = function() {
 	Game.Level.call(this);
 
 	this._lighting.setOptions({range:8});
+	this._playerLight = [30, 30, 30];
 
 	this._priest = null;
 	this._bride = null;
@@ -101,4 +102,9 @@ Game.Level.Chapel.prototype._murderGroom = function() {
 	var pos = this.getCellById("bride").getPosition();
 	this.setBeing(this._bride, pos[0], pos[1]);
 
+}
+
+Game.Level.Chapel.prototype._welcomeBeing = function(being) {
+	Game.Level.prototype._welcomeBeing.call(this, being);
+	if (being == Game.player) { being.setLight(this._playerLight); }
 }

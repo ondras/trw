@@ -64,11 +64,10 @@ Game.Level.Forest.prototype._initStory = function() {
 	
 	this._addRule(function() {
 		var key = Game.player.getPosition().join(",");
-		return (this.cells[key].getType() == "torch");
+		return (!Game.storyFlags.nightEnded && this.cells[key].getType() == "torch");
 	}, function() {
 		this._story.hasTorch = true;
 		Game.player.setLight([150, 150, 80]);
-		/* FIXME revert in other levels, give back at this level */
 		Game.story.newChapter("This torch is my only light source. Hopefully it will last long enough until I find my way to the royal castle through this forest.");
 		Game.story.setTask("Make your way through the forest.");
 		return true;
@@ -82,4 +81,11 @@ Game.Level.Forest.prototype._initStory = function() {
 		return true;
 	});
 
+	this._addRule(function() {
+		return (Game.storyFlags.nightEnded);
+	}, function() {
+		this._ambientLight = [130, 130, 130];
+		this._lighting.setOptions({range:8});
+		return true;
+	});
 }

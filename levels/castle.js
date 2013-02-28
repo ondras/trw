@@ -2,6 +2,7 @@ Game.Level.Castle = function() {
 	Game.Level.call(this);
 
 	this._lighting.setOptions({range:8});
+	this._playerLight = [30, 30, 30];
 	
 	this._gates = [];
 	this._guards = [];
@@ -35,6 +36,7 @@ Game.Level.Castle.prototype._initStory = function() {
 	this._addRule(function() {
 		return true;
 	}, function() {
+		Game.storyFlags.nightEnded = true;
 		Game.story.newChapter("The castle is in view. Getting inside should be pretty straightforward...");
 		return true; /* remove from rule list */
 	});
@@ -124,4 +126,9 @@ Game.Level.Castle.prototype._initStory = function() {
 		Game.engine.removeActor(this._gardener);
 		return true;
 	});
+}
+
+Game.Level.Castle.prototype._welcomeBeing = function(being) {
+	Game.Level.prototype._welcomeBeing.call(this, being);
+	if (being == Game.player) { being.setLight(this._playerLight); }
 }

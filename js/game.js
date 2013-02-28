@@ -5,7 +5,9 @@ var Game = {
 	story: null,
 	storyFlags: {
 		wantsFlower: false,
-		groomDead: false
+		groomDead: false,
+		nightEnded: false,
+		gardenerDead: false
 	},
 	
 	init: function() {

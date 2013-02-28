@@ -167,6 +167,7 @@ Game.Level.Dungeon.prototype._initStory = function() {
 		this._addRule(function() {
 			return !this._gardener.getHP();
 		}, function() {
+			Game.storyFlags.gardenerDead = true;
 			Game.story.newChapter("The gardener lies dead. Looks like the groom is avenged now. But my task is far from being over: if the gardener spoke truth, there is someone else behind this - and I have a feeling that I know who.");
 			Game.story.setTask("Get back to the castle and find the bride.");
 			return true;
