@@ -16,6 +16,7 @@ Game.Beings.define("humanoid", {
 Game.Beings.define("dog", {
 	extend: "animal",
 	name: "dog",
+	hp: 2,
 	color: [204, 204, 102],
 	"char": "d"
 });
@@ -50,6 +51,7 @@ Game.Beings.define("mugger", {
 Game.Beings.define("orc", {
 	"char": "o",
 	name: "orc",
+	hp: 3,
 	extend: "humanoid",
 	color: [30, 240, 30]
 });
@@ -57,6 +59,7 @@ Game.Beings.define("orc", {
 Game.Beings.define("goblin", {
 	"char": "g",
 	name: "goblin",
+	hp: 2,
 	extend: "humanoid",
 	color: [30, 30, 240]
 });
@@ -64,6 +67,7 @@ Game.Beings.define("goblin", {
 Game.Beings.define("kobold", {
 	"char": "k",
 	name: "kobold",
+	hp: 2,
 	extend: "humanoid",
 	color: [30, 240, 30]
 });
@@ -71,6 +75,7 @@ Game.Beings.define("kobold", {
 Game.Beings.define("orc chieftain", {
 	extend: "orc",
 	name: "orc chieftain",
+	hp: 4,
 	"char": "O"
 }, {
 	level: 2
@@ -79,16 +84,34 @@ Game.Beings.define("orc chieftain", {
 Game.Beings.define("goblin chieftain", {
 	extend: "goblin",
 	name: "goblin chieftain",
+	hp: 4,
 	color: [30, 30, 160]
 }, {
 	level: 2
 });
 
+Game.Beings.define("undead", {
+	tasks: ["wander"]
+}, {
+	weight: 0
+});
+
 Game.Beings.define("skeleton", {
-	extend: "humanoid",
+	extend: "undead",
 	name: "skeleton",
+	hp: 2,
 	"char": "s",
 	color: [220, 220, 220]
 }, {
-	level: 1
+	level: 2
+});
+
+Game.Beings.define("zombie", {
+	extend: "undead",
+	name: "zombie",
+	hp: 2,
+	"char": "z",
+	color: [150, 200, 30]
+}, {
+	level: 2
 });

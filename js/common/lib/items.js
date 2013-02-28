@@ -27,7 +27,7 @@ Game.Items.define("dagger", {
 	name: "dagger",
 	description: "a fast and light",
 	color: [150, 80, 80],
-	speed: 120,
+	speed: 160,
 	damage: 3
 });
 
@@ -36,7 +36,7 @@ Game.Items.define("sword", {
 	name: "sword",
 	description: "an all-round",
 	color: [150, 150, 150],
-	speed: 100,
+	speed: 130,
 	damage: 4
 });
 
@@ -45,7 +45,7 @@ Game.Items.define("axe", {
 	name: "axe",
 	description: "a slow and hard-hitting",
 	color: [150, 150, 100],
-	speed: 80,
+	speed: 100,
 	damage: 5
 });
 

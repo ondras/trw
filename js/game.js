@@ -36,7 +36,7 @@ var Game = {
 		level.setBeing(this.player, 1, 1);
 		Game.switchLevel(level, null, "fade");
 		
-		this.story.newChapter("I am dead! What the hell? How could this ever happen? My mission is over and I will have to start again.");
+		this.story.newChapter("I am dead! What the hell? How could this ever happen? My mission is over and I will have to start again. Darn!");
 		this.story.setTask("Reload the page to start a new game.");
 	},
 
@@ -100,7 +100,7 @@ var Game = {
 
 	_start: function(e) {
 		window.addEventListener("resize", this);
-		Game.LevelManager.get("forest").then(function(level) {
+		Game.LevelManager.get("chapel").then(function(level) {
 			this.switchLevel(level);
 		}.bind(this));
 //var d = new Game.Level.Dungeon(1);

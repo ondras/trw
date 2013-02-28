@@ -280,7 +280,7 @@ Game.Level.prototype._draw = function(x, y) {
 	var entity = this.beings[key] || this.items[key] || this.cells[key];
 	if (entity) { 
 		this._display.draw(x, y, entity.getChar(), ROT.Color.toRGB(entity.getColor())); 
-		if (entity == Game.player) { this._display.setCursor(x, y); }
+		if (entity == Game.player && entity.getHP()) { this._display.setCursor(x, y); }
 	}
 }
 

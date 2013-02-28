@@ -60,6 +60,22 @@ Game.Level.Chapel.prototype._initStory = function() {
 		Game.story.setTask("Follow the murderer.");
 		return true;
 	});
+
+	this._addRule(function() {
+		return Game.storyFlags.gardenerDead;
+	}, function() {
+		for (var key in this.cells) {
+			var cell = this.cells[key];
+			if (cell.getType() != "tombstone" || ROT.RNG.getUniform() > 0.3) { continue; }
+			var undead = Game.Beings.createRandom({include:"undead"}).setHostile(true);
+			var dir = Math.floor(ROT.RNG.getUniform()*8);
+			var x = cell.getPosition()[0] + ROT.DIRS[8][dir][0];
+			var y = cell.getPosition()[1] + ROT.DIRS[8][dir][1];
+			this.setBeing(undead, x, y);
+			Game.engine.addActor(undead);
+		}
+		return true;
+	});
 }
 
 Game.Level.Chapel.prototype._murderGroom = function() {

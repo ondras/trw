@@ -45,7 +45,7 @@ Game.Repository.prototype.createRandom = function(options) {
 	var o = {
 		include: "*",
 		exclude: [],
-		level: 1
+		level: 1/0
 	}
 	for (var p in options) { o[p] = options[p]; }
 	

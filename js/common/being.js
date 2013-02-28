@@ -11,6 +11,7 @@ Game.Being = function(type) {
 	this._weapon = null;
 	this._armor = null;
 
+	this._kills = 0;
 	this._hp = 1;
 	this._maxHP = this._hp;
 
@@ -173,7 +174,7 @@ Game.Being.prototype.attack = function(target) {
 	/* FIXME probably refactor to a dedicated attack logic? */
 
 	/* 1. hit? */
-	var speed1 = this.getAttackSpeed() + ROT.RNG.getNormal(0, 5);
+	var speed1 = this.getAttackSpeed() + ROT.RNG.getNormal(5, 5); /* attacker advantage */
 	var speed2 = target.getDefenseSpeed() + ROT.RNG.getNormal(0, 5);
 
 	/* 1a. miss */
@@ -196,20 +197,26 @@ Game.Being.prototype.attack = function(target) {
 	/* 2b. damage */
 	target.adjustHP(-dmg);	
 	var str = "%The %{verb,hit} %the".format(this, this, target);
-	if (target.getHP() > 0) {
-		str += ".";
+	var ratio = target.getHP() / target.getMaxHP();
+	if (ratio > 0) {
+		var types = ["slightly", "moderately", "severly", "critically"].reverse();
+		var type = types[Math.ceil(ratio*types.length)-1];
+		str += " and %s %{verb,wound} %him.".format(type, this, target);
 	} else {
+		this._kills++;
 		str += " and %{verb,kill} %him.".format(this, target);
 	}
 	Game.status.show(str);
 }
 
 Game.Being.prototype.die = function() {
-	var corpse = Game.Items.create("corpse", {color:this._diffuse, name:this._name+" corpse"});
-	this._level.setItem(corpse, this._position[0], this._position[1]);
+	if (!this._level.items[this._position.join(",")]) { 
+		var corpse = Game.Items.create("corpse", {color:this._diffuse, name:this._name+" corpse"});
+		this._level.setItem(corpse, this._position[0], this._position[1]);
+	}
 	this._level.removeBeing(this);
 	Game.engine.removeActor(this);
-	return corpse;
+	return this;
 }
 
 Game.Being.prototype.describeVerb = function(verb) {
