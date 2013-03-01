@@ -100,7 +100,8 @@ var Game = {
 
 	_start: function(e) {
 		window.addEventListener("resize", this);
-		Game.LevelManager.get("chapel").then(function(level) {
+		this.storyFlags.gardenerDead = 1;
+		Game.LevelManager.get("castle").then(function(level) {
 			this.switchLevel(level);
 		}.bind(this));
 //var d = new Game.Level.Dungeon(1);

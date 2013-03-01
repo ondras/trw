@@ -139,6 +139,7 @@ Game.Being.prototype.getChats = function() {
 
 Game.Being.prototype.setChats = function(chats) {
 	this._chats = chats;
+	this._chattedWith = false;
 	return this;
 }
 

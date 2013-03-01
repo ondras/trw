@@ -57,9 +57,7 @@ Game.Level.Castle.prototype._initStory = function() {
 		}
 		return false;
 	}, function() {
-		for (var i=0;i<this._gates.length;i++) {
-			this._gates[i].open();
-		}
+		for (var i=0;i<this._gates.length;i++) { this._gates[i].open(); }
 		return true;
 	});
 	
@@ -126,6 +124,47 @@ Game.Level.Castle.prototype._initStory = function() {
 		Game.engine.removeActor(this._gardener);
 		return true;
 	});
+
+	this._addRule(function() {
+		return Game.storyFlags.gardenerDead;
+	}, function() {
+		var pos = this.getCellById("potion").getPosition();
+		var potion = Game.Items.create("healing-potion");
+		this.setItem(potion, pos[0], pos[1]);
+		
+		this._jester.setChats(["Her majesty just left the castle! Who knows where she might have been heading? I do not!"]);
+
+		var guardChat = ["Her majesty told us that you entered the wedding and murdered her husband! Prepare to die, traitor!"];
+		for (var i=0;i<this._guards.length;i++) {
+			this._guards[i].setChats(guardChat);
+		}
+		
+		var pos = this.getCellById("bridge").getPosition();
+		this.setBeing(this._guards[0], pos[0], pos[1]);
+
+		return true;
+	});
+
+	this._addRule(function() {
+		return (Game.storyFlags.gardenerDead && this._jester.chattedWith());
+	}, function() {
+		Game.story.addChapter("My prime suspect - her majesty - has left the castle. If I hurry, I might be able to catch her before she reaches the harbor.");
+		Game.story.setTask("Follow the bride through the castle and the forest.");
+
+		return true;
+	});
+
+	this._addRule(function() {
+		if (!Game.storyFlags.gardenerDead) { return false; }
+		for (var i=0;i<this._guards.length;i++) {
+			if (this._guards[i].chattedWith()) { return true; }
+		}
+		return false;
+	}, function() {
+		for (var i=0;i<this._guards.length;i++) { this._guards[i].setHostile(true); }
+		return true;
+	});
+
 }
 
 Game.Level.Castle.prototype._welcomeBeing = function(being) {

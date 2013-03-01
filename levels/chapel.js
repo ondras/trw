@@ -74,6 +74,7 @@ Game.Level.Chapel.prototype._initStory = function() {
 			this.setBeing(undead, x, y);
 			Game.engine.addActor(undead);
 		}
+		this._priest.setChats(["You are looking for the bride? She went back to the castle. She was apparently in a hurry, strange."]);
 		return true;
 	});
 }
@@ -113,7 +114,6 @@ Game.Level.Chapel.prototype._murderGroom = function() {
 	}
 	
 	this._priest.setChats(["The groom is dead! His murderer jumped out of the chapel window; please try to follow him as fast as possible!"]);
-	this._priest._chattedWith = false; /* FIXME ! */
 	
 	var pos = this.getCellById("bride").getPosition();
 	this.setBeing(this._bride, pos[0], pos[1]);

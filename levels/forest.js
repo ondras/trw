@@ -19,11 +19,11 @@ Game.Level.Forest.prototype.fromTemplate = function(map, def) {
 		this.setCell(cell, x+this._minMaze[0], y+this._minMaze[1]);
 	}.bind(this));
 
-	var entry = this.getCellById("entry").getPosition();
+	var entry = this.getCellById("maze1").getPosition();
 	this.setCell(Game.Cells.create("ground"), entry[0]+1, entry[1]);
 
-	var exit = this.getCellById("exit").getPosition();
-	this.setCell(Game.Cells.create("ground", {id:"from-castle"}), exit[0]-1, exit[1]);
+	var exit = this.getCellById("maze2").getPosition();
+	this.setCell(Game.Cells.create("ground"), exit[0]-1, exit[1]);
 
 	var gold = Game.Items.create("secret-gold");
 	this.setItem(gold, this._minMaze[0]+1, this._minMaze[1]+1);
@@ -86,6 +86,16 @@ Game.Level.Forest.prototype._initStory = function() {
 	}, function() {
 		this._ambientLight = [130, 130, 130];
 		this._lighting.setOptions({range:8});
+		return true;
+	});
+
+	this._addRule(function() {
+		return (Game.storyFlags.gardenerDead);
+	}, function() {
+		var bride = Game.Beings.create("bride");
+		var pos = this.getCellById("maze2").getPosition();
+		
+		this.setBeing(bride, pos[0]-2, pos[1]);
 		return true;
 	});
 }
