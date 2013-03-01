@@ -1,5 +1,6 @@
 Game.AI = function(being) {
 	this._being = being;
+	this._escapePath = null;
 }
 
 Game.AI.prototype.act = function() {
@@ -26,6 +27,9 @@ Game.AI.prototype._performTask = function(task) {
 		break;
 		case "attack":
 			return this._attack();
+		break;
+		case "escape":
+			return this._escape();
 		break;
 		default: 
 			throw new Error("Unknown task '"+task+"'");
@@ -104,4 +108,33 @@ Game.AI.prototype._isPassable = function(level, x, y) {
 	if (!cell) { return false; }
 	
 	return !cell.blocksMovement();
+}
+
+Game.AI.prototype._escape = function() {
+	if (!this._escapePath) { this._computeEscapePath(); }	
+	if (!this._escapePath.length) { return; }
+
+	var pos = this._escapePath.shift();
+	this._being.getLevel().setBeing(this._being, pos[0], pos[1]);
+}
+
+Game.AI.prototype._computeEscapePath = function() {
+	var level = this._being.getLevel();
+	var pos = level.getCellById("start").getPosition();
+	
+	var passable = function(x, y) {
+		var cell = level.cells[x+","+y];
+		return (cell && !cell.blocksMovement());
+	}
+	
+	var pathfinder = new ROT.Path.AStar(pos[0], pos[1], passable);
+	pos = this._being.getPosition();
+	var path = [];
+	var callback = function(x, y) {
+		path.push([x, y]);
+	}
+	pathfinder.compute(pos[0], pos[1], callback);
+	path.shift();
+	
+	this._escapePath = path;
 }

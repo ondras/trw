@@ -93,9 +93,11 @@ Game.Level.Forest.prototype._initStory = function() {
 		return (Game.storyFlags.gardenerDead);
 	}, function() {
 		var bride = Game.Beings.create("bride");
+		bride.setTasks(["escape"]);
 		var pos = this.getCellById("maze2").getPosition();
 		
 		this.setBeing(bride, pos[0]-2, pos[1]);
+		Game.engine.addActor(bride);
 		return true;
 	});
 }
