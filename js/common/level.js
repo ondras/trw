@@ -223,8 +223,10 @@ Game.Level.prototype.checkRules = function() {
 		var rule = this._rules[i];
 		if (rule.conditions.call(this)) { 
 			var result = rule.actions.call(this);
-			if (result) { this._rules.splice(i, 1); }
-			return;
+			if (result) { 
+				this._rules.splice(i, 1); 
+				i--;
+			}
 		}
 	}
 }

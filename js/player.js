@@ -1,5 +1,5 @@
 Game.Player = function(type) {
-	this._debug = true;
+//	this._debug = true;
 	Game.Being.call(this, type);
 	
 	this._light = [30, 30, 30]; 

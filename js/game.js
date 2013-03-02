@@ -100,6 +100,7 @@ var Game = {
 
 	_start: function(e) {
 		window.addEventListener("resize", this);
+		this.storyFlags.nightEnded = 1;
 		this.storyFlags.gardenerDead = 1;
 		Game.LevelManager.get("castle").then(function(level) {
 			this.switchLevel(level);

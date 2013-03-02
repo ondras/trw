@@ -1,7 +1,47 @@
 body > * {
-	-webkit-transition: opacity 3s;
-	-moz-transition: opacity 3s;
-	transition: opacity 3s;
+	-webkit-transition: opacity 5s;
+	-moz-transition: opacity 5s;
+	transition: opacity 5s;
+}
+
+#intro {
+	text-align: center;
+	font-family: pt mono, monospace;
+	line-height: 1.2;
+	font-size: 15px;
+}
+
+@media all and (min-height: 600px) {
+	#intro { font-size: 16px; }
+}
+
+@media all and (min-height: 630px) {
+	#intro { font-size: 17px; }
+}
+
+@media all and (min-height: 665px) {
+	#intro { font-size: 18px; }
+}
+
+@media all and (min-height: 700px) {
+	#intro { font-size: 19px; }
+}
+
+@media all and (min-height: 735px) {
+	#intro { font-size: 20px; }
+}
+
+#intro span {
+	color: #863;
+}
+
+#intro strong {
+	font-weight: normal;
+	color: #eee;
+}
+
+#intro a {
+	color: #999;
 }
 
 #intro ~ * {

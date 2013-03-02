@@ -45,7 +45,7 @@ Game.Beings.define("bride", {
 	sex: 2,
 	tasks: [],
 	name: "bride",
-	color: [240, 240, 240]
+	color: [255, 255, 255]
 }, {
 	weight: 0
 });

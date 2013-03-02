@@ -86,6 +86,8 @@ Game.Level.Forest.prototype._initStory = function() {
 	}, function() {
 		this._ambientLight = [130, 130, 130];
 		this._lighting.setOptions({range:8});
+		this._sightRange = 10;
+		Game.player.setSightRange(this._sightRange);
 		return true;
 	});
 
