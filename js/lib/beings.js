@@ -13,7 +13,7 @@ Game.Beings.define("guard", {
 	extend: "humanoid",
 	name: "guard",
 	speed: 110,
-	damage: 3,
+	damage: 2.5,
 	hp: 3,
 	sex: 1,
 	tasks: [],

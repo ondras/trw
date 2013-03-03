@@ -111,7 +111,7 @@ Game.Beings.define("skeleton", {
 	name: "skeleton",
 	hp: 2,
 	damage: 2,
-	speed: 105,
+	speed: 100,
 	"char": "s",
 	color: [220, 220, 220]
 }, {
@@ -122,7 +122,7 @@ Game.Beings.define("zombie", {
 	extend: "undead",
 	name: "zombie",
 	hp: 2,
-	speed: 105,
+	speed: 100,
 	damage: 2,
 	"char": "z",
 	color: [150, 200, 30]
