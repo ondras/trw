@@ -1,5 +1,4 @@
 Game.Level.Chapel = function() {
-	/* FIXME druhy blocker krom priesta */
 	Game.Level.call(this);
 
 	this._lighting.setOptions({range:8});
@@ -75,6 +74,9 @@ Game.Level.Chapel.prototype._initStory = function() {
 			Game.engine.addActor(undead);
 		}
 		this._priest.setChats(["You are looking for the bride? She went back to the castle. She was apparently in a hurry, strange."]);
+		
+		Game.engine.removeActor(this._bride);
+		this.removeBeing(this._bride);
 		return true;
 	});
 }
