@@ -1,4 +1,5 @@
 Game.Player = function(type) {
+	this._ended = false;
 //	this._debug = true;
 	Game.Being.call(this, type);
 	
@@ -8,6 +9,7 @@ Game.Player = function(type) {
 	this._secretGold = 0;
 	this._gold = 0;
 	this._gems = 0;
+	this._turns = 0;
 
 	this._knownTypes = [];
 
@@ -40,6 +42,7 @@ Game.Player = function(type) {
 Game.Player.extend(Game.Being);
 
 Game.Player.prototype.act = function() {
+	this._turns++;
 	this._level.updateLighting(); /* FIXME urco? */
 	Game.legend.update(this._position[0], this._position[1]);
 	Game.engine.lock();
@@ -59,6 +62,10 @@ Game.Player.prototype.handleEvent = function(e) {
 }
 
 Game.Player.prototype._handleKey = function(code) {
+	if (this._ended) {
+		this._endGame();
+		return true;
+	}
 
 	if (code in this._directionKeys) {
 		Game.status.clear();
@@ -121,6 +128,8 @@ Game.Player.prototype._tryMovingTo = function(x, y) {
 	if (being) { /* being - chat or fight */
 		if (being.isHostile()) {
 			this.attack(being);
+		} else if (being.getType() == "bride" && Game.storyFlags.gardenerDead) {
+			this._victory(being);
 		} else {
 			this._chat(being);
 		}
@@ -257,4 +266,32 @@ Game.Player.prototype.describeThe = function() {
 
 Game.Player.prototype.describeHim = function() {
 	return "you";
+}
+
+Game.Player.prototype._victory = function(being) {
+	Game.status.show("You slowly approach the bride. She tries to step backwards...");
+	Game.status.show("<br/><br/>");
+	Game.status.show("...but her foot slips over the wet pier and she falls right into the deep water!");
+	Game.status.show("<br/><br/>");
+	Game.status.show("(press any key to continue)");
+	
+	this._level.removeBeing(being);
+	Game.engine.removeActor(being);
+	this._ended = true;
+}
+
+Game.Player.prototype._endGame = function() {
+	Game.engine.lock();
+	
+	Game.story.newChapter("My story ends right here: the justice has been served and I have been spared of making moral decisions. Win-win!")
+	Game.story.addChapter("(The game ends as well; hope you enjoyed it!)")
+	
+	Game.status.clear();
+	Game.status.show("Achievements:<br/><br/>");
+	Game.status.show(this._gold + " gold found<br/>");
+	Game.status.show(this._secretGold + " secret gold stashes found<br/>");
+	Game.status.show(this._gems + " precious gems found<br/>");
+	Game.status.show(this._kills + " enemies killed<br/>");
+	Game.status.show(this._turns + " turns played");
+	
 }

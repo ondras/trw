@@ -87,8 +87,8 @@ Game.Level.Chapel.prototype._murderGroom = function() {
 	for (var i=0;i<ROT.DIRS[8].length;i++) {
 		var x = pos[0] + ROT.DIRS[8][i][0];
 		var y = pos[1] + ROT.DIRS[8][i][1];
-		var item = this.items[x+","+y];
-		if (!item && ROT.RNG.getUniform() > 0.5) {
+		var cell = this.cells[x+","+y];
+		if (cell.getType() == "floor" && ROT.RNG.getUniform() > 0.5) {
 			this.setCell(Game.Cells.create("blood"), x, y);
 		}
 	}
@@ -113,6 +113,15 @@ Game.Level.Chapel.prototype._murderGroom = function() {
 		guest.setChats(["Have you seen it? The groom has been stabbed!", "They say that the groom has been murdered!", "A hooded figure suddenly appeared and killed the groom!", "Oh my god oh my god!", "He jumped out right through that window!"]);
 	}
 	
+	var pos = this._priest.getPosition();
+	var x = pos[0]-2;
+	var y = pos[1];
+	var being = this.beings[x+","+y];
+	if (being) {
+		Game.engine.removeActor(being);
+		this.removeBeing(being);
+	}
+	this.setBeing(this._priest, x, y);
 	this._priest.setChats(["The groom is dead! His murderer jumped out of the chapel window; please try to follow him as fast as possible!"]);
 	
 	var pos = this.getCellById("bride").getPosition();

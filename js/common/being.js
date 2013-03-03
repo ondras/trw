@@ -175,6 +175,7 @@ Game.Being.prototype.attack = function(target) {
 	/* FIXME probably refactor to a dedicated attack logic? */
 
 	/* 1. hit? */
+//	console.log("hit", this.getAttackSpeed(), "+5", "vs", target.getDefenseSpeed());
 	var speed1 = this.getAttackSpeed() + ROT.RNG.getNormal(5, 5); /* attacker advantage */
 	var speed2 = target.getDefenseSpeed() + ROT.RNG.getNormal(0, 5);
 
@@ -187,6 +188,7 @@ Game.Being.prototype.attack = function(target) {
 	/* 1b. hit */
 	var dmg = this.getDamage() + ROT.RNG.getNormal(0, 1);
 	var pv = target.getPV() + ROT.RNG.getNormal(0, 1);
+//	console.log("dmg", this.getDamage(), "vs", target.getPV());
 	dmg = Math.round(dmg-pv);
 
 	/* 2a. not enough damage */
@@ -196,6 +198,7 @@ Game.Being.prototype.attack = function(target) {
 	}
 
 	/* 2b. damage */
+//	console.log("dmg dealt", dmg);
 	target.adjustHP(-dmg);	
 	var str = "%The %{verb,hit} %the".format(this, this, target);
 	var ratio = target.getHP() / target.getMaxHP();

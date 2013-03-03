@@ -100,6 +100,7 @@ Game.Level.Forest.prototype._initStory = function() {
 		
 		this.setBeing(bride, pos[0]-2, pos[1]);
 		Game.engine.addActor(bride);
+
 		return true;
 	});
 }

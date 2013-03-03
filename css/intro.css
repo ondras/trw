@@ -48,3 +48,6 @@ body > * {
 	opacity: 0;
 }
 
+#intro em {
+	font-family: droid sans mono;
+}

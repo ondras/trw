@@ -12,6 +12,9 @@ Game.Beings.define("player", {
 Game.Beings.define("guard", {
 	extend: "humanoid",
 	name: "guard",
+	speed: 110,
+	damage: 3,
+	hp: 3,
 	sex: 1,
 	tasks: [],
 	color: [220, 140, 140]
@@ -33,6 +36,9 @@ Game.Beings.define("gardener", {
 	extend: "humanoid",
 	name: "gardener",
 	sex: 1,
+	hp: 3,
+	speed: 115,
+	damage: 3,
 	chats: ["Good day to you, sir!", "Watch these flowers blossom!", "This garden needs my attention."],
 	color: [100, 240, 100],
 }, {

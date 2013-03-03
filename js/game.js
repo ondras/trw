@@ -100,13 +100,16 @@ var Game = {
 
 	_start: function(e) {
 		window.addEventListener("resize", this);
+/*
 		this.storyFlags.nightEnded = 1;
 		this.storyFlags.gardenerDead = 1;
-		Game.LevelManager.get("castle").then(function(level) {
+*/		Game.LevelManager.get("forest").then(function(level) {
 			this.switchLevel(level);
 		}.bind(this));
-//var d = new Game.Level.Dungeon(1);
-//this.switchLevel(d, "start", "fade");
+/*
+		var d = new Game.Level.Dungeon(1);
+		this.switchLevel(d, "start", "fade");
+*/
 	},
 	
 	_resize: function() {
