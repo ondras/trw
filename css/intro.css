@@ -9,6 +9,8 @@ body > * {
 	font-family: pt mono, monospace;
 	line-height: 1.2;
 	font-size: 15px;
+	z-index: 1;
+	position: relative;
 }
 
 @media all and (min-height: 600px) {
