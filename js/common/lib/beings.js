@@ -79,8 +79,8 @@ Game.Beings.define("kobold", {
 Game.Beings.define("orc chieftain", {
 	extend: "orc",
 	name: "orc chieftain",
-	hp: 5,
-	speed: 110,
+	hp: 4,
+	speed: 105,
 	pv: 2,
 	damage: 3,
 	"char": "O"
