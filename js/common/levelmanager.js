@@ -18,6 +18,8 @@ Game.LevelManager = {
 	},
 
 	_levelFromData: function(data) {
+		// Replace Windows EOL with Unix EOL to simplify.
+		data = data.replace(/\r\n/g, '\n');
 		var br = data.indexOf("\n\n");
 		if (br == -1) { throw new Error("No section separator"); }
 		var map = data.substring(0, br).split("\n");
